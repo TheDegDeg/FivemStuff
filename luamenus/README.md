@@ -2,7 +2,7 @@
 
 ***
   <p align="center">
-    <a href="https://discord.com/users/703202982593822731">
+    <a href="">
         <img title="uwu" alt="FiveM Lua scripts" src="https://forum.cfx.re/uploads/default/original/4X/d/1/f/d1fb16e64ff5e4cadbc41f8c2b15cefea52ccc16.png"/>
     </a>
 </p>
