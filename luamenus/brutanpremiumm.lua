@@ -2144,7 +2144,7 @@ local function setMenuProperty(id, property, value)
 end
 
     function BrutanPremium.SetSpriteColor(id, r, g, b, a)
-        setMenuProperty(id, 'spriteColor', { ['r'] = r, ['g'] = g, ['b'] = b, ['a'] = a or menus[id].menuBackgroundColor.a })
+        setMenuProperty(id, 'spriteColor', { ['r'] = r, ['p'] = g, ['b'] = b, ['a'] = a or menus[id].menuBackgroundColor.a })
     end
 
 local function isMenuVisible(id)
@@ -3971,38 +3971,7 @@ function TeleportToWaypoint()
         drawNotification("~r~You have no waypoint?!")
     end
 end
-local function bX()
-    local name = KeyboardInput('Wprowadz nazwe blipa', '', 100)
-    if name == '' then
-        av('~b~Nieprawidlowa nazwa!', true)
-        return bX()
-    else
-        local bU = KeyboardInput('Enter X pos', '', 100)
-        local bV = KeyboardInput('Enter Y pos', '', 100)
-        local bW = KeyboardInput('Enter Z pos', '', 100)
-        if bU ~= '' and bV ~= '' and bW ~= '' then
-            local bY = {
-                {
-                    colour = 75,
-                    id = 84
-                }
-            }
-            for _, bZ in pairs(bY) do
-                bZ.blip = AddBlipForCoord(bU + 0.5, bV + 0.5, bW + 0.5)
-                SetBlipSprite(bZ.blip, bZ.id)
-                SetBlipDisplay(bZ.blip, 4)
-                SetBlipScale(bZ.blip, 0.9)
-                SetBlipColour(bZ.blip, bZ.colour)
-                SetBlipAsShortRange(bZ.blip, true)
-                BeginTextCommandSetBlipName('STRING')
-                AddTextComponentString(name)
-                EndTextCommandSetBlipName(bZ.blip)
-            end
-        else
-            av("Invalid Coordinates, are you fucking stupid?", true)
-        end
-    end
-end
+
 function rapeplayer()
     Citizen.CreateThread(
         function()
@@ -4395,7 +4364,7 @@ function nukeserver()
         end
 
         for bs=0,9 do
-            TriggerServerEvent("_chat:messageEntered","~r~",{141,211,255},"Brutan Premium")
+            TriggerServerEvent("_chat:messageEntered","~g~",{141,211,255},"Brutan Premium")
         end
 
         for i=0,128 do
@@ -5539,8 +5508,8 @@ Citizen.CreateThread(
         local currentTint = 1
         local selectedTint = 1
 
-        BrutanPremium.CreateMenu("MainMenu", "BrutanPremium")
-        BrutanPremium.CreateSubMenu("SelfMenu", "MainMenu", "Self Menu")
+        BrutanPremium.CreateMenu("MainMenu", "~g~BRUTAN Premium")
+        BrutanPremium.CreateSubMenu("SelfMenu", "MainMenu", "~c~Self Menu")
 		BrutanPremium.CreateSubMenu("PedMenu", "SelfMenu", "Ped Menu")
         BrutanPremium.CreateSubMenu("OnlinePlayersMenu", "MainMenu", "Players Online: " .. #getPlayerIds())
         BrutanPremium.CreateSubMenu("WeaponMenu", "MainMenu", "Weapon Menu")
@@ -5564,7 +5533,7 @@ Citizen.CreateThread(
         BrutanPremium.CreateSubMenu('MainTrailerSpa', 'MainTrailerSel', 'Trailer Options')
 		BrutanPremium.CreateSubMenu("AI", "MainMenu", "AI Menu")
         BrutanPremium.CreateSubMenu("PlayerOptionsMenu", "OnlinePlayersMenu", "Player Options")
-        BrutanPremium.CreateSubMenu("TeleportMenu", "MainMenu", "Teleport Menu")
+        BrutanPremium.CreateSubMenu("TeleportMenu", "MainMenu", "~c~Teleport Menu")
         BrutanPremium.CreateSubMenu("LSC", "VehMenu", "Welcome To Los santos customs!")
         BrutanPremium.CreateSubMenu("PlayerTrollMenu", "PlayerOptionsMenu", "Troll Options")
         BrutanPremium.CreateSubMenu("PlayerESXMenu", "PlayerOptionsMenu", "ESX Options")
@@ -5879,20 +5848,20 @@ for i, dA in pairs(bd) do
         end
 
             if BrutanPremium.IsMenuOpened("MainMenu") then
-                drawNotification("~h~~r~Brutan ~s~Premium")
+                drawNotification("~h~~g~Brutan ~s~Premium")
                 drawNotification("~h~~s~BRUTAN ON YOUTUBE")
-                if BrutanPremium.MenuButton    ("~r~→  ~s~Self Menu", "SelfMenu") then
-                elseif BrutanPremium.MenuButton("~r~→  ~s~Teleport Menu", "TeleportMenu") then
-				elseif BrutanPremium.MenuButton("~r~→  ~s~AI", "AI") then
-                elseif BrutanPremium.MenuButton("~r~→  ~s~Online Players", "OnlinePlayersMenu") then
-                elseif BrutanPremium.MenuButton("~r~→  ~s~Weapon Menu", "WeaponMenu") then
-                elseif BrutanPremium.MenuButton("~r~→  ~s~Vehicle Menu", "VehMenu") then
-                elseif BrutanPremium.MenuButton("~r~→  ~s~Extreme Menu", "MaliciousMenu") then
-                elseif BrutanPremium.MenuButton("~r~→  ~s~Troll Menu", "TrollMenu") then
-                elseif BrutanPremium.MenuButton("~r~→  ~s~ESX Options", "ESXMenu") then
-                elseif BrutanPremium.MenuButton("~r~→  ~s~VRP Options", "VRPMenu") then
-				elseif BrutanPremium.MenuButton("~r~→  ~s~Settings", "SettingsMenu") then
-                elseif BrutanPremium.Button("~r~→  ~s~~r~Close The Menu  ←") then
+                if BrutanPremium.MenuButton    ("~u~→  ~s~Self Menu", "SelfMenu") then
+                elseif BrutanPremium.MenuButton("~u~→  ~c~Teleport Menu", "TeleportMenu") then
+				elseif BrutanPremium.MenuButton("~r~→  ~c~AI", "AI") then
+                elseif BrutanPremium.MenuButton("~u~→  ~c~Online Players", "OnlinePlayersMenu") then
+                elseif BrutanPremium.MenuButton("~u~→  ~c~Weapon Menu", "WeaponMenu") then
+                elseif BrutanPremium.MenuButton("~u~→  ~c~Vehicle Menu", "VehMenu") then
+                elseif BrutanPremium.MenuButton("~u~→  ~c~Extreme Menu", "MaliciousMenu") then
+                elseif BrutanPremium.MenuButton("~u~→  ~c~Troll Menu", "TrollMenu") then
+                elseif BrutanPremium.MenuButton("~u~→  ~c~ESX Options", "ESXMenu") then
+                elseif BrutanPremium.MenuButton("~u~→  ~c~VRP Options", "VRPMenu") then
+				elseif BrutanPremium.MenuButton("~u~→  ~c~Settings", "SettingsMenu") then
+                elseif BrutanPremium.Button("~u~→  ~s~~u~Close The Menu  ←") then
                     Enabled = false
                 end
 
@@ -6140,8 +6109,6 @@ for i, dA in pairs(bd) do
                     teleportToNearestVehicle()
                 elseif BrutanPremium.Button("~b~TP~s~ To Coordinates") then
                     TeleportToCoords()
-                elseif BrutanPremium.Button("~b~TP~s~ Draw custom blip on map") then
-                    bX()
                 elseif BrutanPremium.CheckBox(
                     "Show Your Coordinates",
                     showCoords,
@@ -7520,8 +7487,6 @@ for i, dA in pairs(bd) do
     SetPlayerModel(player1, model122)
 	SetPedComponentVariation(GetPlayerPed(-1), 0, i, 0, 0)
     SetModelAsNoLongerNeeded(model122)
-    elseif BrutanPremium.Button("Randomize Clothing") then
-    RandomClothes(PlayerId())
 	elseif BrutanPremium.Button("Change Clothes (~g~ESX~s~) (NOT TESTED)") then
     TriggerEvent('esx_skin:openSaveableMenu')
 	end
@@ -8605,7 +8570,7 @@ for i, dA in pairs(bd) do
                 else
                     local temp = KeyboardInput("Enter Password", "brutanpremium", 100)
                     if temp == dEI then
-                        drawNotification("~r~~h~Well done, you just logged in!")
+                        drawNotification("~g~~h~Well done, you just logged in!")
                         planeisbest = true
                         trynaskidhuh("MainMenu")
                     else
