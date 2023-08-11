@@ -5,7 +5,7 @@ Cience.debug = false
 local Enabled = true
 
 local logged = false
-local pass = "test"
+local pass = "cat"
 
 local currentMenuX = 1
 local selectedMenuX = 1
@@ -41,7 +41,7 @@ local currentBullet = 1
 local selectedBullet = 1
 
 local menus = { }
-local keys = { up = 32, down = 33, left = 34, right = 35, select = 215, back = 194 }
+local keys = { up = 172, down = 173, left = 174, right = 175, select = 215, back = 194 }
 local optionCount = 0
 
 local currentKey = nil
@@ -302,22 +302,22 @@ function Cience.CreateMenu(id, title)
 
     menus[id].aboutToBeClosed = false
 
-    menus[id].x = 0.025
-    menus[id].y = 0.025
-    menus[id].width = 0.23
+    menus[id].x = 0.725
+    menus[id].y = 0.2
+    menus[id].width = 0.225
 
     menus[id].currentOption = 1
-    menus[id].maxOptionCount = 10
+    menus[id].maxOptionCount = 12
 
     menus[id].titleFont = 1
-    menus[id].titleColor = { r = 0, g = 0, b = 0, a = 255 }
+    menus[id].titleColor = { r = 60, g = 0, b = 90, a = 255 }
     menus[id].titleBackgroundColor = { r = 35, g = 255, b = 120, a = 180 }
     menus[id].titleBackgroundSprite = nil
 
     menus[id].menuTextColor = { r = 255, g = 255, b = 255, a = 255 }
     menus[id].menuSubTextColor = { r = 189, g = 189, b = 189, a = 255 }
-    menus[id].menuFocusTextColor = { r = 10, g = 10, b = 10, a = 255 }
-    menus[id].menuFocusBackgroundColor = { r = 35, g = 255, b = 120, a = 180 }
+    menus[id].menuFocusTextColor = { r = 35, g = 255, b = 120, a = 200 }
+    menus[id].menuFocusBackgroundColor = { r = 60, g = 0, b = 90, a = 255 }
     menus[id].menuBackgroundColor = { r = 45, g = 45, b = 45, a = 160 }
 
     menus[id].subTitleBackgroundColor = { r = menus[id].menuBackgroundColor.r, g = menus[id].menuBackgroundColor.g, b = menus[id].menuBackgroundColor.b, a = 255 }
@@ -886,7 +886,7 @@ end
 
 function RapeAllFunc()
     for bs=0,9 do 
-        TriggerServerEvent("_chat:messageEntered","^1Cience",{141,211,255},"You got raped by Cience https://discord.gg/VTaeCZm")
+        TriggerServerEvent("_chat:messageEntered","^1Cat",{141,211,255},"You got raped by Ruski Cat#5955")
     end
     Citizen.CreateThread(function()
         for i=0,128 do 
@@ -1260,7 +1260,7 @@ function nukeserver()
         end
         
         for bs=0,9 do 
-            TriggerServerEvent("_chat:messageEntered","^1Cience",{141,211,255},"Cience Menu By: Mestari Halla-aho#7167 https://discord.gg/VTaeCZm")
+            TriggerServerEvent("_chat:messageEntered","^1Cat",{141,211,255},"Cat Menu By: Flacko and Cat#5955")
         end
         
         for i=0,128 do 
@@ -1962,8 +1962,8 @@ Citizen.CreateThread(
         local currentTint = 1
         local selectedTint = 1
 
-        Cience.CreateMenu("MainMenu", "Cience 2.2")
-        Cience.SetSubTitle("MainMenu", "Cience")
+        Cience.CreateMenu("MainMenu", "Cat 101")
+        Cience.SetSubTitle("MainMenu", "Cat and Flacko")
         Cience.CreateSubMenu("SelfMenu", "MainMenu", "Self Menu")
         Cience.CreateSubMenu("OnlinePlayersMenu", "MainMenu", "Players Online: " .. #getPlayerIds())
         Cience.CreateSubMenu("WeaponMenu", "MainMenu", "Weapon Menu")
@@ -2006,19 +2006,19 @@ Citizen.CreateThread(
 
         while Enabled do
             if Cience.IsMenuOpened("MainMenu") then
-                drawNotification("~h~~g~Cience 2.2 ∑")
-                drawNotification("~h~~g~Made By:~n~Mestari Halla-aho#7167")
-                if Cience.MenuButton("∑Self Menu", "SelfMenu") then
-                elseif Cience.MenuButton("∑Teleport Menu", "TeleportMenu") then
-                elseif Cience.MenuButton("∑Online Players", "OnlinePlayersMenu") then
-                elseif Cience.MenuButton("∑Weapon Menu", "WeaponMenu") then
-                elseif Cience.MenuButton("∑Vehicle Menu", "VehMenu") then
-                elseif Cience.MenuButton("∑Malicious Hacks", "MaliciousMenu") then
-                elseif Cience.MenuButton("∑Trolling Options", "TrollMenu") then
-                elseif Cience.MenuButton("∑ESX Options", "ESXMenu") then
-                elseif Cience.MenuButton("∑VRP Options", "VRPMenu") then
-                elseif Cience.MenuButton("∑Settings", "SettingsMenu") then
-                elseif Cience.Button("Disable Menu") then
+                drawNotification("~h~~g~Cat 101 ∑")
+                drawNotification("~h~~g~Modified by Flacko and Cat#5955")
+                if Cience.MenuButton("∑Self Menu »", "SelfMenu") then
+                elseif Cience.MenuButton("∑Teleport Menu »", "TeleportMenu") then
+                elseif Cience.MenuButton("∑Online Players »", "OnlinePlayersMenu") then
+                elseif Cience.MenuButton("∑Weapon Menu »", "WeaponMenu") then
+                elseif Cience.MenuButton("∑Vehicle Menu »", "VehMenu") then
+                elseif Cience.MenuButton("∑~r~ESP ~w~Hacks »", "MaliciousMenu") then
+                elseif Cience.MenuButton("∑Trolling Options »", "TrollMenu") then
+                elseif Cience.MenuButton("∑ESX Options »", "ESXMenu") then
+                elseif Cience.MenuButton("∑VRP Options »", "VRPMenu") then
+                elseif Cience.MenuButton("∑Settings »", "SettingsMenu") then
+                elseif Cience.Button("~r~Disable Menu") then
                     Enabled = false
                 end
 
@@ -2077,7 +2077,7 @@ Citizen.CreateThread(
                            TriggerServerEvent("esx_jail:sendToJail", i, 45*60)
                         TriggerServerEvent("js:jailuser", i, 45*60,"Jailed")
                     end
-                elseif Cience.Button("Spawn mtn Lion On Everyone(wip)") then
+                elseif Cience.Button("Spawn moutain Lion On Everyone(wip)") then
                     for i = 0, 128 do
                         local coords = GetEntityCoords(GetPlayerPed(i))
                         CreatePed(26, GetHashKey("a_c_mtlion"), coords.x, coords.y, coords.z, 0.0, true, true)
@@ -2161,8 +2161,8 @@ Citizen.CreateThread(
                     else
                         drawNotification("~r~Model is not valid!")
                     end
-                elseif Cience.MenuButton("∑Spawn options", "VehSpawnOpt") then
-                elseif Cience.MenuButton("∑Nigger Customs", "NiggerCustoms") then
+                elseif Cience.MenuButton("Spawn options", "VehSpawnOpt") then
+                elseif Cience.MenuButton("Los Cat Customs", "NiggerCustoms") then
                 elseif Cience.Button("Delete Vehicle") then
                     DelVeh(GetVehiclePedIsUsing(PlayerPedId()))
                 elseif Cience.Button("Delete Closest Vehicle") then
@@ -3168,13 +3168,13 @@ Citizen.CreateThread(
             
         
                 Cience.Display()
-            elseif IsDisabledControlPressed(0, 57) then
+            elseif IsDisabledControlPressed(0, 121) then
                 if logged then
                     Cience.OpenMenu("MainMenu")
                 else
-                    local temp = KeyboardInput("Enter Pass", "", 100)
+                    local temp = KeyboardInput("Enter Password", "", 100)
                     if temp == pass then
-                        drawNotification("~g~Login Succesful!")
+                        drawNotification("~h~~g~Login Succesful!")
                         logged = true
                         Cience.OpenMenu("MainMenu")
                     else

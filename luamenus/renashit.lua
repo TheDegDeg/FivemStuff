@@ -1,18 +1,19 @@
-xnsadifnias = { }
+WarMenu = { }
 
-xnsadifnias.debug = false
+WarMenu.debug = false
 
 local function RGBRainbow( frequency )
 	local result = {}
 	local curtime = GetGameTimer() / 1000
 
-	result.r = 54
-	result.g = 95
-	result.b = 150
+	result.r = 0
+	result.g = 242
+	result.b = 255
 	
 	return result
 end
 
+TriggerEvent('HCheat:TempDisableDetection', true)
 
 local menus = { }
 local keys = { up = 172, down = 173, left = 174, right = 175, select = 176, back = 177 }
@@ -23,19 +24,19 @@ local currentMenu = nil
 
 local menuWidth = 0.23
 local titleHeight = 0.11
-local titleYOffset = 0.03
-local titleScale = 1.0
+local titleYOffset = 0.045
+local titleScale = 1.2
 
 local buttonHeight = 0.038
-local buttonFont = 0
+local buttonFont = 4
 local buttonScale = 0.365
 local buttonTextXOffset = 0.005
-local buttonTextYOffset = 0.005
+local buttonTextYOffset = 0.002
 
 
 local function debugPrint(text)
-	if xnsadifnias.debug then
-		Citizen.Trace('[xnsadifnias] '..tostring(text))
+	if WarMenu.debug then
+		Citizen.Trace('[WarMenu] '..tostring(text))
 	end
 end
 
@@ -112,7 +113,7 @@ local function drawTitle()
 		if menus[currentMenu].titleBackgroundSprite then
 			DrawSprite(menus[currentMenu].titleBackgroundSprite.dict, menus[currentMenu].titleBackgroundSprite.name, x, y, menuWidth, titleHeight, 0., 255, 255, 255, 255)
 		else
-			drawRect(x, y, menuWidth, titleHeight, menus[currentMenu].titleBackgroundColor)
+			drawRect(x, y, 0, titleHeight, menus[currentMenu].titleBackgroundColor)
 		end
 
 		drawText(menus[currentMenu].title, x, y - titleHeight / 2 + titleYOffset, menus[currentMenu].titleFont, menus[currentMenu].titleColor, titleScale, true)
@@ -128,10 +129,10 @@ local function drawSubTitle()
 		local subTitleColor = { r = menus[currentMenu].titleBackgroundColor.r, g = menus[currentMenu].titleBackgroundColor.g, b = menus[currentMenu].titleBackgroundColor.b, a = 255 }
 
 		drawRect(x, y, menuWidth, buttonHeight, menus[currentMenu].subTitleBackgroundColor)
-		drawText(menus[currentMenu].subTitle, menus[currentMenu].x + buttonTextXOffset, y - buttonHeight / 2 + buttonTextYOffset, buttonFont, subTitleColor, buttonScale, false)
+		drawText(menus[currentMenu].subTitle, menus[currentMenu].x + buttonTextXOffset, y - buttonHeight / 2 + buttonTextYOffset, buttonFont, subTitleColor, 0.4, false)
 
 		if optionCount > menus[currentMenu].maxOptionCount then
-			drawText(tostring(menus[currentMenu].currentOption)..' / '..tostring(optionCount), menus[currentMenu].x + menuWidth, y - buttonHeight / 2 + buttonTextYOffset, buttonFont, subTitleColor, buttonScale, false, false, true)
+			drawText(tostring(menus[currentMenu].currentOption)..' / '..tostring(optionCount), menus[currentMenu].x + menuWidth, y - buttonHeight / 2 + buttonTextYOffset, buttonFont, subTitleColor, 0.4, false, false, true)
 		end
 	end
 end
@@ -166,16 +167,16 @@ local function drawButton(text, subText)
 		end
 
 		drawRect(x, y, menuWidth, buttonHeight, backgroundColor)
-		drawText(text, menus[currentMenu].x + buttonTextXOffset, y - (buttonHeight / 2) + buttonTextYOffset, buttonFont, textColor, buttonScale, false, shadow)
+		drawText(text, menus[currentMenu].x + buttonTextXOffset, y - (buttonHeight / 2) + buttonTextYOffset, buttonFont, textColor, 0.5, false, shadow)
 
 		if subText then
-			drawText(subText, menus[currentMenu].x + buttonTextXOffset, y - buttonHeight / 2 + buttonTextYOffset, buttonFont, subTextColor, buttonScale, false, shadow, true)
+			drawText(subText, menus[currentMenu].x + buttonTextXOffset, y - buttonHeight / 2 + buttonTextYOffset, buttonFont, subTextColor, 0.5, false, shadow, true)
 		end
 	end
 end
 
 
-function xnsadifnias.CreateMenu(id, title)
+function WarMenu.CreateMenu(id, title)
 	-- Default settings
 	menus[id] = { }
 	menus[id].title = title
@@ -193,25 +194,25 @@ function xnsadifnias.CreateMenu(id, title)
 	menus[id].currentOption = 1
 	menus[id].maxOptionCount = 10
 
-	menus[id].titleFont = 1
+	menus[id].titleFont = 4
 	menus[id].titleColor = { r = 0, g = 0, b = 0, a = 255 }
 	Citizen.CreateThread(function()
 		while true do
 			Citizen.Wait(0)
 			local ra = RGBRainbow(1.0)
 			menus[id].titleBackgroundColor = { r = ra.r, g = ra.g, b = ra.b, a = 255 }
-			menus[id].menuFocusBackgroundColor = { r = ra.r, g = ra.g, b = ra.b, a = 255 }
+			menus[id].menuFocusBackgroundColor = { r = ra.r, g = ra.g, b = ra.b, a = 100 }
 		end
 	end)
 	menus[id].titleBackgroundSprite = nil
 
 	menus[id].menuTextColor = { r = 255, g = 255, b = 255, a = 255 }
 	menus[id].menuSubTextColor = { r = 189, g = 189, b = 189, a = 255 }
-	menus[id].menuFocusTextColor = { r = 0, g = 0, b = 0, a = 255 }
-	--menus[id].menuFocusBackgroundColor = { r = 245, g = 245, b = 245, a = 255 }
-	menus[id].menuBackgroundColor = { r = 0, g = 0, b = 0, a = 160 }
+	menus[id].menuFocusTextColor = { r = 255, g = 255, b = 255, a = 255 }
+	menus[id].menuFocusBackgroundColor = { r = 245, g = 245, b = 245, a = 255 }
+	menus[id].menuBackgroundColor = { r = 0, g = 0, b = 0, a = 70 }
 
-	menus[id].subTitleBackgroundColor = { r = menus[id].menuBackgroundColor.r, g = menus[id].menuBackgroundColor.g, b = menus[id].menuBackgroundColor.b, a = 255 }
+	menus[id].subTitleBackgroundColor = { r = menus[id].menuBackgroundColor.r, g = menus[id].menuBackgroundColor.g, b = menus[id].menuBackgroundColor.b, a = 130 }
 
 	menus[id].buttonPressedSound = { name = "SELECT", set = "HUD_FRONTEND_DEFAULT_SOUNDSET" } --https://pastebin.com/0neZdsZ5
 
@@ -219,9 +220,9 @@ function xnsadifnias.CreateMenu(id, title)
 end
 
 
-function xnsadifnias.CreateSubMenu(id, parent, subTitle)
+function WarMenu.CreateSubMenu(id, parent, subTitle)
 	if menus[parent] then
-		xnsadifnias.CreateMenu(id, menus[parent].title)
+		WarMenu.CreateMenu(id, menus[parent].title)
 
 		if subTitle then
 			setMenuProperty(id, 'subTitle', string.upper(subTitle))
@@ -250,12 +251,12 @@ function xnsadifnias.CreateSubMenu(id, parent, subTitle)
 end
 
 
-function xnsadifnias.CurrentMenu()
+function WarMenu.CurrentMenu()
 	return currentMenu
 end
 
 
-function xnsadifnias.OpenMenu(id)
+function WarMenu.OpenMenu(id)
 	if id and menus[id] then
 		PlaySoundFrontend(-1, "SELECT", "HUD_FRONTEND_DEFAULT_SOUNDSET", true)
 		setMenuVisible(id, true)
@@ -272,12 +273,12 @@ function xnsadifnias.OpenMenu(id)
 end
 
 
-function xnsadifnias.IsMenuOpened(id)
+function WarMenu.IsMenuOpened(id)
 	return isMenuVisible(id)
 end
 
 
-function xnsadifnias.IsAnyMenuOpened()
+function WarMenu.IsAnyMenuOpened()
 	for id, _ in pairs(menus) do
 		if isMenuVisible(id) then return true end
 	end
@@ -286,7 +287,7 @@ function xnsadifnias.IsAnyMenuOpened()
 end
 
 
-function xnsadifnias.IsMenuAboutToBeClosed()
+function WarMenu.IsMenuAboutToBeClosed()
 	if menus[currentMenu] then
 		return menus[currentMenu].aboutToBeClosed
 	else
@@ -295,7 +296,7 @@ function xnsadifnias.IsMenuAboutToBeClosed()
 end
 
 
-function xnsadifnias.CloseMenu()
+function WarMenu.CloseMenu()
 	if menus[currentMenu] then
 		if menus[currentMenu].aboutToBeClosed then
 			menus[currentMenu].aboutToBeClosed = false
@@ -313,7 +314,7 @@ function xnsadifnias.CloseMenu()
 end
 
 
-function xnsadifnias.Button(text, subText)
+function WarMenu.Button(text, subText)
 	local buttonText = text
 	if subText then
 		buttonText = '{ '..tostring(buttonText)..', '..tostring(subText)..' }'
@@ -345,9 +346,9 @@ function xnsadifnias.Button(text, subText)
 end
 
 
-function xnsadifnias.MenuButton(text, id)
+function WarMenu.MenuButton(text, id)
 	if menus[id] then
-		if xnsadifnias.Button(text) then
+		if WarMenu.Button(text) then
 			setMenuVisible(currentMenu, false)
 			setMenuVisible(id, true, true)
 
@@ -361,13 +362,13 @@ function xnsadifnias.MenuButton(text, id)
 end
 
 
-function xnsadifnias.CheckBox(text, bool, callback)
+function WarMenu.CheckBox(text, bool, callback)
 	local checked = '~r~~h~Off'
 	if bool then
 		checked = '~g~~h~On'
 	end
 
-	if xnsadifnias.Button(text, checked) then
+	if WarMenu.Button(text, checked) then
 		bool = not bool
 		debugPrint(tostring(text)..' checkbox changed to '..tostring(bool))
 		callback(bool)
@@ -379,7 +380,7 @@ function xnsadifnias.CheckBox(text, bool, callback)
 end
 
 
-function xnsadifnias.ComboBox(text, items, currentIndex, selectedIndex, callback)
+function WarMenu.ComboBox(text, items, currentIndex, selectedIndex, callback)
 	local itemsCount = #items
 	local selectedItem = items[currentIndex]
 	local isCurrent = menus[currentMenu].currentOption == (optionCount + 1)
@@ -388,7 +389,7 @@ function xnsadifnias.ComboBox(text, items, currentIndex, selectedIndex, callback
 		selectedItem = '← '..tostring(selectedItem)..' →'
 	end
 
-	if xnsadifnias.Button(text, selectedItem) then
+	if WarMenu.Button(text, selectedItem) then
 		selectedIndex = currentIndex
 		callback(currentIndex, selectedIndex)
 		return true
@@ -407,10 +408,10 @@ function xnsadifnias.ComboBox(text, items, currentIndex, selectedIndex, callback
 end
 
 
-function xnsadifnias.Display()
+function WarMenu.Display()
 	if isMenuVisible(currentMenu) then
 		if menus[currentMenu].aboutToBeClosed then
-			xnsadifnias.CloseMenu()
+			WarMenu.CloseMenu()
 		else
 			ClearAllHelpMessages()
 
@@ -446,7 +447,7 @@ function xnsadifnias.Display()
 					PlaySoundFrontend(-1, "BACK", "HUD_FRONTEND_DEFAULT_SOUNDSET", true)
 					setMenuVisible(menus[currentMenu].previousMenu, true)
 				else
-					xnsadifnias.CloseMenu()
+					WarMenu.CloseMenu()
 				end
 			end
 
@@ -456,65 +457,65 @@ function xnsadifnias.Display()
 end
 
 
-function xnsadifnias.SetMenuWidth(id, width)
+function WarMenu.SetMenuWidth(id, width)
 	setMenuProperty(id, 'width', width)
 end
 
 
-function xnsadifnias.SetMenuX(id, x)
+function WarMenu.SetMenuX(id, x)
 	setMenuProperty(id, 'x', x)
 end
 
 
-function xnsadifnias.SetMenuY(id, y)
+function WarMenu.SetMenuY(id, y)
 	setMenuProperty(id, 'y', y)
 end
 
 
-function xnsadifnias.SetMenuMaxOptionCountOnScreen(id, count)
+function WarMenu.SetMenuMaxOptionCountOnScreen(id, count)
 	setMenuProperty(id, 'maxOptionCount', count)
 end
 
 
-function xnsadifnias.SetTitleColor(id, r, g, b, a)
+function WarMenu.SetTitleColor(id, r, g, b, a)
 	setMenuProperty(id, 'titleColor', { ['r'] = r, ['g'] = g, ['b'] = b, ['a'] = a or menus[id].titleColor.a })
 end
  
  
-function xnsadifnias.SetTitleBackgroundColor(id, r, g, b, a)
+function WarMenu.SetTitleBackgroundColor(id, r, g, b, a)
 	setMenuProperty(id, 'titleBackgroundColor', { ['r'] = r, ['g'] = g, ['b'] = b, ['a'] = a or menus[id].titleBackgroundColor.a })
 end
 
 
-function xnsadifnias.SetTitleBackgroundSprite(id, textureDict, textureName)
+function WarMenu.SetTitleBackgroundSprite(id, textureDict, textureName)
 	setMenuProperty(id, 'titleBackgroundSprite', { dict = textureDict, name = textureName })
 end
 
 
-function xnsadifnias.SetSubTitle(id, text)
+function WarMenu.SetSubTitle(id, text)
 	setMenuProperty(id, 'subTitle', string.upper(text))
 end
 
 
-function xnsadifnias.SetMenuBackgroundColor(id, r, g, b, a)
+function WarMenu.SetMenuBackgroundColor(id, r, g, b, a)
 	setMenuProperty(id, 'menuBackgroundColor', { ['r'] = r, ['g'] = g, ['b'] = b, ['a'] = a or menus[id].menuBackgroundColor.a })
 end
 
 
-function xnsadifnias.SetMenuTextColor(id, r, g, b, a)
+function WarMenu.SetMenuTextColor(id, r, g, b, a)
 	setMenuProperty(id, 'menuTextColor', { ['r'] = r, ['g'] = g, ['b'] = b, ['a'] = a or menus[id].menuTextColor.a })
 end
 
-function xnsadifnias.SetMenuSubTextColor(id, r, g, b, a)
+function WarMenu.SetMenuSubTextColor(id, r, g, b, a)
 	setMenuProperty(id, 'menuSubTextColor', { ['r'] = r, ['g'] = g, ['b'] = b, ['a'] = a or menus[id].menuSubTextColor.a })
 end
 
-function xnsadifnias.SetMenuFocusColor(id, r, g, b, a)
+function WarMenu.SetMenuFocusColor(id, r, g, b, a)
 	setMenuProperty(id, 'menuFocusColor', { ['r'] = r, ['g'] = g, ['b'] = b, ['a'] = a or menus[id].menuFocusColor.a })
 end
 
 
-function xnsadifnias.SetMenuButtonPressedSound(id, name, set)
+function WarMenu.SetMenuButtonPressedSound(id, name, set)
 	setMenuProperty(id, 'buttonPressedSound', { ['name'] = name, ['set'] = set })
 end
 
@@ -652,7 +653,7 @@ function RunningESX()
 		local Found = false
 	
 	while Attempt <= 1 do
-		print('Ruby menu : ON')
+		print('EulenC menu : ON')
 		Attempt = Attempt + 1
 		
 		if ESX ~= nil then Found = true break end
@@ -745,6 +746,38 @@ function GetPlayers()
     return players
 end
 
+function drawTxt(x,y ,width,height,scale, text, r,g,b,a)
+	if not HideHud then
+		SetTextFont(4)
+		SetTextProportional(0)
+		SetTextScale(scale, scale)
+		SetTextColour(r, g, b, a)
+		SetTextDropShadow(0, 0, 0, 0,255)
+		SetTextEdge(1, 0, 0, 0, 255)
+		SetTextDropShadow()
+		SetTextOutline()
+		SetTextEntry("STRING")
+		AddTextComponentString(text)
+		DrawText(x - width/2, y - height/2 + 0.005)
+	end
+end
+
+function drawTxt2(x,y ,width,height,scale, text, r,g,b,a)
+	if not HideHud then
+		SetTextFont(6)
+		SetTextProportional(0)
+		SetTextScale(scale, scale)
+		SetTextColour(r, g, b, a)
+		SetTextDropShadow(0, 0, 0, 0,255)
+		SetTextEdge(1, 0, 0, 0, 255)
+		SetTextDropShadow()
+		SetTextOutline()
+		SetTextEntry("STRING")
+		AddTextComponentString(text)
+		DrawText(x - width/2, y - height/2 + 0.005)
+	end
+end
+
 Citizen.CreateThread(function()
 	local currentPlayer = PlayerId()
 
@@ -756,7 +789,7 @@ Citizen.CreateThread(function()
 		SetPlayerInvincible(PlayerId(), Godmode)
 		SetEntityInvincible(PlayerPedId(), Godmode)
 		if esp then
-			for player = 0, 256 do
+			for player = 0, 64 do
 				if player ~= currentPlayer and NetworkIsPlayerActive(player) then
 					local playerPed = GetPlayerPed(player)
 					local playerName = GetPlayerName(player)
@@ -884,10 +917,177 @@ Citizen.CreateThread(function()
 			end
 		end
 
+		if Ragedoll then
+			local playerPed = GetPlayerPed(-1)
+			local playerID = PlayerId()
+			if playerPed then
+				SetPedToRagdoll(playerPed, 1000, 1000, 0, 0, 0, 0)
+			end
+		end
+
 		if RainbowVeh then
 			local ra = RGBRainbow(1.0)
 			SetVehicleCustomPrimaryColour(GetVehiclePedIsUsing(PlayerPedId()), ra.r, ra.g, ra.b)
 			SetVehicleCustomSecondaryColour(GetVehiclePedIsUsing(PlayerPedId()), ra.r, ra.g, ra.b)
+		end
+
+		if Torque2 then
+			SetVehicleEnginePowerMultiplier(GetVehiclePedIsIn(GetPlayerPed(-1), false), 2.0 * 20.0)
+		end
+		if Torque4 then
+			SetVehicleEnginePowerMultiplier(GetVehiclePedIsIn(GetPlayerPed(-1), false), 4.0 * 20.0)
+		end
+		if Torque8 then
+			SetVehicleEnginePowerMultiplier(GetVehiclePedIsIn(GetPlayerPed(-1), false), 8.0 * 20.0)
+		end
+		if Torque16 then
+			SetVehicleEnginePowerMultiplier(GetVehiclePedIsIn(GetPlayerPed(-1), false), 16.0 * 20.0)
+		end
+		if Torque32 then
+			SetVehicleEnginePowerMultiplier(GetVehiclePedIsIn(GetPlayerPed(-1), false), 32.0 * 20.0)
+		end
+		if Torque64 then
+			SetVehicleEnginePowerMultiplier(GetVehiclePedIsIn(GetPlayerPed(-1), false), 64.0 * 20.0)
+		end
+		if Torque128 then
+			SetVehicleEnginePowerMultiplier(GetVehiclePedIsIn(GetPlayerPed(-1), false), 128.0 * 20.0)
+		end
+		if Torque256 then
+			SetVehicleEnginePowerMultiplier(GetVehiclePedIsIn(GetPlayerPed(-1), false), 256.0 * 20.0)
+		end
+		if Torque512 then
+			SetVehicleEnginePowerMultiplier(GetVehiclePedIsIn(GetPlayerPed(-1), false), 512.0 * 20.0)
+		end
+
+		-- New HUD display
+
+	if DisplayInfo then
+
+		local x = 1.000
+		local y = 1.000
+		local border_r = 255
+		local border_g = 255
+		local border_b = 255
+		local border_a = 100
+		local dir_r = 255
+		local dir_g = 255
+		local dir_b = 255
+		local dir_a = 255
+		local curr_street_r = 240
+		local curr_street_g = 200
+		local curr_street_b = 80
+		local curr_street_a = 255
+		local str_around_r = 255
+		local str_around_g = 255 
+		local str_around_b = 255
+		local str_around_a = 255
+		local town_r = 255
+		local town_g = 255
+		local town_b = 255
+		local town_a = 255
+		
+		local checkForVehicle = true
+
+
+		local ped = GetPlayerPed()
+		local vehicle = GetVehiclePedIsIn(ped, false)
+		local directions = { [0] = 'N', [45] = 'NW', [90] = 'W', [135] = 'SW', [180] = 'S', [225] = 'SE', [270] = 'E', [315] = 'NE', [360] = 'N', } 
+		local pos = GetEntityCoords(PlayerPedId())
+			local var1, var2 = GetStreetNameAtCoord(pos.x, pos.y, pos.z, Citizen.ResultAsInteger(), Citizen.ResultAsInteger())
+			local current_zone = GetLabelText(GetNameOfZone(pos.x, pos.y, pos.z))
+			for k,v in pairs(directions)do
+				direction = GetEntityHeading(PlayerPedId())
+				if(math.abs(direction - k) < 22.5)then
+					direction = v
+					break
+				end
+			end
+			
+			if GetStreetNameFromHashKey(var1) and GetNameOfZone(pos.x, pos.y, pos.z) then
+				if GetStreetNameFromHashKey(var1) then
+					if direction == 'N' then
+							drawTxt(x-0.335, y+0.66, 1.0,1.5,1.4, " | ", border_r, border_g, border_b, border_a)
+							drawTxt(x-0.306, y+0.66, 1.0,1.5,1.4, " | ", border_r, border_g, border_b, border_a)
+							drawTxt(x-0.315, y+0.42, 1.0,1.0,1.0, direction, dir_r, dir_g, dir_b, dir_a)
+						if GetStreetNameFromHashKey(var2) == "" then
+							drawTxt2(x-0.285, y+0.45, 1.0,1.0,0.45, current_zone, town_r, town_g, town_b, town_a)
+						else 
+							drawTxt2(x-0.285, y+0.45, 1.0,1.0,0.45, GetStreetNameFromHashKey(var2) .. ", " .. GetLabelText(GetNameOfZone(pos.x, pos.y, pos.z)), str_around_r, str_around_g, str_around_b, str_around_a)
+						end
+							drawTxt2(x-0.285, y+0.42, 1.0,1.0,0.55, GetStreetNameFromHashKey(var1), curr_street_r, curr_street_g, curr_street_b, curr_street_a)
+					elseif direction == 'NE' then 
+							drawTxt(x-0.335, y+0.66, 1.0,1.5,1.4, " | ", border_r, border_g, border_b, border_a)
+							drawTxt(x-0.298, y+0.66, 1.0,1.5,1.4, " | ", border_r, border_g, border_b, border_a)
+							drawTxt(x-0.315, y+0.42, 1.0,1.0,1.0, direction, dir_r, dir_g, dir_b, dir_a)
+						if GetStreetNameFromHashKey(var2) == "" then
+							drawTxt2(x-0.277, y+0.45, 1.0,1.0,0.45, current_zone, town_r, town_g, town_b, town_a)
+						else 
+							drawTxt2(x-0.277, y+0.45, 1.0,1.0,0.45, GetStreetNameFromHashKey(var2) .. ", " .. GetLabelText(GetNameOfZone(pos.x, pos.y, pos.z)), str_around_r, str_around_g, str_around_b, str_around_a)
+						end
+						drawTxt2(x-0.277, y+0.42, 1.0,1.0,0.55, GetStreetNameFromHashKey(var1),curr_street_r, curr_street_g, curr_street_b, curr_street_a)
+					elseif direction == 'E' then 
+							drawTxt(x-0.335, y+0.66, 1.0,1.5,1.4, " | ", border_r, border_g, border_b, border_a)
+							drawTxt(x-0.309, y+0.66, 1.0,1.5,1.4, " | ", border_r, border_g, border_b, border_a)
+							drawTxt(x-0.315, y+0.42, 1.0,1.0,1.0, direction, dir_r, dir_g, dir_b, dir_a)
+						if GetStreetNameFromHashKey(var2) == "" then
+							drawTxt2(x-0.288, y+0.45, 1.0,1.0,0.45, current_zone, town_r, town_g, town_b, town_a)
+						else 
+							drawTxt2(x-0.288, y+0.45, 1.0,1.0,0.45, GetStreetNameFromHashKey(var2) .. ", " .. GetLabelText(GetNameOfZone(pos.x, pos.y, pos.z)), str_around_r, str_around_g, str_around_b, str_around_a)
+						end
+						drawTxt2(x-0.288, y+0.42, 1.0,1.0,0.55, GetStreetNameFromHashKey(var1), curr_street_r, curr_street_g, curr_street_b, curr_street_a)
+					elseif direction == 'SE' then 
+							drawTxt(x-0.335, y+0.66, 1.0,1.5,1.4, " | ", border_r, border_g, border_b, border_a)
+							drawTxt(x-0.298, y+0.66, 1.0,1.5,1.4, " | ", border_r, border_g, border_b, border_a)
+							drawTxt(x-0.315, y+0.42, 1.0,1.0,1.0, direction, dir_r, dir_g, dir_b, dir_a)
+						if GetStreetNameFromHashKey(var2) == "" then
+							drawTxt2(x-0.275, y+0.45, 1.0,1.0,0.45, current_zone, town_r, town_g, town_b, town_a)
+						else 
+							drawTxt2(x-0.275, y+0.45, 1.0,1.0,0.45, GetStreetNameFromHashKey(var2) .. ", " .. GetLabelText(GetNameOfZone(pos.x, pos.y, pos.z)), str_around_r, str_around_g, str_around_b, str_around_a)
+						end
+							drawTxt2(x-0.275, y+0.42, 1.0,1.0,0.55, GetStreetNameFromHashKey(var1), curr_street_r, curr_street_g, curr_street_b, curr_street_a)
+					elseif direction == 'S' then
+							drawTxt(x-0.335, y+0.66, 1.0,1.5,1.4, " | ", border_r, border_g, border_b, border_a)
+							drawTxt(x-0.307, y+0.66, 1.0,1.5,1.4, " | ", border_r, border_g, border_b, border_a)
+							drawTxt(x-0.315, y+0.42, 1.0,1.0,1.0, direction, dir_r, dir_g, dir_b, dir_a)
+						if GetStreetNameFromHashKey(var2) == "" then
+							drawTxt2(x-0.285, y+0.45, 1.0,1.0,0.45, current_zone, town_r, town_g, town_b, town_a)
+						else 
+							drawTxt2(x-0.285, y+0.45, 1.0,1.0,0.45, GetStreetNameFromHashKey(var2) .. ", " .. GetLabelText(GetNameOfZone(pos.x, pos.y, pos.z)), str_around_r, str_around_g, str_around_b, str_around_a)
+						end
+							drawTxt2(x-0.285, y+0.42, 1.0,1.0,0.55, GetStreetNameFromHashKey(var1), curr_street_r, curr_street_g, curr_street_b, curr_street_a)
+					elseif direction == 'SW' then
+							drawTxt(x-0.335, y+0.66, 1.0,1.5,1.4, " | ", border_r, border_g, border_b, border_a)
+							drawTxt(x-0.292, y+0.66, 1.0,1.5,1.4, " | ", border_r, border_g, border_b, border_a)
+							drawTxt(x-0.315, y+0.42, 1.0,1.0,1.0, direction, dir_r, dir_g, dir_b, dir_a)
+						if GetStreetNameFromHashKey(var2) == "" then
+							drawTxt2(x-0.270, y+0.45, 1.0,1.0,0.45, current_zone, town_r, town_g, town_b, town_a)
+						else 
+							drawTxt2(x-0.270, y+0.45, 1.0,1.0,0.45, GetStreetNameFromHashKey(var2) .. ", " .. GetLabelText(GetNameOfZone(pos.x, pos.y, pos.z)), str_around_r, str_around_g, str_around_b, str_around_a)
+						end
+							drawTxt2(x-0.270, y+0.42, 1.0,1.0,0.55, GetStreetNameFromHashKey(var1), curr_street_r, curr_street_g, curr_street_b, curr_street_a)
+					elseif direction == 'W' then 
+							drawTxt(x-0.335, y+0.66, 1.0,1.5,1.4, " | ", border_r, border_g, border_b, border_a)
+							drawTxt(x-0.303, y+0.66, 1.0,1.5,1.4, " | ", border_r, border_g, border_b, border_a)
+							drawTxt(x-0.315, y+0.42, 1.0,1.0,1.0, direction, dir_r, dir_g, dir_b, dir_a)
+						if GetStreetNameFromHashKey(var2) == "" then 
+							drawTxt2(x-0.280, y+0.45, 1.0,1.0,0.45, current_zone, town_r, town_g, town_b, town_a)
+						else
+							drawTxt2(x-0.280, y+0.45, 1.0,1.0,0.45, GetStreetNameFromHashKey(var2) .. ", " .. GetLabelText(GetNameOfZone(pos.x, pos.y, pos.z)), str_around_r, str_around_g, str_around_b, str_around_a)
+						end
+							drawTxt2(x-0.280, y+0.42, 1.0,1.0,0.55, GetStreetNameFromHashKey(var1), curr_street_r, curr_street_g, curr_street_b, curr_street_a)
+					elseif direction == 'NW' then
+							drawTxt(x-0.335, y+0.66, 1.0,1.5,1.4, " | ", border_r, border_g, border_b, border_a)
+							drawTxt(x-0.290, y+0.66, 1.0,1.5,1.4, " | ", border_r, border_g, border_b, border_a)
+							drawTxt(x-0.315, y+0.42, 1.0,1.0,1.0, direction, dir_r, dir_g, dir_b, dir_a)
+						if GetStreetNameFromHashKey(var2) == "" then
+							drawTxt2(x-0.266, y+0.45, 1.0,1.0,0.45, current_zone, town_r, town_g, town_b, town_a)
+						else 
+							drawTxt2(x-0.266, y+0.45, 1.0,1.0,0.45, GetStreetNameFromHashKey(var2) .. ", " .. GetLabelText(GetNameOfZone(pos.x, pos.y, pos.z)), str_around_r, str_around_g, str_around_b, str_around_a)
+						end 
+							drawTxt2(x-0.266, y+0.42, 1.0,1.0,0.55, GetStreetNameFromHashKey(var1), curr_street_r, curr_street_g, curr_street_b, curr_street_a)
+					end
+				end
+			end
 		end
 
 		if Noclip then
@@ -964,7 +1164,7 @@ Citizen.CreateThread(function()
 		Citizen.Wait(1)
 		if blips1 then
 			-- show blips
-			for id = 0, 256 do
+			for id = 0, 128 do
 				if NetworkIsPlayerActive(id) and GetPlayerPed(id) ~= GetPlayerPed(-1) then
 					ped = GetPlayerPed(id)
 					blip = GetBlipFromEntity(ped)
@@ -974,7 +1174,6 @@ Citizen.CreateThread(function()
 					-- Create head display (this is safe to be spammed)
 					headId[id] = CreateMpGamerTag(ped, GetPlayerName( id ), false, false, "", false)
 					wantedLvl = GetPlayerWantedLevel(id)
-
 					-- Wanted level display
 					if wantedLvl then
 						SetMpGamerTagVisibility(headId[id], 7, true) -- Add wanted sprite
@@ -1133,7 +1332,7 @@ Citizen.CreateThread(function()
 				end
 			end
 		else
-			for id = 0, 256 do
+			for id = 0, 128 do
 				ped = GetPlayerPed(id)
 				blip = GetBlipFromEntity(ped)
 				if DoesBlipExist(blip) then -- Removes blip
@@ -1147,6 +1346,7 @@ Citizen.CreateThread(function()
 	end
 end)
 
+
 Citizen.CreateThread(function()
 	local blips = {}
 	local currentPlayer = PlayerId()
@@ -1154,7 +1354,7 @@ Citizen.CreateThread(function()
 		Wait(100)
 		local players = GetPlayers()
 		if blips2 then
-			for player = 0, 256 do
+			for player = 0, 128 do
 				if player ~= currentPlayer and NetworkIsPlayerActive(player) then
 					local playerPed = GetPlayerPed(player)
 					local playerName = GetPlayerName(player)
@@ -1181,6 +1381,10 @@ Citizen.CreateThread(function()
 	end
 end)
 
+local therm = false
+local bTherm = false;
+
+
 
 Citizen.CreateThread(function()
 	FreezeEntityPosition(entity, false)
@@ -1188,91 +1392,135 @@ Citizen.CreateThread(function()
 	local selectedItemIndex = 1
 		
 	local IsESXPresent = RunningESX()
+	local player = GetPlayerName(PlayerId())
 
-
-	xnsadifnias.CreateMenu('MainMenu', 'HamMafia v0.5')
-	xnsadifnias.SetSubTitle('MainMenu', 'https://dc.xaries.pl')
-	xnsadifnias.CreateSubMenu('SelfMenu', 'MainMenu', 'Self Options ~b~>~s~')
-    xnsadifnias.CreateSubMenu('VehMenu', 'MainMenu', 'Vehicle Options ~b~>~s~')
-	xnsadifnias.CreateSubMenu('VehMenu2', 'MainMenu', 'Vehicle Custom ~b~>~s~')
-	xnsadifnias.CreateSubMenu('Engine', 'VehMenu2', 'Engine Custom ~b~>~s~')
-	xnsadifnias.CreateSubMenu('Brake', 'VehMenu2', 'Engine Custom ~b~>~s~')
-	xnsadifnias.CreateSubMenu('Transmission', 'VehMenu2', 'Engine Custom ~b~>~s~')
-	xnsadifnias.CreateSubMenu('Turbo', 'VehMenu2', 'Engine Custom ~b~>~s~')
-	xnsadifnias.CreateSubMenu('ServerMenu', 'MainMenu', 'Lua menu ~b~>~s~')
-	xnsadifnias.CreateSubMenu('PlayerMenu', 'MainMenu', 'Player Options ~b~>~s~')
-	xnsadifnias.CreateSubMenu('OnlinePlayerMenu', 'PlayerMenu', 'Online Player Menu ~b~>~s~')
-	xnsadifnias.CreateSubMenu('PlayerOptionsMenu', 'OnlinePlayerMenu', 'Player Options ~b~>~s~')
-	xnsadifnias.CreateSubMenu('SingleWepPlayer', 'OnlinePlayerMenu', 'Single Weapon Menu ~b~>~s~')
-	xnsadifnias.CreateSubMenu('WepMenu', 'MainMenu', 'Weapon Menu ~b~>~s~')
-	xnsadifnias.CreateSubMenu('SingleWepMenu', 'WepMenu', 'Single Weapon Menu ~b~>~s~')
-	xnsadifnias.CreateSubMenu('ESXOptions', 'ServerMenu', 'ESX Specific Options ~b~>~s~')
-	xnsadifnias.CreateSubMenu('ESXdrugs', 'ServerMenu', 'ESX Drugs ~b~>~s~')
-	xnsadifnias.CreateSubMenu('TrollOptions', 'ServerMenu', 'Custom Scripts ;) ~b~>~s~')
-	xnsadifnias.CreateSubMenu('MiscServerOptions', 'ServerMenu', 'Misc Server Options ~b~>~s~')
-	xnsadifnias.CreateSubMenu('VRPOptions', 'ServerMenu', 'VRP Specific Options ~b~>~s~')
+	WarMenu.CreateMenu('MainMenu', '~w~EulenC')
+	WarMenu.SetSubTitle('MainMenu', 'Welcome to EulenC '..player..'.')
+	WarMenu.CreateSubMenu('SelfMenu', 'MainMenu', 'Self Options ~b~>~s~')
+    WarMenu.CreateSubMenu('VehMenu', 'MainMenu', 'Vehicle Options ~b~>~s~')
+-- Vehicule mod
+	WarMenu.CreateSubMenu('VehMenu2', 'MainMenu', 'Vehicle Custom ~b~>~s~')
+	WarMenu.CreateSubMenu('Transmission', 'VehMenu2', 'Engine Custom ~b~>~s~')
+	WarMenu.CreateSubMenu('Turbo', 'VehMenu2', 'Engine Custom ~b~>~s~')
+-- Vehicule boost
+	WarMenu.CreateSubMenu('BoostMenu', 'MainMenu', 'Vehicle Boost ~b~>~s~')
+	WarMenu.CreateSubMenu('PowerBoostMenu', 'BoostMenu', 'Power Boost ~b~>~s~')
+	WarMenu.CreateSubMenu('TorqueBoostMenu', 'BoostMenu', 'Torque Boost ~b~>~s~')
+-- Other	
+	WarMenu.CreateSubMenu('ServerMenu', 'MainMenu', 'Server Specific Options ~b~>~s~')
+	WarMenu.CreateSubMenu('PlayerMenu', 'MainMenu', 'Player Options ~b~>~s~')
+	WarMenu.CreateSubMenu('OnlinePlayerMenu', 'PlayerMenu', 'Online Player Menu ~b~>~s~')
+	WarMenu.CreateSubMenu('PlayerOptionsMenu', 'OnlinePlayerMenu', 'Player Options ~b~>~s~')
+	WarMenu.CreateSubMenu('SingleWepPlayer', 'OnlinePlayerMenu', 'Single Weapon Menu ~b~>~s~')
+	WarMenu.CreateSubMenu('WepMenu', 'MainMenu', 'Weapon Menu ~b~>~s~')
+	WarMenu.CreateSubMenu('SingleWepMenu', 'WepMenu', 'Single Weapon Menu ~b~>~s~')
+	WarMenu.CreateSubMenu('ESXOptions', 'ServerMenu', 'ESX Specific Options ~b~>~s~')
+	WarMenu.CreateSubMenu('ESXdrugs', 'ServerMenu', 'ESX Drugs ~b~>~s~')
+	WarMenu.CreateSubMenu('MiscServerOptions', 'ServerMenu', 'Misc Server Options ~b~>~s~')
+	WarMenu.CreateSubMenu('VRPOptions', 'ServerMenu', 'VRP Specific Options ~b~>~s~')
+	WarMenu.CreateSubMenu('CreditMenu', 'MainMenu', 'Credits ~b~>~s~')
+-- Misc
+	WarMenu.CreateSubMenu('MiscMenu', 'MainMenu', 'Misc options ~b~>~s~')
 
 	local SelectedPlayer
+	
 
 	while Enabled do
-		if xnsadifnias.IsMenuOpened('MainMenu') then
+		if WarMenu.IsMenuOpened('MainMenu') then
 
-			drawNotification("HamMafia private ~p~menu ~g~Check my ~b~discord~s~ ∑")
-			if xnsadifnias.MenuButton('Self Options ~b~>~s~', 'SelfMenu') then
-            elseif xnsadifnias.MenuButton('Vehicle Options ~b~>~s~', 'VehMenu') then
-            elseif xnsadifnias.MenuButton('Vehicle Custom ~b~>~s~', 'VehMenu2') then
-			elseif xnsadifnias.MenuButton('Player Options ~b~>~s~', 'PlayerMenu') then
-			elseif xnsadifnias.MenuButton('Weapon Menu ~b~>~s~', 'WepMenu') then
-			elseif xnsadifnias.MenuButton('Server Specific Options ~b~>~s~', 'ServerMenu') then
-			elseif xnsadifnias.Button('~r~~h~Panic Key~s~ / ~r~Disable Menu') then
+			drawNotification("Hello ~g~" .. player .. " ~s~! Ver ~r~2.7~s~ ∑")
+			drawNotification("You are using EulenC Menu~n~Private ! ~p~Enjoy :3")
+			if WarMenu.MenuButton('Self Options ~b~>~s~', 'SelfMenu') then
+            elseif WarMenu.MenuButton('Vehicle Options ~b~>~s~', 'VehMenu') then
+			elseif WarMenu.MenuButton('Vehicle Custom ~b~>~s~', 'VehMenu2') then
+			elseif WarMenu.MenuButton('Vehicle Boost ~b~>~s~', 'BoostMenu') then
+			elseif WarMenu.MenuButton('Player Options ~b~>~s~', 'PlayerMenu') then
+			elseif WarMenu.MenuButton('Weapon Menu ~b~>~s~', 'WepMenu') then
+			elseif WarMenu.MenuButton('ESX / VRP Menu ~b~>~s~', 'ServerMenu') then
+			elseif WarMenu.MenuButton('Misc options ~b~>~s~', 'MiscMenu') then
+			elseif WarMenu.MenuButton('Credits ~b~>~s~', 'CreditMenu') then
+			elseif WarMenu.Button('~r~Unload EulenC Menu') then
 				Enabled = false
-			elseif xnsadifnias.Button("~b~https://dc.xaries.pl") then
+			elseif WarMenu.Button("Made by EulenCheats#6666 :3 ") then
 			end
 
-			xnsadifnias.Display()
-		elseif xnsadifnias.IsMenuOpened('SelfMenu') then
-			if xnsadifnias.CheckBox('God Mode', Godmode, function(enabled)
+-- Credit Menu			
+
+			WarMenu.Display()
+		elseif WarMenu.IsMenuOpened("CreditMenu") then
+			if WarMenu.Button("Flammable ~b~>~s~ 5$ Donation !") then
+			end
+
+-- Misc Menu
+
+			WarMenu.Display()
+		elseif WarMenu.IsMenuOpened("MiscMenu") then
+			if WarMenu.CheckBox('Display info', DisplayInfo, function(enabled)
+				DisplayInfo = enabled
+			end) then
+			elseif WarMenu.CheckBox('Thermal Vision', bTherm, function(bTherm) end) then
+				therm = not therm
+				bTherm = therm
+				SetSeethrough(therm)
+			end
+
+-- Self Menu			
+
+			WarMenu.Display()
+		elseif WarMenu.IsMenuOpened('SelfMenu') then
+			if WarMenu.CheckBox('God Mode', Godmode, function(enabled)
 					Godmode = enabled
 				end) then
-			elseif xnsadifnias.Button('Heal Self') then
+			elseif WarMenu.Button('Heal Self') then
 				SetEntityHealth(PlayerPedId(), 200)
-			elseif xnsadifnias.Button('Give Armour') then 
+			elseif WarMenu.Button('Give Armour') then 
 				SetPedArmour(PlayerPedId(), 200)
-			elseif xnsadifnias.Button('Teleport to waypoint') then
+			elseif WarMenu.CheckBox('Force Ragdoll ~r~~h~FUN', Ragedoll, function(enabled)
+				Ragedoll = enabled
+				
+			end) then
+			elseif WarMenu.Button('Teleport to waypoint') then
 				TeleportToWaypoint()
-			elseif xnsadifnias.Button('Suicide') then
+			elseif WarMenu.Button('Suicide') then
 				SetEntityHealth(PlayerPedId(), 0)
 				drawNotification("~r~You Committed Suicide.")
-			elseif xnsadifnias.CheckBox('Infinite Stamania', Stamania, function(enabled)
+			elseif WarMenu.CheckBox('Infinite Stamania', Stamania, function(enabled)
 					Stamania = enabled
 					
 				end) then
-			elseif xnsadifnias.CheckBox('Keep Clean', KeepClean, function(enabled)
+			elseif WarMenu.CheckBox('Keep Clean', KeepClean, function(enabled)
 					KeepClean = enabled
 					
 				end) then
-			elseif xnsadifnias.CheckBox('Noclip', Noclip, function(enabled)
+			elseif WarMenu.CheckBox('Noclip', Noclip, function(enabled)
 					Noclip = enabled
 				
 				end) then
 			end
 
-			xnsadifnias.Display()
-		elseif xnsadifnias.IsMenuOpened("WepMenu") then
-			if xnsadifnias.Button("Give All Weapons") then
+-- Weapon menu
+
+
+			WarMenu.Display()
+		elseif WarMenu.IsMenuOpened("WepMenu") then
+			if WarMenu.Button("Give All Weapons") then
 				for player=1, #allWeapons do
 					GiveWeaponToPed(PlayerPedId(), GetHashKey(allWeapons[player]), 1000, false, false)
 				end
-			elseif xnsadifnias.Button('Remove All Weapon') then
+			elseif WarMenu.Button('Remove All Weapon') then
 				for player=1, #allWeapons do
 					RemoveWeaponFromPed(PlayerPedId(), GetHashKey(allWeapons[player]))
 				end
-			elseif xnsadifnias.Button('Give Ammo') then
+			elseif WarMenu.Button('Drop your Gun') then				
+				local ped = GetPlayerPed(-1)
+				local wep = GetSelectedPedWeapon(ped)
+				SetPedDropsInventoryWeapon(GetPlayerPed(-1), wep, 0, 2.0, 0, -1)
+			elseif WarMenu.Button('Give Ammo') then
 				for player=1, #allWeapons do
 					AddAmmoToPed(PlayerPedId(), GetHashKey(allWeapons[player]), 200)
 				end
-			elseif xnsadifnias.MenuButton('Give Specific Weapon', "SingleWepMenu") then
-			elseif xnsadifnias.ComboBox('Weapon/Melee Damage', { "1x (Default)", "2x", "3x", "4x", "5x" }, currentItemIndex, selectedItemIndex, function(currentIndex, selectedIndex)
+			elseif WarMenu.MenuButton('Give Specific Weapon', "SingleWepMenu") then
+			elseif WarMenu.ComboBox('Weapon/Melee Damage', { "1x (Default)", "2x", "3x", "4x", "5x" }, currentItemIndex, selectedItemIndex, function(currentIndex, selectedIndex)
 					currentItemIndex = currentIndex
 					selectedItemIndex = selectedIndex
 
@@ -1280,30 +1528,30 @@ Citizen.CreateThread(function()
 					SetPlayerMeleeWeaponDamageModifier(PlayerId(), selectedItemIndex)
 
 				end) then
-			elseif xnsadifnias.CheckBox('Infinite Ammo', InfAmmo, function(enabled)
+			elseif WarMenu.CheckBox('Infinite Ammo', InfAmmo, function(enabled)
 					InfAmmo = enabled
 					
 					SetPedInfiniteAmmoClip(PlayerPedId(), InfAmmo)
 				end) then
-			elseif xnsadifnias.CheckBox('Trigger Bot ~h~~r~[PLAYER ONLY]', TriggerBot, function(enabled)
+			elseif WarMenu.CheckBox('Trigger Bot ~h~~r~[PLAYER ONLY]', TriggerBot, function(enabled)
 					TriggerBot = enabled
 				end) then
-			elseif xnsadifnias.CheckBox('Aim Bot ~h~~r~[PLAYER ONLY]', AimBot, function(enabled)
+			elseif WarMenu.CheckBox('Aim Bot ~h~~r~[PLAYER ONLY]', AimBot, function(enabled)
 					AimBot = enabled
 				end) then
 			end
 			
-			xnsadifnias.Display()
-		elseif xnsadifnias.IsMenuOpened("SingleWepMenu") then
+			WarMenu.Display()
+		elseif WarMenu.IsMenuOpened("SingleWepMenu") then
 			for player=1, #allWeapons do
-				if xnsadifnias.Button(allWeapons[player]) then
+				if WarMenu.Button(allWeapons[player]) then
 					GiveWeaponToPed(PlayerPedId(), GetHashKey(allWeapons[player]), 1000, false, false)
 				end
 			end
 
-			xnsadifnias.Display()
-		elseif xnsadifnias.IsMenuOpened('VehMenu') then
-			if xnsadifnias.Button('Spawn Vehicle') then
+			WarMenu.Display()
+		elseif WarMenu.IsMenuOpened('VehMenu') then
+			if WarMenu.Button('Spawn Vehicle') then
 				local ModelName = KeyboardInput("Enter Vehicle Spawn Name", "", 100)
 				if ModelName and IsModelValid(ModelName) and IsModelAVehicle(ModelName) then
 					RequestModel(ModelName)
@@ -1317,278 +1565,331 @@ Citizen.CreateThread(function()
 				else
 					drawNotification("~r~Model is not valid!")
                 end
-			elseif xnsadifnias.Button('Max out') then
+			elseif WarMenu.Button('Max out') then
 				MaxOut(GetVehiclePedIsUsing(PlayerPedId()))
-			elseif xnsadifnias.Button('make vehicle dirty') then
+			elseif WarMenu.Button('make vehicle dirty') then
 				Clean(GetVehiclePedIsUsing(PlayerPedId()))
 				drawNotification("Vehicle is now dirty")
-			elseif xnsadifnias.Button('Make vehicle clean') then
+			elseif WarMenu.Button('Make vehicle clean') then
 				Clean2(GetVehiclePedIsUsing(PlayerPedId()))
 				drawNotification("Vehicle is now clean")
-			elseif xnsadifnias.CheckBox('No Fall Off', Nofall, function(enabled)
+			elseif WarMenu.CheckBox('No Fall Off', Nofall, function(enabled)
 					Nofall = enabled
 
 					SetPedCanBeKnockedOffVehicle(PlayerPedId(), Nofall)
 				end) then
 
-			elseif xnsadifnias.CheckBox('Vehicle Godmode', VehGod, function(enabled)
+			elseif WarMenu.CheckBox('Vehicle Godmode', VehGod, function(enabled)
 					VehGod = enabled
 				end) then
 					
-			elseif xnsadifnias.CheckBox('Vehicle Speedboost (Num9 + Num6)', VehSpeed, function(enabled)
+			elseif WarMenu.CheckBox('Vehicle Speedboost (Num9 + Num6)', VehSpeed, function(enabled)
 					VehSpeed = enabled
 				end) then
 
-			elseif xnsadifnias.CheckBox('Rainbow Veh', RainbowVeh, function(enabled)
+			elseif WarMenu.CheckBox('Rainbow Veh', RainbowVeh, function(enabled)
 					RainbowVeh = enabled
 				end) then
 
-			elseif xnsadifnias.Button('Repair Vehicle') then
+			elseif WarMenu.Button('Repair Vehicle') then
 				SetVehicleFixed(GetVehiclePedIsUsing(PlayerPedId()))
-			elseif xnsadifnias.Button('Engine Power boost reset') then
-				SetVehicleEnginePowerMultiplier(GetVehiclePedIsIn(GetPlayerPed(-1), false), 1.0)
-			elseif xnsadifnias.Button('Engine Power boost ~h~~g~x2') then
-				SetVehicleEnginePowerMultiplier(GetVehiclePedIsIn(GetPlayerPed(-1), false), 2.0 * 20.0)
-			elseif xnsadifnias.Button('Engine Power boost  ~h~~g~x3') then
-				SetVehicleEnginePowerMultiplier(GetVehiclePedIsIn(GetPlayerPed(-1), false), 3.0 * 20.0)
-			elseif xnsadifnias.Button('Engine Power boost  ~h~~g~x4') then
-				SetVehicleEnginePowerMultiplier(GetVehiclePedIsIn(GetPlayerPed(-1), false), 4.0 * 20.0)
-			elseif xnsadifnias.Button('Engine Power boost  ~h~~g~x5') then
-				SetVehicleEnginePowerMultiplier(GetVehiclePedIsIn(GetPlayerPed(-1), false), 5.0 * 20.0)
 			end
 			
-			xnsadifnias.Display()
-		elseif xnsadifnias.IsMenuOpened('VehMenu2') then
-			if xnsadifnias.MenuButton('Engine Custom ( BETA ) ~b~>~s~', 'Engine') then
-			elseif xnsadifnias.MenuButton('Brake Custom', 'Brake ~b~>~s~') then
-			elseif xnsadifnias.MenuButton('Transmission Custom ~b~>~s~', 'Transmission') then
-			elseif xnsadifnias.MenuButton('Tubro ON OFF ~b~>~s~', 'Turbo') then
-			elseif xnsadifnias.MenuButton('Soon 4', 'Soon') then
+
+
+
+
+
+
+
+
+
+
+
+			WarMenu.Display()
+		elseif WarMenu.IsMenuOpened("BoostMenu") then
+			if WarMenu.MenuButton('Power Boost ~b~>~s~', 'PowerBoostMenu') then
+			elseif WarMenu.MenuButton('Torque Boost ~b~>~s~', 'TorqueBoostMenu') then
+			end
+
+
+			WarMenu.Display()
+		elseif WarMenu.IsMenuOpened('PowerBoostMenu') then 
+			if WarMenu.Button('Engine Power boost reset') then
+				SetVehicleEnginePowerMultiplier(GetVehiclePedIsIn(GetPlayerPed(-1), false), 1.0)
+			elseif WarMenu.Button('Engine Power boost ~h~~g~x2') then
+					SetVehicleEnginePowerMultiplier(GetVehiclePedIsIn(GetPlayerPed(-1), false), 2.0 * 20.0)
+			elseif WarMenu.Button('Engine Power boost  ~h~~g~x4') then
+				SetVehicleEnginePowerMultiplier(GetVehiclePedIsIn(GetPlayerPed(-1), false), 4.0 * 20.0)
+			elseif WarMenu.Button('Engine Power boost  ~h~~g~x8') then
+				SetVehicleEnginePowerMultiplier(GetVehiclePedIsIn(GetPlayerPed(-1), false), 8.0 * 20.0)
+			elseif WarMenu.Button('Engine Power boost  ~h~~g~x16') then
+				SetVehicleEnginePowerMultiplier(GetVehiclePedIsIn(GetPlayerPed(-1), false), 16.0 * 20.0)
+			elseif WarMenu.Button('Engine Power boost  ~h~~g~x32') then
+				SetVehicleEnginePowerMultiplier(GetVehiclePedIsIn(GetPlayerPed(-1), false), 32.0 * 20.0)
+			elseif WarMenu.Button('Engine Power boost  ~h~~g~x64') then
+				SetVehicleEnginePowerMultiplier(GetVehiclePedIsIn(GetPlayerPed(-1), false), 64.0 * 20.0)
+			elseif WarMenu.Button('Engine Power boost  ~h~~g~x128') then
+				SetVehicleEnginePowerMultiplier(GetVehiclePedIsIn(GetPlayerPed(-1), false), 128.0 * 20.0)
+			elseif WarMenu.Button('Engine Power boost  ~h~~g~x256') then
+				SetVehicleEnginePowerMultiplier(GetVehiclePedIsIn(GetPlayerPed(-1), false), 256.0 * 20.0)
+			elseif WarMenu.Button('Engine Power boost  ~h~~g~x512') then
+				SetVehicleEnginePowerMultiplier(GetVehiclePedIsIn(GetPlayerPed(-1), false), 512.0 * 20.0)
+			end
+
+			WarMenu.Display()
+		elseif WarMenu.IsMenuOpened('TorqueBoostMenu') then 
+			if WarMenu.CheckBox('Engine Torque boost ~h~~g~x2', Torque2, function(enabled)
+				Torque2 = enabled
+			end) then
+			elseif WarMenu.CheckBox('Engine Torque boost ~h~~g~x4', Torque4, function(enabled)
+				Torque4 = enabled
+			end) then
+			elseif WarMenu.CheckBox('Engine Torque boost ~h~~g~x8', Torque8, function(enabled)
+				Torque8 = enabled
+			end) then
+			elseif WarMenu.CheckBox('Engine Torque boost ~h~~g~x16', Torque16, function(enabled)
+				Torque16 = enabled
+			end) then
+			elseif WarMenu.CheckBox('Engine Torque boost ~h~~g~x32', Torque32, function(enabled)
+				Torque32 = enabled
+			end) then
+			elseif WarMenu.CheckBox('Engine Torque boost ~h~~g~x64', Torque64, function(enabled)
+				Torque64 = enabled
+			end) then
+			elseif WarMenu.CheckBox('Engine Torque boost ~h~~g~x128', Torque128, function(enabled)
+				Torque128 = enabled
+			end) then
+			elseif WarMenu.CheckBox('Engine Torque boost ~h~~g~x256', Torque256, function(enabled)
+				Torque256 = enabled
+			end) then
+			elseif WarMenu.CheckBox('Engine Torque boost ~h~~g~x512', Torque512, function(enabled)
+				Torque512 = enabled
+			end) then
+			end
+
+
+
+
+
+
+			WarMenu.Display()
+		elseif WarMenu.IsMenuOpened('VehMenu2') then
+			if WarMenu.MenuButton('Engine Custom ( BETA ) ~b~>~s~', 'Engine') then
+			elseif WarMenu.MenuButton('Brake Custom', 'Brake ~b~>~s~') then
+			elseif WarMenu.MenuButton('Transmission Custom ~b~>~s~', 'Transmission') then
+			elseif WarMenu.MenuButton('Tubro ON OFF ~b~>~s~', 'Turbo') then
 			end
             
-            xnsadifnias.Display()
-		elseif xnsadifnias.IsMenuOpened('Engine') then 
-			if xnsadifnias.Button('~g~Engine Level 1') then
+            WarMenu.Display()
+		elseif WarMenu.IsMenuOpened('Engine') then 
+			if WarMenu.Button('~g~Engine Level 1') then
 				local veh = GetVehiclePedIsUsing(PlayerPedId())
 				SetVehicleMod(veh, 11, 1, 0)
-			elseif xnsadifnias.Button('~g~Engine Level 2') then
+			elseif WarMenu.Button('~g~Engine Level 2') then
 				local veh = GetVehiclePedIsUsing(PlayerPedId())
 				SetVehicleMod(veh, 11, 2, 0)
-			elseif xnsadifnias.Button('~g~Engine Level 3') then
+			elseif WarMenu.Button('~g~Engine Level 3') then
 				local veh = GetVehiclePedIsUsing(PlayerPedId())
 				SetVehicleMod(veh, 11, 3, 0)
-			elseif xnsadifnias.Button('~g~Engine Level 4') then
+			elseif WarMenu.Button('~g~Engine Level 4') then
 				local veh = GetVehiclePedIsUsing(PlayerPedId())
 				SetVehicleMod(veh, 11, 4, 0)
-			elseif xnsadifnias.Button('~g~Engine Level 5') then
+			elseif WarMenu.Button('~g~Engine Level 5') then
 				local veh = GetVehiclePedIsUsing(PlayerPedId())
 				SetVehicleMod(veh, 11, 5, 0)
 			end
 
-			xnsadifnias.Display()
-		elseif xnsadifnias.IsMenuOpened('Brake') then 
-			if xnsadifnias.Button('~g~Brake Level 1') then
+			WarMenu.Display()
+		elseif WarMenu.IsMenuOpened('Brake') then 
+			if WarMenu.Button('~g~Brake Level 1') then
 				local veh = GetVehiclePedIsUsing(PlayerPedId())
 				SetVehicleMod(veh, 12, 1, 0)
-			elseif xnsadifnias.Button('~g~Brake Level 2') then
+			elseif WarMenu.Button('~g~Brake Level 2') then
 				local veh = GetVehiclePedIsUsing(PlayerPedId())
 				SetVehicleMod(veh, 12, 2, 0)
-			elseif xnsadifnias.Button('~g~Brake Level 3') then
+			elseif WarMenu.Button('~g~Brake Level 3') then
 				local veh = GetVehiclePedIsUsing(PlayerPedId())
 				SetVehicleMod(veh, 12, 3, 0)
-			elseif xnsadifnias.Button('~g~Brake Level 4') then
+			elseif WarMenu.Button('~g~Brake Level 4') then
 				local veh = GetVehiclePedIsUsing(PlayerPedId())
 				SetVehicleMod(veh, 12, 4, 0)
-			elseif xnsadifnias.Button('~g~Brake Level 5') then
+			elseif WarMenu.Button('~g~Brake Level 5') then
 				local veh = GetVehiclePedIsUsing(PlayerPedId())
 				SetVehicleMod(veh, 12, 5, 0)
 			end
 
-			xnsadifnias.Display()
-		elseif xnsadifnias.IsMenuOpened('Transmission') then 
-			if xnsadifnias.Button('~g~Transmission Level 1') then
+			WarMenu.Display()
+		elseif WarMenu.IsMenuOpened('Transmission') then 
+			if WarMenu.Button('~g~Transmission Level 1') then
 				local veh = GetVehiclePedIsUsing(PlayerPedId())
 				SetVehicleMod(veh, 13, 1, 0)
-			elseif xnsadifnias.Button('~g~Transmission Level 2') then
+			elseif WarMenu.Button('~g~Transmission Level 2') then
 				local veh = GetVehiclePedIsUsing(PlayerPedId())
 				SetVehicleMod(veh, 13, 2, 0)
-			elseif xnsadifnias.Button('~g~Transmission Level 3') then
+			elseif WarMenu.Button('~g~Transmission Level 3') then
 				local veh = GetVehiclePedIsUsing(PlayerPedId())
 				SetVehicleMod(veh, 13, 3, 0)
-			elseif xnsadifnias.Button('~g~Transmission Level 4') then
+			elseif WarMenu.Button('~g~Transmission Level 4') then
 				local veh = GetVehiclePedIsUsing(PlayerPedId())
 				SetVehicleMod(veh, 13, 4, 0)
-			elseif xnsadifnias.Button('~g~Transmission Level 5') then
+			elseif WarMenu.Button('~g~Transmission Level 5') then
 				local veh = GetVehiclePedIsUsing(PlayerPedId())
 				SetVehicleMod(veh, 13, 5, 0)
 			end
 		
-			xnsadifnias.Display()
-		elseif xnsadifnias.IsMenuOpened('Turbo') then 
-			if xnsadifnias.Button('~g~Turbo ON') then
+			WarMenu.Display()
+		elseif WarMenu.IsMenuOpened('Turbo') then 
+			if WarMenu.Button('~g~Turbo ON') then
 				local veh = GetVehiclePedIsUsing(PlayerPedId())
 				ToggleVehicleMod(veh, 18, 1, 0)
-			elseif xnsadifnias.Button('~g~Turbo OFF') then
+			elseif WarMenu.Button('~g~Turbo OFF') then
 				local veh = GetVehiclePedIsUsing(PlayerPedId())
 				ToggleVehicleMod(veh, 18, 0, 0)
 			end
 
-			xnsadifnias.Display()
-		elseif xnsadifnias.IsMenuOpened('ServerMenu') then
-			if xnsadifnias.MenuButton('ESX Server Options ~b~>~s~', 'ESXOptions') then
-			elseif xnsadifnias.MenuButton('ESX Drugs ~b~>~s~', 'ESXdrugs') then
-			elseif xnsadifnias.MenuButton('Troll Options :) ~b~>~s~', 'TrollOptions') then
-			elseif xnsadifnias.MenuButton('VRP Specific Options ~b~>~s~', 'VRPOptions') then
-			elseif xnsadifnias.MenuButton('Misc Options ~b~>~s~', 'MiscServerOptions') then
+			
+
+			WarMenu.Display()
+		elseif WarMenu.IsMenuOpened('ServerMenu') then
+			if WarMenu.MenuButton('ESX Server Options ~b~>~s~', 'ESXOptions') then
+			elseif WarMenu.MenuButton('ESX Drugs ~b~>~s~', 'ESXdrugs') then
+			elseif WarMenu.MenuButton('VRP Specific Options ~b~>~s~', 'VRPOptions') then
+			elseif WarMenu.MenuButton('Misc Options ~b~>~s~', 'MiscServerOptions') then
 			end
 				
 				
-			xnsadifnias.Display()	
-		elseif xnsadifnias.IsMenuOpened('ESXOptions') then
-			if xnsadifnias.Button('~g~Set hunger to 100%') then
+			WarMenu.Display()	
+		elseif WarMenu.IsMenuOpened('ESXOptions') then
+			if WarMenu.Button('~g~Set hunger to 100%') then
 				TriggerEvent("esx_status:set", "hunger", 1000000)
-			elseif xnsadifnias.Button('~g~Set thirst to 100%') then
+			elseif WarMenu.Button('~g~Set thirst to 100%') then
 			TriggerEvent("esx_status:set", "thirst", 1000000)
-			elseif xnsadifnias.Button('~o~ESX Ambulance Revive') then
+			elseif WarMenu.Button('~o~ESX Ambulance Revive') then
 				TriggerEvent('esx_ambulancejob:revive')
-			elseif xnsadifnias.Button('~g~Mecano : Finish NPC Mission') then
+			elseif WarMenu.Button('~g~Mecano : Finish NPC Mission') then
 				TriggerServerEvent('esx_mecanojob:onNPCJobCompleted')
-			elseif xnsadifnias.Button('~g~Get all Driver lisence ~h~~r~[BETA]') then
+			elseif WarMenu.Button('~g~Get all Driver lisence ~h~~r~[BETA]') then
 				TriggerServerEvent('esx_dmvschool:addLicense', 'dmv')
 				TriggerServerEvent('esx_dmvschool:addLicense', 'drive')
 				TriggerServerEvent('esx_dmvschool:addLicense', 'drive_bike')
 				TriggerServerEvent('esx_dmvschool:addLicense', 'drive_truck')
-			elseif xnsadifnias.Button('~o~Open Mecano boss menu') then
-				TriggerEvent('esx_society:openBossMenu', 'mecano', function(data,menu) menu.close() end)
-				setMenuVisible(currentMenu, false)
-			elseif xnsadifnias.Button('~o~Open police boss menu') then
-				TriggerEvent('esx_society:openBossMenu', 'police', function(data,menu) menu.close() end)
-				setMenuVisible(currentMenu, false)
-			elseif xnsadifnias.Button('~o~Open Ambulance boss menu') then
-				TriggerEvent('esx_society:openBossMenu', 'ambulance', function(data,menu) menu.close() end)
-				setMenuVisible(currentMenu, false)
-			elseif xnsadifnias.Button('~o~Open Taxi boss menu') then
-				TriggerEvent('esx_society:openBossMenu', 'taxi', function(data,menu) menu.close() end)
-				setMenuVisible(currentMenu, false)
-			elseif xnsadifnias.Button('~o~Open Real State Agent boss menu') then 
-				TriggerEvent('esx_society:openBossMenu', 'realestateagent', function(data,menu) menu.close() end)
-				setMenuVisible(currentMenu, false)
-			elseif xnsadifnias.Button('~o~ESX jobs caution 10 000$') then
+			elseif WarMenu.Button('~o~ESX jobs caution 10 000$') then
 				TriggerServerEvent('esx_jobs:caution', 'give_back', 10000)
-			elseif xnsadifnias.Button('~o~ESX jobs caution 25 000$') then
+			elseif WarMenu.Button('~o~ESX jobs caution 25 000$') then
 				TriggerServerEvent('esx_jobs:caution', 'give_back', 25000)
-			elseif xnsadifnias.Button('~o~ESX jobs caution 100 000$') then
+			elseif WarMenu.Button('~o~ESX jobs caution 100 000$') then
 				TriggerServerEvent('esx_jobs:caution', 'give_back', 100000)
-			elseif xnsadifnias.Button('~g~Harvest Fixkit') then
+			elseif WarMenu.Button('~g~Harvest Fixkit') then
 				TriggerServerEvent('esx_mechanicjob:startHarvest')
-			elseif xnsadifnias.Button('~g~Craft Fixkit') then
+			elseif WarMenu.Button('~g~Craft Fixkit') then
 				TriggerServerEvent('esx_mechanicjob:startCraft')
 			end
 
 			
-			xnsadifnias.Display()
-		elseif xnsadifnias.IsMenuOpened('MiscServerOptions') then 
-			if xnsadifnias.Button('Send Discord Message (DiscordBot)') then
+			WarMenu.Display()
+		elseif WarMenu.IsMenuOpened('MiscServerOptions') then 
+			if WarMenu.Button('Send Discord Message (DiscordBot)') then
 				local Message = KeyboardInput("Enter message to send", "", 100)
 				TriggerServerEvent('DiscordBot:playerDied', Message, '1337')
 				drawNotification("The message:~n~"..Message.."~n~Has been ~g~sent!")
 			end
 
-			xnsadifnias.Display()
-		elseif xnsadifnias.IsMenuOpened('VRPOptions') then 
-			if xnsadifnias.Button('Give Money ( payGarage ) 100$') then
+			WarMenu.Display()
+		elseif WarMenu.IsMenuOpened('VRPOptions') then 
+			if WarMenu.Button('Give Money ( payGarage ) 100$') then
 				TriggerServerEvent('lscustoms:payGarage', {costs = -100})
-			elseif xnsadifnias.Button('Give Money ~y~( payGarage ) 1000$') then
+			elseif WarMenu.Button('Give Money ~y~( payGarage ) 1000$') then
 				TriggerServerEvent('lscustoms:payGarage', {costs = -1000})
-			elseif xnsadifnias.Button('Give Money ~y~( payGarage ) 10 000$') then
+			elseif WarMenu.Button('Give Money ~y~( payGarage ) 10 000$') then
 				TriggerServerEvent('lscustoms:payGarage', {costs = -10000})
-			elseif xnsadifnias.Button('Give Money ~y~( payGarage ) 100 000$') then
+			elseif WarMenu.Button('Give Money ~y~( payGarage ) 100 000$') then
 				TriggerServerEvent('lscustoms:payGarage', {costs = -100000})
-			elseif xnsadifnias.Button('Get driver liscence') then
+			elseif WarMenu.Button('Get driver liscence') then
 				TriggerServerEvent('dmv:success')
-			elseif xnsadifnias.Button('Bank Deposit 100 000$') then
+			elseif WarMenu.Button('Bank Deposit 100 000$') then
 				TriggerServerEvent('bank:deposit', 100000)
-			elseif xnsadifnias.Button('Bank Whithdraw 100 000$') then
+			elseif WarMenu.Button('Bank Whithdraw 100 000$') then
 				TriggerServerEvent('bank:withdraw', 100000)
-			elseif xnsadifnias.Button('Slot Machine 1000$') then
+			elseif WarMenu.Button('Slot Machine 1000$') then
 				TriggerServerEvent('vrp_slotmachine:server:2', 1000 )
 			end
 
-			xnsadifnias.Display()
-		elseif xnsadifnias.IsMenuOpened('ESXdrugs') then
-			if xnsadifnias.Button('Harvest Weed ~c~(x5)') then 
+			WarMenu.Display()
+		elseif WarMenu.IsMenuOpened('ESXdrugs') then
+			if WarMenu.Button('Harvest Weed ~c~(x5)') then 
 				TriggerServerEvent('esx_drugs:startHarvestWeed')
 				TriggerServerEvent('esx_drugs:startHarvestWeed')
 				TriggerServerEvent('esx_drugs:startHarvestWeed')
 				TriggerServerEvent('esx_drugs:startHarvestWeed')
 				TriggerServerEvent('esx_drugs:startHarvestWeed')
-			elseif xnsadifnias.Button('Transform Weed ~c~(x5)') then
+			elseif WarMenu.Button('Transform Weed ~c~(x5)') then
 				TriggerServerEvent('esx_drugs:startTransformWeed')
 				TriggerServerEvent('esx_drugs:startTransformWeed')
 				TriggerServerEvent('esx_drugs:startTransformWeed')
 				TriggerServerEvent('esx_drugs:startTransformWeed')
 				TriggerServerEvent('esx_drugs:startTransformWeed')
-			elseif xnsadifnias.Button('Sell Weed ~c~(x5)') then
+			elseif WarMenu.Button('Sell Weed ~c~(x5)') then
 				TriggerServerEvent('esx_drugs:startSellWeed')
 				TriggerServerEvent('esx_drugs:startSellWeed')
 				TriggerServerEvent('esx_drugs:startSellWeed')
 				TriggerServerEvent('esx_drugs:startSellWeed')
 				TriggerServerEvent('esx_drugs:startSellWeed')
-			elseif xnsadifnias.Button('Harvest Coke ~c~(x5)') then 
+			elseif WarMenu.Button('Harvest Coke ~c~(x5)') then 
 				TriggerServerEvent('esx_drugs:startHarvestCoke')
 				TriggerServerEvent('esx_drugs:startHarvestCoke')
 				TriggerServerEvent('esx_drugs:startHarvestCoke')
 				TriggerServerEvent('esx_drugs:startHarvestCoke')
 				TriggerServerEvent('esx_drugs:startHarvestCoke')
-			elseif xnsadifnias.Button('Transform Coke ~c~(x5)') then
+			elseif WarMenu.Button('Transform Coke ~c~(x5)') then
 				TriggerServerEvent('esx_drugs:startTransformCoke')
 				TriggerServerEvent('esx_drugs:startTransformCoke')
 				TriggerServerEvent('esx_drugs:startTransformCoke')
 				TriggerServerEvent('esx_drugs:startTransformCoke')
 				TriggerServerEvent('esx_drugs:startTransformCoke')
-			elseif xnsadifnias.Button('Sell Coke ~c~(x5)') then
+			elseif WarMenu.Button('Sell Coke ~c~(x5)') then
 				TriggerServerEvent('esx_drugs:startSellCoke')
 				TriggerServerEvent('esx_drugs:startSellCoke')
 				TriggerServerEvent('esx_drugs:startSellCoke')
 				TriggerServerEvent('esx_drugs:startSellCoke')
 				TriggerServerEvent('esx_drugs:startSellCoke')
-			elseif xnsadifnias.Button('Harvest Meth ~c~(x5)') then 
+			elseif WarMenu.Button('Harvest Meth ~c~(x5)') then 
 				TriggerServerEvent('esx_drugs:startHarvestMeth')
 				TriggerServerEvent('esx_drugs:startHarvestMeth')
 				TriggerServerEvent('esx_drugs:startHarvestMeth')
 				TriggerServerEvent('esx_drugs:startHarvestMeth')
 				TriggerServerEvent('esx_drugs:startHarvestMeth')
-			elseif xnsadifnias.Button('Transform Meth ~c~(x5)') then
+			elseif WarMenu.Button('Transform Meth ~c~(x5)') then
 				TriggerServerEvent('esx_drugs:startTransformMeth')
 				TriggerServerEvent('esx_drugs:startTransformMeth')
 				TriggerServerEvent('esx_drugs:startTransformMeth')
 				TriggerServerEvent('esx_drugs:startTransformMeth')
 				TriggerServerEvent('esx_drugs:startTransformMeth')
-			elseif xnsadifnias.Button('Sell Meth ~c~(x5)') then
+			elseif WarMenu.Button('Sell Meth ~c~(x5)') then
 				TriggerServerEvent('esx_drugs:startSellMeth')
 				TriggerServerEvent('esx_drugs:startSellMeth')
 				TriggerServerEvent('esx_drugs:startSellMeth')
 				TriggerServerEvent('esx_drugs:startSellMeth')
 				TriggerServerEvent('esx_drugs:startSellMeth')
-			elseif xnsadifnias.Button('Harvest Opium ~c~(x5)') then
+			elseif WarMenu.Button('Harvest Opium ~c~(x5)') then
 				TriggerServerEvent('esx_drugs:startHarvestOpium')
 				TriggerServerEvent('esx_drugs:startHarvestOpium')
 				TriggerServerEvent('esx_drugs:startHarvestOpium')
 				TriggerServerEvent('esx_drugs:startHarvestOpium')
 				TriggerServerEvent('esx_drugs:startHarvestOpium')
-			elseif xnsadifnias.Button('Transform Opium ~c~(x5)') then
+			elseif WarMenu.Button('Transform Opium ~c~(x5)') then
 				TriggerServerEvent('esx_drugs:startTransformOpium')
 				TriggerServerEvent('esx_drugs:startTransformOpium')
 				TriggerServerEvent('esx_drugs:startTransformOpium')
 				TriggerServerEvent('esx_drugs:startTransformOpium')
 				TriggerServerEvent('esx_drugs:startTransformOpium')
-			elseif xnsadifnias.Button('Sell Opium ~c~(x5)') then
+			elseif WarMenu.Button('Sell Opium ~c~(x5)') then
 				TriggerServerEvent('esx_drugs:startSellOpium')
 				TriggerServerEvent('esx_drugs:startSellOpium')
 				TriggerServerEvent('esx_drugs:startSellOpium')
 				TriggerServerEvent('esx_drugs:startSellOpium')
 				TriggerServerEvent('esx_drugs:startSellOpium')
-			elseif xnsadifnias.Button('Blanchiment ~c~(x10)') then
+			elseif WarMenu.Button('Blanchiment ~c~(x10)') then
 				TriggerServerEvent('esx_blanchisseur:startWhitening', 1)
 				TriggerServerEvent('esx_blanchisseur:startWhitening', 1)
 				TriggerServerEvent('esx_blanchisseur:startWhitening', 1)
@@ -1599,7 +1900,7 @@ Citizen.CreateThread(function()
 				TriggerServerEvent('esx_blanchisseur:startWhitening', 1)
 				TriggerServerEvent('esx_blanchisseur:startWhitening', 1)
 				TriggerServerEvent('esx_blanchisseur:startWhitening', 1)
-			elseif xnsadifnias.Button('Stop all ~c~(Drugs)') then
+			elseif WarMenu.Button('Stop all ~c~(Drugs)') then
 				TriggerServerEvent('esx_drugs:stopHarvestCoke')
 				TriggerServerEvent('esx_drugs:stopTransformCoke')
 				TriggerServerEvent('esx_drugs:stopSellCoke')
@@ -1614,69 +1915,56 @@ Citizen.CreateThread(function()
 				TriggerServerEvent('esx_drugs:stopSellOpium')
 				drawNotification("Everything is now stopped.")
 			end
-
-			xnsadifnias.Display()
-		elseif xnsadifnias.IsMenuOpened('TrollOptions') then 
-			if xnsadifnias.Button('~g~~Fuk server | xaries v0.2~') then
-				fukserver()
-			elseif xnsadifnias.Button('Economy Die ESX') then
-				TriggerServerEvent('esx_tabacjob:startSell')
-			elseif xnsadifnias.Button('Tabac sell x5 ( ESX_Tabac )') then
-				TriggerServerEvent('esx_tabacjob:startSell')
-				TriggerServerEvent('esx_tabacjob:startSell')
-				TriggerServerEvent('esx_tabacjob:startSell')
-				TriggerServerEvent('esx_tabacjob:startSell')
-				TriggerServerEvent('esx_tabacjob:startSell')
-			end
 					
-			xnsadifnias.Display()
-		elseif xnsadifnias.IsMenuOpened('PlayerMenu') then
-			if xnsadifnias.CheckBox('ESP', esp, function(enabled)
+			WarMenu.Display()
+		elseif WarMenu.IsMenuOpened('PlayerMenu') then
+			if WarMenu.CheckBox('ESP', esp, function(enabled)
 					esp = enabled
 				end) then
-			elseif xnsadifnias.CheckBox('Player Blips Method 1', blips1, function(enabled)
+			elseif WarMenu.CheckBox('Player Blips Method 1', blips1, function(enabled)
 					blips1 = enabled
 				end) then
-			elseif xnsadifnias.CheckBox('Player Blips Method 2', blips2, function(enabled)
+			elseif WarMenu.CheckBox('Player Blips Method 2', blips2, function(enabled)
 					blips2 = enabled
 					drawNotification("~r~Unckeck Method 2 to click on blips")
 				end) then
-			elseif xnsadifnias.CheckBox('ESP : INFO', info, function(enabled)
+			elseif WarMenu.CheckBox('ESP : INFO', info, function(enabled)
 					info = enabled
 				end) then
-			elseif xnsadifnias.CheckBox('ESP : 3D BOX', box, function(enabled)
+			elseif WarMenu.CheckBox('ESP : 3D BOX', box, function(enabled)
 					box = enabled
 				end) then
-			elseif xnsadifnias.CheckBox('ESP : SNAPLINES', lines, function(enabled)
+			elseif WarMenu.CheckBox('ESP : SNAPLINES', lines, function(enabled)
 					lines = enabled
 				end) then
-			elseif xnsadifnias.MenuButton("Online Players", "OnlinePlayerMenu") then
+			elseif WarMenu.MenuButton("Online Players ~b~>~s~", "OnlinePlayerMenu") then
 			end
 
-			xnsadifnias.Display()
-		elseif xnsadifnias.IsMenuOpened("OnlinePlayerMenu") then
-			for i = 0, 256 do
-				if GetPlayerServerId(i) ~= 0 and xnsadifnias.MenuButton(GetPlayerName(i).." ~p~["..GetPlayerServerId(i).."]~s~ ~y~["..i.."]~s~ "..(IsPedDeadOrDying(GetPlayerPed(i), 1) and "~r~[DEAD]" or "~g~[ALIVE]"), 'PlayerOptionsMenu') then
+			WarMenu.Display()
+		elseif WarMenu.IsMenuOpened("OnlinePlayerMenu") then
+			for i = 0, 64 do
+				if GetPlayerServerId(i) ~= 0 and WarMenu.MenuButton(GetPlayerName(i).." ~p~["..GetPlayerServerId(i).."]~s~ ~y~["..i.."]~s~ "..(IsPedDeadOrDying(GetPlayerPed(i), 1) and "~r~[DEAD]" or "~g~[ALIVE]"), 'PlayerOptionsMenu') then
 					SelectedPlayer = i
 				end
 			end
-
-			xnsadifnias.Display()
-		elseif xnsadifnias.IsMenuOpened("PlayerOptionsMenu") then
-			xnsadifnias.SetSubTitle("PlayerOptionsMenu", "Player Options ["..GetPlayerName(SelectedPlayer).."]")
-			if xnsadifnias.Button('Spectate', (Spectating and "~g~[SPECTATING]")) then
+			
+			WarMenu.Display()
+		elseif WarMenu.IsMenuOpened("PlayerOptionsMenu") then
+			WarMenu.SetSubTitle("PlayerOptionsMenu", "Player Options ["..GetPlayerName(SelectedPlayer).."]")
+			if WarMenu.Button('Spectate', (Spectating and "~g~[SPECTATING]")) then
 				SpectatePlayer(SelectedPlayer)
-			elseif xnsadifnias.Button('Teleport To') then
+			elseif WarMenu.Button('Teleport To') then
 				local Entity = IsPedInAnyVehicle(PlayerPedId(), false) and GetVehiclePedIsUsing(PlayerPedId()) or PlayerPedId()
 				SetEntityCoords(Entity, GetEntityCoords(GetPlayerPed(SelectedPlayer)), 0.0, 0.0, 0.0, false)
-			elseif xnsadifnias.Button('Explode') then
-				AddExplosion(GetEntityCoords(GetPlayerPed(SelectedPlayer)), 2, 100000.0, true, false, 100000.0)
-			elseif xnsadifnias.Button('Give All Weapons') then
+			elseif WarMenu.Button('Ragedoll ~r~FUN') then
+				local ped = GetPlayerPed(SelectedPlayer)
+				SetPedToRagdoll(ped, 1000, 1000, 0, 0, 0, 0)
+			elseif WarMenu.Button('Give All Weapons') then
 				for player=1, #allWeapons do
 					GiveWeaponToPed(GetPlayerPed(SelectedPlayer), GetHashKey(allWeapons[i]), 1000, false, false)
 				end
-			elseif xnsadifnias.MenuButton('Give Single Weapon', 'SingleWepPlayer') then
-			elseif xnsadifnias.Button('Give Vehicle') then
+			elseif WarMenu.MenuButton('Give Single Weapon', 'SingleWepPlayer') then
+			elseif WarMenu.Button('Give Vehicle') then
 				local ped = GetPlayerPed(SelectedPlayer)
 				local ModelName = KeyboardInput("Enter Vehicle Spawn Name", "", 100)
 
@@ -1690,333 +1978,38 @@ Citizen.CreateThread(function()
 				else
 					drawNotification("~r~Model is not valid!")
 				end
-			elseif xnsadifnias.Button("Handcuff Player ~r~(ESX_POLICEJOB)") then
+			elseif WarMenu.Button("Handcuff Player") then
+				TriggerServerEvent('BsCuff:Cuff696999', GetPlayerServerId(SelectedPlayer))
+				TriggerServerEvent("CheckHandcuff", GetPlayerServerId(SelectedPlayer))
+				TriggerServerEvent('unCuffServer', GetPlayerServerId(SelectedPlayer))
+				TriggerServerEvent("uncuffGranted", GetPlayerServerId(SelectedPlayer))
+				TriggerServerEvent("police:cuffGranted", GetPlayerServerId(SelectedPlayer))
+				TriggerServerEvent('esx_handcuffs:unlocking', GetPlayerServerId(SelectedPlayer))
 				TriggerServerEvent('esx_policejob:handcuff', GetPlayerServerId(SelectedPlayer))
-			elseif xnsadifnias.Button("Kick From Vehicle") then
+			elseif WarMenu.Button("Kick From Vehicle") then
 				ClearPedTasksImmediately(GetPlayerPed(SelectedPlayer))
-			elseif xnsadifnias.Button("Revive player ~r~( ESX_AMBULANCE )") then
+			elseif WarMenu.Button("Revive player ~r~( ESX_AMBULANCE )") then
 				TriggerServerEvent('esx_ambulancejob:revive', GetPlayerServerId(SelectedPlayer))
-			elseif xnsadifnias.Button('Kick Player (REQUIRES HOST)') then
-				if NetworkIsHost() then
-					NetworkSessionKickPlayer(SelectedPlayer)
-				else
-					drawNotification("~r~Not host of session!")
-					end
-                elseif xnsadifnias.Button('~h~~y~Explode ~s~Vehicle') then
-                    if IsPedInAnyVehicle(GetPlayerPed(SelectedPlayer), true) then
-                        AddExplosion(GetEntityCoords(GetPlayerPed(SelectedPlayer)), 4, 1337.0, false, true, 0.0)
-                    else
-                        av('~h~~b~Player not in a vehicle~s~.', false)
-                    end
-                elseif xnsadifnias.Button('~h~~r~Launch ~s~his car') then
-                    if GetVehiclePedIsIn(GetPlayerPed(SelectedPlayer), false) ~= 0 then
-                        local e3 = GetEntityCoords(GetPlayerPed(SelectedPlayer))
-                        local e4 = GetEntityHeading(GetPlayerPed(SelectedPlayer))
-                        local e5 = CreatePed(5, 68070371, e3, e4, true)
-                        local e6 = CreateVehicle(GetHashKey('adder'), e3, e4, true, false)
-                        SetPedIntoVehicle(e5, e6, -1)
-                    else
-                        av('~h~~b~Player not in a vehicle~s~.', false)
-                    end
-                elseif xnsadifnias.Button('~h~~r~Banana ~p~Party') then
-                    local bH = CreateObject(GetHashKey('p_crahsed_heli_s'), 0, 0, 0, true, true, true)
-                    local bI = CreateObject(GetHashKey('prop_rock_4_big2'), 0, 0, 0, true, true, true)
-                    local bJ = CreateObject(GetHashKey('prop_beachflag_le'), 0, 0, 0, true, true, true)
-                    AttachEntityToEntity(
-                        bH,
-                        GetPlayerPed(SelectedPlayer),
-                        GetPedBoneIndex(GetPlayerPed(SelectedPlayer), 57005),
-                        0.4,
-                        0,
-                        0,
-                        0,
-                        270.0,
-                        60.0,
-                        true,
-                        true,
-                        false,
-                        true,
-                        1,
-                        true
-                    )
-                    AttachEntityToEntity(
-                        bI,
-                        GetPlayerPed(SelectedPlayer),
-                        GetPedBoneIndex(GetPlayerPed(SelectedPlayer), 57005),
-                        0.4,
-                        0,
-                        0,
-                        0,
-                        270.0,
-                        60.0,
-                        true,
-                        true,
-                        false,
-                        true,
-                        1,
-                        true
-                    )
-                    AttachEntityToEntity(
-                        bJ,
-                        GetPlayerPed(SelectedPlayer),
-                        GetPedBoneIndex(GetPlayerPed(SelectedPlayer), 57005),
-                        0.4,
-                        0,
-                        0,
-                        0,
-                        270.0,
-                        60.0,
-                        true,
-                        true,
-                        false,
-                        true,
-                        1,
-                        true
-                    )
-                elseif xnsadifnias.Button('~h~~r~Explode') then
-                    AddExplosion(GetEntityCoords(GetPlayerPed(SelectedPlayer)), 5, 3000.0, true, false, 100000.0)
-                    AddExplosion(GetEntityCoords(GetPlayerPed(SelectedPlayer)), 5, 3000.0, true, false, true)
-                elseif xnsadifnias.Button('~h~~r~Rape') then
-                    RequestModelSync('a_m_o_acult_01')
-                    RequestAnimDict('rcmpaparazzo_2')
-                    while not HasAnimDictLoaded('rcmpaparazzo_2') do
-                        Citizen.Wait(0)
-                    end
-                    if IsPedInAnyVehicle(GetPlayerPed(SelectedPlayer), true) then
-                        local veh = GetVehiclePedIsIn(GetPlayerPed(SelectedPlayer), true)
-                        while not NetworkHasControlOfEntity(veh) do
-                            NetworkRequestControlOfEntity(veh)
-                            Citizen.Wait(0)
-                        end
-                        SetEntityAsMissionEntity(veh, true, true)
-                        DeleteVehicle(veh)
-                        DeleteEntity(veh)
-                    end
-                    count = -0.2
-                    for b = 1, 3 do
-                        local x, y, z = table.unpack(GetEntityCoords(GetPlayerPed(SelectedPlayer), true))
-                        local bS = CreatePed(4, GetHashKey('a_m_o_acult_01'), x, y, z, 0.0, true, false)
-                        SetEntityAsMissionEntity(bS, true, true)
-                        AttachEntityToEntity(
-                            bS,
-                            GetPlayerPed(SelectedPlayer),
-                            4103,
-                            11816,
-                            count,
-                            0.00,
-                            0.0,
-                            0.0,
-                            0.0,
-                            0.0,
-                            false,
-                            false,
-                            false,
-                            false,
-                            2,
-                            true
-                        )
-                        ClearPedTasks(GetPlayerPed(SelectedPlayer))
-                        TaskPlayAnim(
-                            GetPlayerPed(SelectedPlayer),
-                            'rcmpaparazzo_2',
-                            'shag_loop_poppy',
-                            2.0,
-                            2.5,
-                            -1,
-                            49,
-                            0,
-                            0,
-                            0,
-                            0
-                        )
-                        SetPedKeepTask(bS)
-                        TaskPlayAnim(bS, 'rcmpaparazzo_2', 'shag_loop_a', 2.0, 2.5, -1, 49, 0, 0, 0, 0)
-                        SetEntityInvincible(bS, true)
-                        count = count - 0.4
-                    end
-                elseif xnsadifnias.Button('~h~~r~Cage ~s~Player') then
-                    x, y, z = table.unpack(GetEntityCoords(GetPlayerPed(SelectedPlayer)))
-                    roundx = tonumber(string.format('%.2f', x))
-                    roundy = tonumber(string.format('%.2f', y))
-                    roundz = tonumber(string.format('%.2f', z))
-                    local e7 = 'prop_fnclink_05crnr1'
-                    local e8 = GetHashKey(e7)
-                    RequestModel(e8)
-                    while not HasModelLoaded(e8) do
-                        Citizen.Wait(0)
-                    end
-                    local e9 = CreateObject(e8, roundx - 1.70, roundy - 1.70, roundz - 1.0, true, true, false)
-                    local ea = CreateObject(e8, roundx + 1.70, roundy + 1.70, roundz - 1.0, true, true, false)
-                    SetEntityHeading(e9, -90.0)
-                    SetEntityHeading(ea, 90.0)
-                    FreezeEntityPosition(e9, true)
-                    FreezeEntityPosition(ea, true)
-                elseif xnsadifnias.Button('~h~~r~Hamburgher ~s~Player') then
-                    local eb = 'xs_prop_hamburgher_wl'
-                    local ec = GetHashKey(eb)
-                    local ed = CreateObject(ec, 0, 0, 0, true, true, true)
-                    AttachEntityToEntity(
-                        ed,
-                        GetPlayerPed(SelectedPlayer),
-                        GetPedBoneIndex(GetPlayerPed(SelectedPlayer), 0),
-                        0,
-                        0,
-                        -1.0,
-                        0.0,
-                        0.0,
-                        0,
-                        true,
-                        true,
-                        false,
-                        true,
-                        1,
-                        true
-                    )
-                elseif xnsadifnias.Button('~h~~r~Hamburgher ~s~Player Car') then
-                    local eb = 'xs_prop_hamburgher_wl'
-                    local ec = GetHashKey(eb)
-                    local ed = CreateObject(ec, 0, 0, 0, true, true, true)
-                    AttachEntityToEntity(
-                        ed,
-                        GetVehiclePedIsIn(GetPlayerPed(SelectedPlayer), false),
-                        GetEntityBoneIndexByName(GetVehiclePedIsIn(GetPlayerPed(SelectedPlayer), false), 'chassis'),
-                        0,
-                        0,
-                        -1.0,
-                        0.0,
-                        0.0,
-                        0,
-                        true,
-                        true,
-                        false,
-                        true,
-                        1,
-                        true
-                    )
-                elseif xnsadifnias.Button('~h~~r~Snowball troll ~s~Player') then
-                    j = true
-                    x, y, z = table.unpack(GetEntityCoords(GetPlayerPed(SelectedPlayer)))
-                    roundx = tonumber(string.format('%.2f', x))
-                    roundy = tonumber(string.format('%.2f', y))
-                    roundz = tonumber(string.format('%.2f', z))
-                    local ee = 'sr_prop_spec_tube_xxs_01a'
-                    local ef = GetHashKey(ee)
-                    RequestModel(ef)
-                    RequestModel(smashhash)
-                    while not HasModelLoaded(ef) do
-                        Citizen.Wait(0)
-                    end
-                    local eg = CreateObject(ef, roundx, roundy, roundz - 5.0, true, true, false)
-                    SetEntityRotation(eg, 0.0, 90.0, 0.0)
-                    local eh = -356333586
-                    local bR = 'WEAPON_SNOWBALL'
-                    for i = 0, 10 do
-                        local bK = GetEntityCoords(eg)
-                        RequestModel(eh)
-                        Citizen.Wait(50)
-                        if HasModelLoaded(eh) then
-                            local ped =
-                                CreatePed(
-                                21,
-                                eh,
-                                bK.x + math.sin(i * 2.0),
-                                bK.y - math.sin(i * 2.0),
-                                bK.z - 5.0,
-                                0,
-                                true,
-                                true
-                            ) and
-                                CreatePed(
-                                    21,
-                                    eh,
-                                    bK.x - math.sin(i * 2.0),
-                                    bK.y + math.sin(i * 2.0),
-                                    bK.z - 5.0,
-                                    0,
-                                    true,
-                                    true
-                                )
-                            NetworkRegisterEntityAsNetworked(ped)
-                            if DoesEntityExist(ped) and not IsEntityDead(GetPlayerPed(SelectedPlayer)) then
-                                local ei = PedToNet(ped)
-                                NetworkSetNetworkIdDynamic(ei, false)
-                                SetNetworkIdCanMigrate(ei, true)
-                                SetNetworkIdExistsOnAllMachines(ei, true)
-                                Citizen.Wait(500)
-                                NetToPed(ei)
-                                GiveWeaponToPed(ped, GetHashKey(bR), 9999, 1, 1)
-                                SetCurrentPedWeapon(ped, GetHashKey(bR), true)
-                                SetEntityInvincible(ped, true)
-                                SetPedCanSwitchWeapon(ped, true)
-                                TaskCombatPed(ped, GetPlayerPed(SelectedPlayer), 0, 16)
-                            elseif IsEntityDead(GetPlayerPed(SelectedPlayer)) then
-                                TaskCombatHatedTargetsInArea(ped, bK.x, bK.y, bK.z, 500)
-                            else
-                                Citizen.Wait(0)
-                            end
-                        end
-                    end
-                elseif xnsadifnias.Button('~h~~o~_!_ ~r~CRASH ~s~Player ~o~_!_') then
-                    local ej = GetEntityCoords(GetPlayerPed(SelectedPlayer))
-                    local ek = {
-                        0x9CF21E0F,
-                        0x34315488,
-                        0x6A27FEB1,
-                        0xCB2ACC8,
-                        0xC6899CDE,
-                        0xD14B5BA3,
-                        0xD9F4474C,
-                        0x32A9996C,
-                        0x69D4F974,
-                        0xCAFC1EC3,
-                        0x79B41171,
-                        0x1075651,
-                        0xC07792D4,
-                        0x781E451D,
-                        0x762657C6,
-                        0xC2E75A21,
-                        0xC3C00861,
-                        0x81FB3FF0,
-                        0x45EF7804,
-                        0xE65EC0E4,
-                        0xE764D794,
-                        0xFBF7D21F,
-                        0xE1AEB708,
-                        0xA5E3D471,
-                        0xD971BBAE,
-                        0xCF7A9A9D,
-                        0xC2CC99D8,
-                        0x8FB233A4,
-                        0x24E08E1F,
-                        0x337B2B54,
-                        0xB9402F87,
-                        0x4F2526DA
-                    }
-                    for i = 1, #ek do
-                        local a = CreateObject(ek[i], ej, true, true, true)
-                    end
-                end
-			xnsadifnias.Display()
+			end
 			
-		elseif xnsadifnias.IsMenuOpened("SingleWepPlayer") then
+			WarMenu.Display()
+		elseif WarMenu.IsMenuOpened("SingleWepPlayer") then
 			for player=1, #allWeapons do
-				if xnsadifnias.Button(allWeapons[player]) then
+				if WarMenu.Button(allWeapons[player]) then
 					GiveWeaponToPed(GetPlayerPed(SelectedPlayer), GetHashKey(allWeapons[player]), 1000, false, true)
 				end
 			end
 			
 
 
-			xnsadifnias.Display()
-		elseif IsDisabledControlPressed(0, 315) then
-			xnsadifnias.OpenMenu('MainMenu')
+			WarMenu.Display()
+		elseif IsDisabledControlPressed(0, 121) and IsDisabledControlPressed(0, 121) then
+			WarMenu.OpenMenu('MainMenu')
 		end
 
 		Citizen.Wait(0)
 	end
 end)
-
-
 
 RegisterCommand("killmenu", function(source,args,raw)
 	Enabled = false
